@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simple To-Do List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: black;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px 20px;
+    }
+    .todo-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      flex-grow: 1;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+    button {
+      padding: 10px 16px;
+      border: none;
+      background: #007bff;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    li {
+      background: #fafafa;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    li.completed {
+      text-decoration: line-through;
+      color: #888;
+      background: #e0e0e0;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+    }
+    .actions button {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      color: #888;
+      transition: color 0.3s ease;
+    }
+    .actions button:hover {
+      color: #ff4444;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="todo-container">
+    <h1>My To-Do List</h1>
+    <form id="todo-form">
+      <input type="text" id="todo-input" placeholder="Add a new task..." required />
+      <button type="submit">Add</button>
+    </form>
+    <ul id="todo-list"></ul>
+  </div>
+
+  <script>
+    const form = document.getElementById('todo-form');
+    const input = document.getElementById('todo-input');
+    const list = document.getElementById('todo-list');
+
+    // Load saved todos from localStorage
+    let todos = JSON.parse(localStorage.getItem('todos')) || [];
+
+    function saveTodos() {
+      localStorage.setItem('todos', JSON.stringify(todos));
+    }
+
+    function renderTodos() {
+      list.innerHTML = '';
+      todos.forEach((todo, index) => {
+        const li = document.createElement('li');
+        li.textContent = todo.text;
+        if (todo.completed) li.classList.add('completed');
+
+        // Create buttons container
+        const actions = document.createElement('div');
+        actions.className = 'actions';
+
+        // Complete toggle button
+        const toggleBtn = document.createElement('button');
+        toggleBtn.innerHTML = todo.completed ? '↩️' : '✔️';
+        toggleBtn.title = todo.completed ? 'Mark as incomplete' : 'Mark as complete';
+        toggleBtn.onclick = () => {
+          todos[index].completed = !todos[index].completed;
+          saveTodos();
+          renderTodos();
+        };
+
+        // Delete button
+        const delBtn = document.createElement('button');
+        delBtn.innerHTML = '🗑️';
+        delBtn.title = 'Delete task';
+        delBtn.onclick = () => {
+          todos.splice(index, 1);
+          saveTodos();
+          renderTodos();
+        };
+
+        actions.appendChild(toggleBtn);
+        actions.appendChild(delBtn);
+        li.appendChild(actions);
+
+        list.appendChild(li);
+      });
+    }
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (text !== '') {
+        todos.push({ text, completed: false });
+        saveTodos();
+        renderTodos();
+        input.value = '';
+        input.focus();
+      }
+    });
+
+    // Initial render
+    renderTodos();
+  </script>
+
+</body>
+</html>  
