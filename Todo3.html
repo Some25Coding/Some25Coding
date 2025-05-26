@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ultimate Advanced To-Do List</title>
+<style>
+  /* =============== Reset & Base =============== */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  /* =============== Themes =============== */
+  :root {
+    --bg: #fafafa;
+    --text: #222;
+    --primary: #007acc;
+    --secondary: #555;
+    --error: #d93025;
+    --success: #188038;
+    --card-bg: #fff;
+    --input-bg: #f0f0f0;
+    --input-border: #ccc;
+    --hover-bg: #e1f0ff;
+    --shadow: rgba(0,0,0,0.1);
+    --priority-low: #4caf50;
+    --priority-medium: #ff9800;
+    --priority-high: #f44336;
+  }
+  [data-theme="dark"] {
+    --bg: #121212;
+    --text: #eee;
+    --primary: #66aaff;
+    --secondary: #aaa;
+    --error: #f44336;
+    --success: #4caf50;
+    --card-bg: #1e1e1e;
+    --input-bg: #2a2a2a;
+    --input-border: #555;
+    --hover-bg: #333a4d;
+    --shadow: rgba(0,0,0,0.6);
+    --priority-low: #81c784;
+    --priority-medium: #ffb74d;
+    --priority-high: #e57373;
+  }
+
+  /* =============== Container & Layout =============== */
+  #app {
+    background: var(--card-bg);
+    width: 100%;
+    max-width: 900px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px var(--shadow);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  h1 {
+    text-align: center;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    color: var(--primary);
+    margin: 0;
+  }
+
+  /* =============== Form =============== */
+  form#task-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: 12px;
+    align-items: center;
+  }
+  form#task-form input[type="text"],
+  form#task-form input[type="date"],
+  form#task-form select {
+    padding: 10px 14px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1.5px solid var(--input-border);
+    background: var(--input-bg);
+    color: var(--text);
+    transition: border-color 0.3s ease;
+  }
+  form#task-form input[type="text"]:focus,
+  form#task-form input[type="date"]:focus,
+  form#task-form select:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  form#task-form button {
+    background: var(--primary);
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 12px 18px;
+    transition: background-color 0.3s ease;
+  }
+  form#task-form button:hover {
+    background: #005ea8;
+  }
+
+  /* =============== Task List =============== */
+  ul#task-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 550px;
+    overflow-y: auto;
+  }
+  ul#task-list::-webkit-scrollbar {
+    width: 10px;
+  }
+  ul#task-list::-webkit-scrollbar-thumb {
+    background-color: var(--primary);
+    border-radius: 6px;
+  }
+  li.task {
+    display: flex;
+    flex-direction: column;
+    background: var(--card-bg);
+    border-radius: 14px;
+    box-shadow: 0 2px 8px var(--shadow);
+    margin-bottom: 18px;
+    padding: 14px 20px;
+    cursor: grab;
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+  li.task.dragging {
+    opacity: 0.7;
+    cursor: grabbing;
+    background-color: var(--hover-bg);
+  }
+
+  li.task > .task-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  li.task.completed > .task-header > .title {
+    text-decoration: line-through;
+    opacity: 0.6;
+  }
+  li.task .title {
+    flex-grow: 1;
+    font-weight: 700;
+    font-size: 1.15rem;
+    outline: none;
+  }
+  li.task .title[contenteditable]:focus {
+    background: var(--input-bg);
+    border-radius: 8px;
+    box-shadow: 0 0 10px var(--primary);
+    padding: 2px 8px;
+    caret-color: var(--primary);
+  }
+
+  /* =============== Task Controls =============== */
+  .task-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .task-controls > * {
+    font-size: 0.9rem;
+  }
+  .task-controls label {
+    cursor: pointer;
+    user-select: none;
+  }
+  .task-controls input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+  .task-controls select {
+    border-radius: 8px;
+    border: 1.5px solid var(--input-border);
+    padding: 4px 8px;
+    background: var(--input-bg);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .task-controls input[type="date"] {
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--input-border);
+    background: var(--input-bg);
+    color: var(--text);
+  }
+  .task-controls .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-width: 300px;
+  }
+  .tag {
+    background-color: var(--primary);
+    color: var(--card-bg);
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    user-select: none;
+  }
+  .tag .remove-tag {
+    margin-left: 6px;
+    cursor: pointer;
+    font-weight: 900;
+  }
+  .task-controls button.delete-btn {
+    margin-left: auto;
+    background: var(--error);
+    border: none;
+    color: white;
+    border-radius: 12px;
+    padding: 6px 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .task-controls button.delete-btn:hover {
+    background: #a5221a;
+  }
+
+  /* =============== Filter + Sort Bar =============== */
+  #filter-sort-bar {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  #filter-sort-bar > * {
+    flex-grow: 1;
+    min-width: 140px;
+  }
+  select, button#clear-completed-btn {
+    width: 100%;
+    border-radius: 12px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1.5px solid var(--input-border);
+    background: var(--input-bg);
+    color: var(--text);
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+  button#clear-completed-btn {
+    background-color: var(--error);
+    border: none;
+    color: white;
+  }
+  button#clear-completed-btn:hover {
+    background-color: #a5221a;
+  }
+
+  /* =============== Undo/Redo Buttons =============== */
+  #undo-redo-bar {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  #undo-redo-bar button {
+    padding: 12px 28px;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    border: none;
+    background-color: var(--primary);
+    color: var(--card-bg);
+    transition: background-color 0.3s ease;
+  }
+  #undo-redo-bar button:disabled {
+    background-color: var(--input-border);
+    cursor: default;
+  }
+  #undo-redo-bar button:hover:not(:disabled) {
+    background-color: #005ea8;
+  }
+
+  /* =============== Theme Toggle =============== */
+  #theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 700;
+    box-shadow: 0 2px 10px var(--shadow);
+    transition: background-color 0.3s ease;
+    z-index: 999;
+  }
+  #theme-toggle:hover {
+    background: #005ea8;
+  }
+
+  /* =============== Responsive =============== */
+  @media (max-width: 600px) {
+    form#task-form {
+      grid-template-columns: 1fr;
+    }
+    #filter-sort-bar {
+      flex-direction: column;
+    }
+    #undo-redo-bar {
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+
+  /* =============== Accessibility =============== */
+  [contenteditable] {
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+<button id="theme-toggle" aria-label="Toggle dark/light theme">Toggle Theme</button>
+<div id="app" role="main" aria-label="Advanced To-Do List Application">
+  <h1>Advanced To-Do List</h1>
+
+  <form id="task-form" aria-label="Add a new task">
+    <input type="text" id="new-task-title" placeholder="New task title..." aria-required="true" aria-describedby="title-error" />
+    <input type="date" id="new-task-date" aria-label="Due date (optional)" />
+    <select id="new-task-priority" aria-label="Priority level">
+      <option value="low">Low Priority</option>
+      <option value="medium" selected>Medium Priority</option>
+      <option value="high">High Priority</option>
+    </select>
+    <input type="text" id="new-task-tags" placeholder="Tags, comma separated" aria-label="Tags (optional)" />
+    <button type="submit" aria-label="Add task">Add</button>
+  </form>
+  <div id="filter-sort-bar" aria-label="Filter and sort tasks">
+    <select id="filter-completion" aria-label="Filter by completion status">
+      <option value="all">All Tasks</option>
+      <option value="completed">Completed Only</option>
+      <option value="incomplete">Incomplete Only</option>
+    </select>
+    <select id="filter-priority" aria-label="Filter by priority level">
+      <option value="all">All Priorities</option>
+      <option value="high">High Priority Only</option>
+      <option value="medium">Medium Priority Only</option>
+      <option value="low">Low Priority Only</option>
+    </select>
+    <select id="filter-tags" aria-label="Filter by tag">
+      <option value="all">All Tags</option>
+    </select>
+    <select id="sort-tasks" aria-label="Sort tasks">
+      <option value="date-asc">Due Date ↑</option>
+      <option value="date-desc">Due Date ↓</option>
+      <option value="priority-asc">Priority ↑</option>
+      <option value="priority-desc">Priority ↓</option>
+      <option value="title-asc">Title A→Z</option>
+      <option value="title-desc">Title Z→A</option>
+    </select>
+    <button id="clear-completed-btn" aria-label="Clear all completed tasks">Clear Completed</button>
+  </div>
+
+  <ul id="task-list" role="list" aria-live="polite" aria-label="List of tasks"></ul>
+
+  <div id="undo-redo-bar" aria-label="Undo and redo controls">
+    <button id="undo-btn" disabled aria-label="Undo last action">Undo</button>
+    <button id="redo-btn" disabled aria-label="Redo last undone action">Redo</button>
+  </div>
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  /* ======= UTILS ======= */
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+  const STORAGE_KEY = "advanced_todo_tasks_v2";
+  const THEME_KEY = "advanced_todo_theme_v2";
+
+  // Generate UUID v4 - simple random for demo (no cryptographically strong)
+  function uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      const r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
+    });
+  }
+
+  /* ======= TASK PRIORITY ORDER MAP ======= */
+  const PRIORITY_ORDER = { low: 1, medium: 2, high: 3 };
+
+  /* ======= APP STATE ======= */
+  let tasks = [];
+  let filter = {
+    completion: 'all',
+    priority: 'all',
+    tags: 'all'
+  };
+  let sort = 'date-asc';
+
+  // Undo/Redo stacks
+  let undoStack = [];
+  let redoStack = [];
+
+  /* ======= THEME SETUP ======= */
+  const themeToggleBtn = $('#theme-toggle');
+
+  function loadTheme() {
+    const saved = localStorage.getItem(THEME_KEY);
+    if(saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      themeToggleBtn.textContent = 'Light Theme';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      themeToggleBtn.textContent = 'Dark Theme';
+    }
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    if(current === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem(THEME_KEY, 'light');
+      themeToggleBtn.textContent = 'Dark Theme';
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem(THEME_KEY, 'dark');
+      themeToggleBtn.textContent = 'Light Theme';
+    }
+  }
+  themeToggleBtn.addEventListener('click', toggleTheme);
+
+  /* ======= PERSISTENCE ======= */
+  function saveTasks() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+  }
+  function loadTasks() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if(Array.isArray(parsed)) tasks = parsed;
+      } catch {}
+    }
+  }
+
+  /* ======= TASK CLASS ======= */
+  class Task {
+    constructor({id, title, completed, dueDate, priority, tags}) {
+      this.id = id || uuid();
+      this.title = title || '';
+      this.completed = completed || false;
+      this.dueDate = dueDate || null; // ISO string or null
+      this.priority = priority || 'medium'; // low, medium, high
+      this.tags = tags || []; // array of strings
+    }
+  }
+
+  /* ======= DOM ELEMENTS ======= */
+  const taskList = $('#task-list');
+  const form = $('#task-form');
+  const inputTitle = $('#new-task-title');
+  const inputDate = $('#new-task-date');
+  const inputPriority = $('#new-task-priority');
+  const inputTags = $('#new-task-tags');
+  const filterCompletion = $('#filter-completion');
+  const filterPriority = $('#filter-priority');
+  const filterTags = $('#filter-tags');
+  const sortSelect = $('#sort-tasks');
+  const clearCompletedBtn = $('#clear-completed-btn');
+  const undoBtn = $('#undo-btn');
+  const redoBtn = $('#redo-btn');
+
+  /* ======= FILTER TAGS SETUP ======= */
+  function refreshFilterTags() {
+    const allTags = new Set();
+    tasks.forEach(t => t.tags.forEach(tag => allTags.add(tag)));
+    const prevValue = filterTags.value;
+    filterTags.innerHTML = `<option value="all">All Tags</option>`;
+    Array.from(allTags).sort().forEach(tag => {
+      const opt = document.createElement('option');
+      opt.value = tag;
+      opt.textContent = tag;
+      filterTags.appendChild(opt);
+    });
+    if([...filterTags.options].some(o => o.value === prevValue)) {
+      filterTags.value = prevValue;
+    } else {
+      filterTags.value = 'all';
+    }
+  }
+
+  /* ======= TASK RENDERING ======= */
+  function createTaskElement(task) {
+    const li = document.createElement('li');
+    li.classList.add('task');
+    if(task.completed) li.classList.add('completed');
+    li.setAttribute('draggable', 'true');
+    li.setAttribute('role', 'listitem');
+    li.setAttribute('data-id', task.id);
+
+    /* Task Header */
+    const header = document.createElement('div');
+    header.className = 'task-header';
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = task.completed;
+    checkbox.setAttribute('aria-label', `Mark task "${task.title}" as completed`);
+    checkbox.addEventListener('change', () => {
+      updateTask(task.id, {completed: checkbox.checked});
+    });
+
+    const title = document.createElement('div');
+    title.className = 'title';
+    title.textContent = task.title;
+    title.setAttribute('contenteditable', 'true');
+    title.setAttribute('role', 'textbox');
+    title.setAttribute('aria-label', `Edit task title: ${task.title}`);
+    title.setAttribute('tabindex', '0');
+    title.spellcheck = false;
+
+    // Save on blur or Enter key
+    title.addEventListener('blur', () => {
+      if(title.textContent.trim() === '') {
+        title.textContent = task.title; // revert empty edit
+      } else if(title.textContent !== task.title) {
+        updateTask(task.id, {title: title.textContent.trim()});
+      }
+    });
+    title.addEventListener('keydown', e => {
+      if(e.key === 'Enter') {
+        e.preventDefault();
+        title.blur();
+      }
+    });
+
+    header.appendChild(checkbox);
+    header.appendChild(title);
+
+    /* Task Controls */
+    const controls = document.createElement('div');
+    controls.className = 'task-controls';
+
+    // Due Date
+    const dueLabel = document.createElement('label');
+    dueLabel.textContent = 'Due:';
+    dueLabel.htmlFor = `due-${task.id}`;
+    dueLabel.style.userSelect = 'none';
+    const dueInput = document.createElement('input');
+    dueInput.type = 'date';
+    dueInput.id = `due-${task.id}`;
+    dueInput.value = task.dueDate ? task.dueDate.slice(0, 10) : '';
+    dueInput.setAttribute('aria-label', `Set due date for task "${task.title}"`);
+    dueInput.addEventListener('change', () => {
+      updateTask(task.id, {dueDate: dueInput.value || null});
+    });
+
+    // Priority Select
+    const prioritySelect = document.createElement('select');
+    ['low', 'medium', 'high'].forEach(level => {
+      const opt = document.createElement('option');
+      opt.value = level;
+      opt.textContent = level.charAt(0).toUpperCase() + level.slice(1);
+      prioritySelect.appendChild(opt);
+    });
+    prioritySelect.value = task.priority;
+    prioritySelect.setAttribute('aria-label', `Set priority for task "${task.title}"`);
+    prioritySelect.addEventListener('change', () => {
+      updateTask(task.id, {priority: prioritySelect.value});
+    });
+
+    // Tags display + add/remove
+    const tagsContainer = document.createElement('div');
+    tagsContainer.className = 'tags';
+    task.tags.forEach(tag => {
+      const tagEl = document.createElement('span');
+      tagEl.className = 'tag';
+      tagEl.textContent = tag;
+      const removeBtn = document.createElement('button');
+      removeBtn.className = 'remove-tag';
+      removeBtn.textContent = '×';
+      removeBtn.setAttribute('aria-label', `Remove tag "${tag}" from task "${task.title}"`);
+      removeBtn.addEventListener('click', () => {
+        const newTags = task.tags.filter(t => t !== tag);
+        updateTask(task.id, {tags: newTags});
+      });
+      tagEl.appendChild(removeBtn);
+      tagsContainer.appendChild(tagEl);
+    });
+
+    // Add new tag input
+    const addTagInput = document.createElement('input');
+    addTagInput.type = 'text';
+    addTagInput.placeholder = 'Add tag...';
+    addTagInput.setAttribute('aria-label', `Add tag to task "${task.title}"`);
+    addTagInput.addEventListener('keydown', e => {
+      if(e.key === 'Enter') {
+        e.preventDefault();
+        const val = addTagInput.value.trim();
+        if(val && !task.tags.includes(val)) {
+          updateTask(task.id, {tags: [...task.tags, val]});
+          addTagInput.value = '';
+        }
+      }
+    });
+
+    // Delete button
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-btn';
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.setAttribute('aria-label', `Delete task "${task.title}"`);
+    deleteBtn.addEventListener('click', () => {
+      deleteTask(task.id);
+    });
+
+    controls.appendChild(dueLabel);
+    controls.appendChild(dueInput);
+    controls.appendChild(prioritySelect);
+    controls.appendChild(tagsContainer);
+    controls.appendChild(addTagInput);
+    controls.appendChild(deleteBtn);
+
+    li.appendChild(header);
+    li.appendChild(controls);
+
+    // Priority color border left
+    li.style.borderLeft = `8px solid var(--priority-${task.priority})`;
+
+    // Keyboard support for dragging (optional enhancement)
+    li.addEventListener('keydown', e => {
+      if(e.key === 'Delete') {
+        deleteTask(task.id);
+      }
+    });
+
+    return li;
+  }
+
+  /* ======= RENDER ALL TASKS ======= */
+  function renderTasks() {
+    taskList.innerHTML = '';
+    // Apply filters
+    let filtered = tasks.filter(task => {
+      if(filter.completion === 'completed' && !task.completed) return false;
+      if(filter.completion === 'incomplete' && task.completed) return false;
+      if(filter.priority !== 'all' && task.priority !== filter.priority) return false;
+      if(filter.tags !== 'all' && !task.tags.includes(filter.tags)) return false;
+      return true;
+    });
+    // Apply sorting
+    filtered.sort((a,b) => {
+      switch(sort) {
+        case 'date-asc':
+          if(!a.dueDate) return 1;
+          if(!b.dueDate) return -1;
+          return new Date(a.dueDate) - new Date(b.dueDate);
+        case 'date-desc':
+          if(!a.dueDate) return 1;
+          if(!b.dueDate) return -1;
+          return new Date(b.dueDate) - new Date(a.dueDate);
+        case 'priority-asc':
+          return PRIORITY_ORDER[a.priority] - PRIORITY_ORDER[b.priority];
+        case 'priority-desc':
+          return PRIORITY_ORDER[b.priority] - PRIORITY_ORDER[a.priority];
+        case 'title-asc':
+          return a.title.localeCompare(b.title);
+        case 'title-desc':
+          return b.title.localeCompare(a.title);
+        default:
+          return 0;
+      }
+    });
+    // Append to list
+    filtered.forEach(task => {
+      taskList.appendChild(createTaskElement(task));
+    });
+    refreshFilterTags();
+  }
+
+  /* ======= UPDATE TASK ======= */
+  function updateTask(id, updates) {
+    const idx = tasks.findIndex(t => t.id === id);
+    if(idx === -1) return;
+    const oldTask = {...tasks[idx]};
+    tasks[idx] = {...tasks[idx], ...updates};
+    saveTasks();
+    pushUndo({type: 'update', oldTask, newTask: {...tasks[idx]}});
+    renderTasks();
+  }
+
+  /* ======= DELETE TASK ======= */
+  function deleteTask(id) {
+    const idx = tasks.findIndex(t => t.id === id);
+    if(idx === -1) return;
+    const deletedTask = tasks.splice(idx, 1)[0];
+    saveTasks();
+    pushUndo({type: 'delete', task: deletedTask});
+    renderTasks();
+  }
+
+  /* ======= ADD TASK ======= */
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const title = inputTitle.value.trim();
+    if(!title) {
+      alert('Task title cannot be empty!');
+      return;
+    }
+    const dueDate = inputDate.value || null;
+    const priority = inputPriority.value;
+    const tags = inputTags.value.split(',').map(t => t.trim()).filter(t => t.length > 0);
+    const newTask = new Task({title, completed:false, dueDate, priority, tags});
+    tasks.push(newTask);
+    saveTasks();
+    pushUndo({type: 'add', task: newTask});
+    inputTitle.value = '';
+    inputDate.value = '';
+    inputPriority.value = 'medium';
+    inputTags.value = '';
+    renderTasks();
+  });
+
+  /* ======= FILTER HANDLERS ======= */
+  filterCompletion.addEventListener('change', e => {
+    filter.completion = e.target.value;
+    renderTasks();
+  });
+  filterPriority.addEventListener('change', e => {
+    filter.priority = e.target.value;
+    renderTasks();
+  });
+  filterTags.addEventListener('change', e => {
+    filter.tags = e.target.value;
+    renderTasks();
+  });
+  sortSelect.addEventListener('change', e => {
+    sort = e.target.value;
+    renderTasks();
+  });
+
+  /* ======= CLEAR COMPLETED TASKS ======= */
+  clearCompletedBtn.addEventListener('click', () => {
+    const completedTasks = tasks.filter(t => t.completed);
+    if(completedTasks.length === 0) return;
+    // Store undo data for all deleted tasks
+    pushUndo({type:'clear_completed', tasks: [...completedTasks]});
+    tasks = tasks.filter(t => !t.completed);
+    saveTasks();
+    renderTasks();
+  });
+
+  /* ======= UNDO/REDO STACKS ======= */
+  function pushUndo(action) {
+    undoStack.push(action);
+    if(undoStack.length > 100) undoStack.shift(); // limit history size
+    redoStack = [];
+    updateUndoRedoButtons();
+  }
+  function updateUndoRedoButtons() {
+    undoBtn.disabled = undoStack.length === 0;
+    redoBtn.disabled = redoStack.length === 0;
+  }
+
+  undoBtn.addEventListener('click', () => {
+    if(undoStack.length === 0) return;
+    const action = undoStack.pop();
+    applyUndo(action);
+    redoStack.push(action);
+    updateUndoRedoButtons();
+  });
+
+  redoBtn.addEventListener('click', () => {
+    if(redoStack.length === 0) return;
+    const action = redoStack.pop();
+    applyRedo(action);
+    undoStack.push(action);
+    updateUndoRedoButtons();
+  });
+
+  /* ======= APPLY UNDO ======= */
+  function applyUndo(action) {
+    switch(action.type) {
+      case 'add':
+        tasks = tasks.filter(t => t.id !== action.task.id);
+        saveTasks();
+        renderTasks();
+        break;
+      case 'delete':
+        tasks.push(action.task);
+        saveTasks();
+        renderTasks();
+        break;
+      case 'update':
+        const idx = tasks.findIndex(t => t.id === action.oldTask.id);
+        if(idx !== -1) {
+          tasks[idx] = action.oldTask;
+          saveTasks();
+          renderTasks();
+        }
+        break;
+      case 'clear_completed':
+        tasks.push(...action.tasks);
+        saveTasks();
+        renderTasks();
+        break;
+    }
+  }
+
+  /* ======= APPLY REDO ======= */
+  function applyRedo(action) {
+    switch(action.type) {
+      case 'add':
+        tasks.push(action.task);
+        saveTasks();
+        renderTasks();
+        break;
+      case 'delete':
+        tasks = tasks.filter(t => t.id !== action.task.id);
+        saveTasks();
+        renderTasks();
+        break;
+      case 'update':
+        const idx = tasks.findIndex(t => t.id === action.newTask.id);
+        if(idx !== -1) {
+          tasks[idx] = action.newTask;
+          saveTasks();
+          renderTasks();
+        }
+        break;
+      case 'clear_completed':
+        tasks = tasks.filter(t => !action.tasks.some(at => at.id === t.id));
+        saveTasks();
+        renderTasks();
+        break;
+    }
+  }
+
+  /* ======= INITIALIZE APP ======= */
+  loadTheme();
+  loadTasks();
+  renderTasks();
+})();
+</script>
+</body>
+</html>
