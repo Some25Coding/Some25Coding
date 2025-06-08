@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Web Project Portfolio</title>
+  <link rel="stylesheet" href="port.css" />
+  <style>
+    /* General Styles */
+body {
+  font-family:Century;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Dark Theme Styles */
+body.dark-theme {
+  background-color: #121212;
+  color: #ddd;
+}
+
+body.dark-theme header {
+  background: #1f1f1f;
+}
+
+body.dark-theme section {
+  background-color: #1e1e1e;
+  color: #ccc;
+}
+
+body.dark-theme footer {
+  background: #1f1f1f;
+}
+
+/* Existing light mode style for the skills list items */
+.skills li {
+  background: #e2e2e2;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  font-weight: bold;
+  /* No color specified, so it inherits from body (which is #333 by default) */
+}
+
+/* Dark Theme Styles */
+body.dark-theme {
+  background-color: #121212;
+  color: #ddd;
+}
+body.dark-theme section {
+  background-color: #1e1e1e;
+  color: #ccc;
+}
+
+/* Override for skills list items in dark theme to keep text color constant */
+body.dark-theme .skills li {
+  color: #333;
+}
+
+/* Sign Up Button Styles */
+
+.signup-button {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      
+      .signup-button:hover {
+        background-color: #45a049;
+      }
+
+/* Dark Theme Adjustments for Log In Button if needed */
+body.dark-theme #log-in-btn {
+  background: #444;
+  color: #fff;
+}
+
+body.dark-theme #log-in-btn:hover {
+  background: #555;
+}
+
+/* Rest of your CSS continues… */
+
+/* Header */
+header {
+  background: #333;
+  color: #fff;
+  text-align: center;
+  padding: 2rem 1rem;
+  position: relative;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 3rem;
+}
+
+header p {
+  margin: 0.5rem 0;
+}
+
+/* Dark Theme Toggle Button Styling */
+#dark-theme-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fff;
+  border: none;
+  border-radius: 5px;
+  color: #333;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#dark-theme-toggle:hover {
+  background: #ddd;
+}
+
+/* Section Container */
+section {
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Text Centering for Introduction and What We Do sections */
+.introduction, .what-we-do {
+  text-align: center;
+}
+
+.introduction h2,
+.what-we-do h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Skills */
+.skills ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.skills li {
+  background: #e2e2e2;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+/* Projects */
+.projects .project {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.projects .project:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+
+.projects a {
+  display: inline-block;
+  margin-top: 1rem;
+  text-decoration: none;
+  background: #333;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+.projects a:hover {
+  background: #555;
+}
+
+/* Profile Image */
+.profile img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+/* Contact */
+.contact a {
+  color: #333;
+  text-decoration: underline;
+}
+
+/* Footer */
+footer {
+  background: #333;
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+}
+
+/* Responsive Design: Adjustments for smaller screens */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2.5rem;
+  }
+  
+  section {
+    margin: 1rem;
+    padding: 1rem;
+  }
+}
+  #learn-more-section {
+     position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #000000;
+      padding: 15px;
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      z-index: 1000; /* Ensures it overlays other content */
+  }
+
+  #learn-more-section p {
+    color: white; /* Make text white */
+    font-size: 18px; /* Optional: Adjust font size */
+    font-weight: bold; /* Optional: Make it bold */
+  }
+
+  #learn-more-section button {
+    margin: 5px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+  }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Hi, I'm [Soressa Addisu]</h1>
+    <p>I'm learning web development 🚀</p>
+    <!-- Dark Theme Toggle Button -->
+    <button id="dark-theme-toggle">Toggle Dark Theme</button>
+  </header>
+  <!-- Rest of your content remains the same -->
+  <section class="introduction animate-on-scroll">
+    <h2>Introduction</h2>
+    <p>
+      Welcome to my web project! I'm a passionate web developer dedicated to designing and building modern, responsive, and accessible websites.
+      This portfolio is a glimpse into my journey—where creativity meets clean code.
+    </p>
+  </section>
+
+  <section class="what-we-do animate-on-scroll">
+    <h2>What We Do</h2>
+    <p>
+      We specialize in creating user-friendly web experiences that are visually appealing and functionally robust.
+      Through a focus on clean, semantic code and innovative design, we push the boundaries of modern web development while continually learning and evolving.
+    </p>
+  </section>
+
+  <section class="profile animate-on-scroll">
+    <img src="webd.webp" width="500" height="500" alt="My Photo">
+  </section>
+
+  <section class="skills animate-on-scroll">
+    <h2>Skills</h2>
+    <ul>
+      <li>HTML</li>
+      <li>CSS</li>
+      <li>JavaScript</li>
+    </ul>
+  </section>
+
+  <section class="code-examples animate-on-scroll">
+<h1>1.HTML: The Structure</h1> 
+<p>HTML (HyperText Markup Language) is the foundation of any webpage. It provides the structure and content by using elements such as headings, paragraphs, images, and links. 
+  Think of HTML as the skeleton of a website—defining the layout and where each piece of content belongs.</p>
+  <h2>HTML Code Example</h2>
+  <pre><code>&lt;!-- Example HTML --&gt;
+&lt;div class=&quot;example&quot;&gt;
+  &lt;p&gt;Hello, World!&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<h1>2. CSS: The Presentation</h1>
+<p>CSS (Cascading Style Sheets) is used to control the presentation of that content. It styles the HTML by setting colors, fonts, spacing, and overall layout. 
+  While HTML establishes what the content is, CSS defines how it should look, ensuring that the webpage is visually engaging and user-friendly.</p>
+  <h2>CSS Code Example</h2>
+  <pre><code>&lt;!-- Example CSS --&gt;
+.example {
+  color: blue;
+  background-color: #f4f4f4;
+}
+</code></pre>
+<h1>3. JavaScript: The Behavior</h1>
+<p>JavaScript is a programming language that makes your web pages interactive. For example, you could write a small function—say, sayHello()—that uses the browser’s alert() method to display a pop-up message like "Hello, World!" when called. 
+This demonstrates how you can define reusable pieces of code (functions) and immediately execute them to perform tasks, such as displaying messages or handling events, enhancing the dynamic behavior of your website.</p>
+  <h2>JavaScript Code Example</h2>
+  <pre><code>&lt;!-- Example JavaScript --&gt;
+&lt;script&gt;
+  function sayHello() {
+    alert(&quot;Hello, World!&quot;);
+  }
+  sayHello();
+&lt;/script&gt;
+</code></pre>
+</section>
+
+  <section class="projects">
+    <h2 class="animate-on-scroll">Projects</h2>
+
+    <div class="project animate-on-scroll">
+      <h3>My First Website</h3>
+      <p>A simple HTML and CSS site I built to learn the basics and experiment with layout designs.</p>
+      <a href="https://github.com/Some25Coding/Some25Coding/blob/main/Another.html" target="_blank">View Project</a>
+    </div>
+
+    <div class="project animate-on-scroll">
+      <h3>To-Do List App</h3>
+      <p>Basic JavaScript app to add, complete, and delete tasks, demonstrating dynamic interactivity.</p>
+      <a href="https://github.com/Some25Coding/Some25Coding/blob/main/Todo.html" target="_blank">View Project</a>
+      <a href="https://github.com/Some25Coding/Some25Coding/blob/main/Todo2.html" target="_blank">View Project</a>
+      <a href="https://github.com/Some25Coding/Some25Coding/blob/main/Todo3.html" target="_blank">View Project</a>
+
+    </div>
+  </section>
+
+<section class="members-container">
+        <h1>Project Members</h1>
+        <div class="members">
+             <div class="member">
+                <h3>Soressa Addisu</h3>
+                <p>Developer</p>
+            </div>
+            <div class="member">
+                <h3>Sudeys Mohammed</h3>
+                <p>Member</p>
+            </div>
+             <div class="member">
+                <h3>Tigist Kebede</h3>
+                <p>Member</p>
+            </div>
+             <div class="member">
+                <h3>Tsegalem Mekete</h3>
+                <p>Member</p>
+            </div>
+             <div class="member">
+                <h3>Yeabsira Hailu</h3>
+                <p>Member</p>
+            </div>
+             <div class="member">
+                <h3>Yared H/Mariam</h3>
+                <p>Member</p>
+            </div>
+             <div class="member">
+                <h3>Yeabsira Tesfaye</h3>
+                <p>Member</p>
+            </div>
+        </div>
+    </section>
+
+  <section class="contact animate-on-scroll">
+    <h2>Contact Me</h2>
+    <p>Email: <a href="mailto:soressaaddisu2@gmail.com">soressaaddisu2@gmail.com</a></p>
+    <p>GitHub: <a href="https://github.com/Some25Coding" target="_blank" rel="noopener noreferrer">Some25Coding</a></p>
+  </section>
+ <!-- Fixed Learn More Section at the bottom -->
+  <div id="learn-more-section">
+    <p>Want to learn more?</p>
+    <a href="http://localhost//login/login.html">
+    <button type="button" id="login-btn">Log In</button>
+    </a>
+    <a href="http://localhost//signup/">
+    <button type="button" id="signup-btn">Sign Up</button>
+    </a>
+  </div>
+  <footer>
+    <p>© 2025 Soressa Addisu</p>
+  </footer>
+
+  <!-- JavaScript remains unchanged -->
+  <script>
+    // Dark Theme Toggle Script
+    document.getElementById('dark-theme-toggle').addEventListener('click', function() {
+      document.body.classList.toggle('dark-theme');
+    });
+
+    // Scroll-Triggered Animation with IntersectionObserver
+    document.addEventListener("DOMContentLoaded", function () {
+      const animatedElements = document.querySelectorAll('.animate-on-scroll');
+      const observerOptions = {
+        threshold: 0.2
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('scrollIn');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      animatedElements.forEach(element => {
+        observer.observe(element);
+      });
+    });
+    document.querySelector('.signup-btn').addEventListener('click', function() {
+  openSignupModal();
+});
+ document.getElementById("login-btn").addEventListener("click", function() {
+      window.location.href = "https://localhost//mywebsite";
+    });
+
+    document.getElementById("signup-btn").addEventListener("click", function() {
+      window.location.href = "https://localhost//mywebsite";
+    });
+  </script>
+</body>
+</html>
+
