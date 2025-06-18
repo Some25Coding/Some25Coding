@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Music Player Playlist</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #121212;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+    .player {
+      margin-top: 30px;
+    }
+    img.cover {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+    .song-title {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+    .controls button {
+      background: #1db954;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      margin: 10px;
+      cursor: pointer;
+      border-radius: 20px;
+      font-size: 16px;
+    }
+    .controls button:hover {
+      background: #1ed760;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎶 Playlist Music Player</h1>
+
+  <div class="player">
+    <img src="" alt="Album Cover" class="cover" id="coverImage">
+    <div class="song-title" id="songTitle">No song loaded</div>
+    <audio id="audioPlayer"></audio>
+    <div class="controls">
+      <button onclick="prevSong()">⏮️ Previous</button>
+      <button onclick="playPause()">▶️ Play / ⏸️ Pause</button>
+      <button onclick="nextSong()">⏭️ Next</button>
+      <button onclick="toggleMute()">🔇 Mute</button>
+      <button onclick="toggleLoop()">🔁 Loop</button>
+      <button onclick="toggleShuffle()">🔀 Shuffle</button>
+    </div>
+    <div class="sliders">
+  <div class="time-display">
+    <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
+  </div>
+  <input type="range" id="seekBar" value="0" min="0" step="1">
+  <br>
+  Volume:
+  <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+</div>
+
+  </div>
+  
+
+  <script>
+    const playlist = [
+      {
+        title: "01 Justin Bieber - Heartbreaker",
+        mp3: "songs/01 Justin Bieber - Heartbreaker.mp3",
+        cover: "covers/journals.jpg"
+      },
+      {
+        title: "02 Justin Bieber - Favorite Girl (Album Version)",
+        mp3: "songs/02 Justin Bieber - Favorite Girl (Album Version).mp3",
+        cover: "covers/myworld.jpg"
+      },
+      {
+        title: "02 Justin Bieber - Somebody To Love",
+        mp3: "songs/02 Justin Bieber - Somebody To Love.mp3",
+        cover: "covers/myworld2.0.jpg"
+      }
+    ];
+
+    let currentIndex = 0;
+    const audioPlayer = document.getElementById('audioPlayer');
+    const coverImage = document.getElementById('coverImage');
+    const songTitle = document.getElementById('songTitle');
+
+   function loadSong(index) {
+      const song = playlist[index];
+      audioPlayer.src = song.mp3;
+      coverImage.src = song.cover;
+      songTitle.textContent = song.title;
+      audioPlayer.load();
+      audioPlayer.addEventListener('loadedmetadata', () => {
+        seekBar.max = Math.floor(audioPlayer.duration);
+        totalTimeDisplay.textContent = formatTime(audioPlayer.duration);
+      });
+    }
+
+    function playPause() {
+      if (audioPlayer.paused) {
+        audioPlayer.play();
+      } else {
+        audioPlayer.pause();
+        audioPlayer.currentTime = 0; // "Close" the player
+      }
+    }
+
+    function nextSong() {
+      currentIndex = (currentIndex + 1) % playlist.length;
+      loadSong(currentIndex);
+      audioPlayer.play();
+    }
+
+    function prevSong() {
+      currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+      loadSong(currentIndex);
+      audioPlayer.play();
+    }
+
+    // Auto-play next song when current ends
+    audioPlayer.addEventListener('ended', nextSong);
+
+    // Load first song on startup
+    window.onload = () => loadSong(currentIndex);
+
+    const volumeSlider = document.getElementById('volumeSlider');
+const seekBar = document.getElementById('seekBar');
+const currentTimeDisplay = document.getElementById('currentTime');
+const totalTimeDisplay = document.getElementById('totalTime');
+
+// Volume control
+volumeSlider.addEventListener('input', () => {
+  audioPlayer.volume = volumeSlider.value;
+});
+
+// Seek control
+audioPlayer.addEventListener('timeupdate', () => {
+  seekBar.value = Math.floor(audioPlayer.currentTime);
+  currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
+});
+
+seekBar.addEventListener('input', () => {
+  audioPlayer.currentTime = seekBar.value;
+});
+
+// Update seekBar max after metadata loads
+audioPlayer.addEventListener('loadedmetadata', () => {
+  seekBar.max = Math.floor(audioPlayer.duration);
+  totalTimeDisplay.textContent = formatTime(audioPlayer.duration);
+});
+
+// Format time in mm:ss
+function formatTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+}
+
+let isMuted = false;
+let isLooping = false;
+let isShuffle = false;
+
+// 🔇 Mute Toggle
+function toggleMute() {
+  isMuted = !isMuted;
+  audioPlayer.muted = isMuted;
+}
+
+// 🔁 Loop Toggle
+function toggleLoop() {
+  isLooping = !isLooping;
+  audioPlayer.loop = isLooping;
+}
+
+// 🔀 Shuffle Toggle
+function toggleShuffle() {
+  isShuffle = !isShuffle;
+}
+
+// 🔄 Modify 'ended' event for shuffle
+audioPlayer.addEventListener('ended', () => {
+  if (isShuffle) {
+    currentIndex = Math.floor(Math.random() * playlist.length);
+  } else if (!audioPlayer.loop) {
+    currentIndex = (currentIndex + 1) % playlist.length;
+  }
+  loadSong(currentIndex);
+  audioPlayer.play();
+});
+
+  </script>
+
+</body>
+</html>
