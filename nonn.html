@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LRC Lyrics Viewer</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    background: #f9f9f9;
+  }
+  h1 {
+    text-align: center;
+  }
+  #lyrics {
+    margin-top: 20px;
+    white-space: pre-wrap;
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 0 5px #ccc;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .timestamp {
+    color: #888;
+    margin-right: 10px;
+    font-family: monospace;
+  }
+  .line {
+    margin: 5px 0;
+  }
+</style>
+</head>
+<body>
+
+<h1>LRC Lyrics Viewer</h1>
+
+<input type="file" id="fileInput" accept=".lrc" />
+<div id="lyrics">Upload an .lrc file to see the lyrics here.</div>
+
+<script>
+    const playlist = [
+      {
+        title: "01 Justin Bieber - Heartbreaker",
+        mp3: "songs/01 Justin Bieber - Heartbreaker.mp3",
+        cover: "covers/journals.jpg"
+      },
+    ];
+  const fileInput = document.getElementById('fileInput');
+  const lyricsDiv = document.getElementById('lyrics');
+
+  fileInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const text = reader.result;
+      displayLyrics(parseLRC(text));
+    };
+    reader.readAsText(file);
+  });
+
+  // Parses LRC file text into array of {time, text}
+  function parseLRC(text) {
+    const lines = text.split(/\r?\n/);
+    const parsedLines = [];
+
+    const timeRegex = /\[(\d{2}):(\d{2})(?:\.(\d{2,3}))?\]/g;
+
+    for (const line of lines) {
+      let matches;
+      let lastIndex = 0;
+      let lineText = line;
+
+      // Extract all timestamps
+      while ((matches = timeRegex.exec(line)) !== null) {
+        const min = parseInt(matches[1], 10);
+        const sec = parseInt(matches[2], 10);
+        const millis = matches[3] ? parseInt(matches[3].padEnd(3, '0'), 10) : 0;
+        const time = min * 60 + sec + millis / 1000;
+
+        lastIndex = timeRegex.lastIndex;
+
+        // The actual lyrics text is after the last timestamp
+        lineText = line.substring(lastIndex).trim();
+
+        parsedLines.push({ time, text: lineText });
+      }
+    }
+
+    // Sort by time
+    parsedLines.sort((a, b) => a.time - b.time);
+
+    return parsedLines;
+  }
+
+  function formatTime(seconds) {
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    const ms = Math.floor((seconds % 1) * 1000);
+    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${String(ms).padStart(3,'0')}`;
+  }
+
+  function displayLyrics(parsed) {
+    if (parsed.length === 0) {
+      lyricsDiv.textContent = 'No lyrics found or invalid .lrc file.';
+      return;
+    }
+
+    lyricsDiv.innerHTML = ''; // Clear
+
+    parsed.forEach(({time, text}) => {
+      const lineDiv = document.createElement('div');
+      lineDiv.className = 'line';
+
+      const timeSpan = document.createElement('span');
+      timeSpan.className = 'timestamp';
+      timeSpan.textContent = formatTime(time);
+
+      lineDiv.appendChild(timeSpan);
+      lineDiv.appendChild(document.createTextNode(text));
+      lyricsDiv.appendChild(lineDiv);
+    });
+  }
+</script>
+
+</body>
+</html>

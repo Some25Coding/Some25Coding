@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Modern Website</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+
+    body {
+      background: url('images/background.webp') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.7);
+      min-height: 100vh;
+    }
+
+    /* Sticky Navbar */
+    nav {
+      position: sticky;
+      top: 0;
+      background-color: rgba(0, 0, 0, 0.85);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+      z-index: 999;
+    }
+
+    nav .logo {
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 25px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1em;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #ffcc00;
+    }
+
+    /* Sections */
+    section {
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    section h2 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    section p {
+      font-size: 1.2em;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Button */
+    .btn {
+      margin-top: 25px;
+      padding: 12px 25px;
+      font-size: 1em;
+      background-color: #ffcc00;
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #ffd633;
+      transform: scale(1.05);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.8);
+      font-size: 0.9em;
+      color: #bbb;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      section h2 {
+        font-size: 2em;
+      }
+
+      section p {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+
+    <!-- Navigation -->
+    <nav>
+      <div class="logo">MySite</div>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Sections -->
+    <section id="home">
+      <h2>Welcome to My Website</h2>
+      <p>Explore a modern web experience with smooth scrolling, a responsive layout, and stunning visuals.</p>
+      <a href="http://localhost//portfolio/portfolio.html">
+      <button class="btn">Explore Now</button>
+      </a>
+    </section>
+
+    <section id="about">
+      <h2>About Me</h2>
+      <p>I'm a passionate developer creating beautiful and responsive web interfaces with HTML, CSS, and JavaScript.</p>
+    </section>
+
+    <section id="services">
+      <h2>What I Do</h2>
+      <p>I design modern websites, create responsive layouts, and build interactive user experiences.</p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Have a question or project in mind? Reach out and let's talk!</p>
+      <a href="http://localhost//portfolio/contact.html">
+      <button class="btn">Get in Touch</button>
+      </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      &copy; 2025 MySite. All rights reserved.
+    </footer>
+  </div>
+</body>
+</html>
+

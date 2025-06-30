@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Me</title>
+  <!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      background: url('images/background.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.75);
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .contact-box {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    .contact-box h1 {
+      margin-bottom: 10px;
+      font-size: 2.5em;
+    }
+
+    .contact-box p {
+      font-size: 1.1em;
+      margin-bottom: 25px;
+    }
+
+    .info {
+      text-align: left;
+      margin-bottom: 30px;
+    }
+
+    .info p {
+      margin: 10px 0;
+      font-size: 1em;
+    }
+
+    .info a {
+      color: #ffcc00;
+      text-decoration: none;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 5px;
+    }
+
+    .contact-form button {
+      padding: 12px 30px;
+      background-color: #ffcc00;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .contact-form button:hover {
+      background-color: #e6b800;
+    }
+
+    @media (max-width: 600px) {
+      .contact-box {
+        padding: 25px;
+      }
+    }
+	 .social-media {
+     margin-top: 30px;
+    }
+
+    .social-media a {
+     margin: 0 10px;
+     font-size: 1.8em;
+     transition: transform 0.3s ease, color 0.3s ease;
+     text-decoration: none;
+    }
+
+    .social-media a .fa-facebook-f { color: #1877f2; }
+    .social-media a .fa-instagram { color: #e1306c; }
+    .social-media a .fa-linkedin-in { color: #0077b5; }
+    .social-media a .fa-github { color: #fff; }
+    .social-media a .fa-youtube { color: #ff0000; }
+    .social-media a .fa-telegram { color: #0088cc; }
+
+    .social-media a:hover {
+     transform: scale(1.2);
+     filter: brightness(1.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="contact-box">
+      <h1>Contact Me</h1>
+      <p>I'd love to hear from you! Here’s how you can reach me:</p>
+
+      <div class="info">
+        <p><strong>Name:</strong> Soressa Addisu</p>
+        <p><strong>Phone:</strong> <a href="tel:+251954862187">+251954862187</a></p>
+        <p><strong>Email:</strong> <a href="mailto:soressaaddisu2@gmail.com">soressaaddisu2@gmail.com</a></p>
+        <p><strong>Location:</strong> Ethiopia, ET</p>
+		<div class="social-media">
+         <a href="https://facebook.com/SoressaAddisu" target="_blank"><i class="fab fa-facebook-f"></i></a>
+         <a href="https://instagram.com/soressaaddisu11" target="_blank"><i class="fab fa-instagram"></i></a>
+         <a href="https://linkedin.com/in/yourprofile" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+         <a href="https://github.com/Some25Coding" target="_blank"><i class="fab fa-github"></i></a>
+         <a href="https://www.youtube.com/@usersoressaaddisu" target="_blank"><i class="fab fa-youtube"></i></a>
+		 <a href="https://t.me/SrAs31" target="_blank"><i class="fab fa-telegram"></i></a>
+        </div>
+      </div>
+     
+
+      <form class="contact-form">
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea rows="4" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
