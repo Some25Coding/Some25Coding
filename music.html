@@ -2,18 +2,60 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/music.ico" type="image/x-icon" />
   <title>Music Player Playlist</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: Century;
       background: #121212;
       color: white;
-      text-align: center;
+      margin: 0;
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar {
+      width: 300px;
+      background: #1e1e1e;
+      padding: 20px;
+      overflow-y: auto;
+      border-right: 2px solid #333;
+    }
+
+    .sidebar input,
+    .sidebar select {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border: none;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      padding: 8px;
+      cursor: pointer;
+      border-bottom: 1px solid #333;
+    }
+
+    .sidebar ul li:hover {
+      background-color: #333;
+      color: #1db954;
+    }
+
+    .main-content {
+      flex: 1;
       padding: 40px;
+      text-align: center;
+      overflow-y: auto;
     }
-    .player {
-      margin-top: 30px;
-    }
+
     img.cover {
       width: 250px;
       height: 250px;
@@ -22,10 +64,12 @@
       margin-bottom: 20px;
       box-shadow: 0 0 20px rgba(0,0,0,0.6);
     }
+
     .song-title {
       font-size: 20px;
       margin: 10px 0;
     }
+
     .controls button {
       background: #1db954;
       color: white;
@@ -36,79 +80,185 @@
       border-radius: 20px;
       font-size: 16px;
     }
+
     .controls button:hover {
       background: #1ed760;
+    }
+
+    .sliders {
+      margin-top: 20px;
+    }
+
+    .lyrics-wrapper {
+      margin-top: 30px;
+      position: relative;
+      height: 4em;
+    }
+
+    .lyric {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 1s ease;
+      font-size: 1.5em;
+    }
+
+    .highlight {
+      color: #1db954;
+      font-weight: bold;
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+
+    .next {
+      color: #888;
+      font-size: 1em;
+      transform: translateY(40px);
+      opacity: 0.6;
+    }
+
+    @media (max-width: 600px) {
+      .lyric {
+        font-size: 1.2em;
+      }
+      .sidebar {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h1>🎶 Playlist Music Player</h1>
+  <div class="sidebar">
+    <input type="text" id="searchInput" placeholder="Search songs...">
+    <select id="artistFilter">
+      <option value="">All Artists</option>
+    </select>
+    <select id="albumFilter">
+      <option value="">All Albums</option>
+    </select>
+    <ul id="playlistSidebar"></ul>
+  </div>
 
-  <div class="player">
-    <img src="" alt="Album Cover" class="cover" id="coverImage">
-    <div class="song-title" id="songTitle">No song loaded</div>
-    <audio id="audioPlayer"></audio>
-    <div class="controls">
-      <button onclick="prevSong()">⏮️ Previous</button>
-      <button onclick="playPause()">▶️ Play / ⏸️ Pause</button>
-      <button onclick="nextSong()">⏭️ Next</button>
-      <button onclick="toggleMute()">🔇 Mute</button>
-      <button onclick="toggleLoop()">🔁 Loop</button>
-      <button onclick="toggleShuffle()">🔀 Shuffle</button>
+  <div class="main-content">
+    <h1>🎶 Playlist Music Player</h1>
+
+    <div class="player">
+      <img src="" alt="Album Cover" class="cover" id="coverImage">
+      <div class="song-title" id="songTitle">No song loaded</div>
+      <audio id="audioPlayer"></audio>
+      <div class="controls">
+        <button onclick="prevSong()">⏮️ Previous</button>
+        <button onclick="playPause()">▶️ Play / ⏸️ Pause</button>
+        <button onclick="nextSong()">⏭️ Next</button>
+        <button onclick="toggleMute()">🔇 Mute</button>
+        <button onclick="toggleLoop()">🔁 Loop</button>
+        <button onclick="toggleShuffle()">🔀 Shuffle</button>
+      </div>
+      <div class="sliders">
+        <div class="time-display">
+          <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
+        </div>
+        <input type="range" id="seekBar" value="0" min="0" step="1">
+        <br>
+        Volume:
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+      </div>
     </div>
-    <div class="sliders">
-  <div class="time-display">
-    <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
   </div>
-  <input type="range" id="seekBar" value="0" min="0" step="1">
-  <br>
-  Volume:
-  <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
-</div>
-
-  </div>
-  
 
   <script>
     const playlist = [
-      {
-        title: "01 Justin Bieber - Heartbreaker",
-        mp3: "songs/01 Justin Bieber - Heartbreaker.mp3",
-        cover: "covers/journals.jpg"
-      },
-      {
-        title: "02 Justin Bieber - Favorite Girl (Album Version)",
-        mp3: "songs/02 Justin Bieber - Favorite Girl (Album Version).mp3",
-        cover: "covers/myworld.jpg"
-      },
-      {
-        title: "02 Justin Bieber - Somebody To Love",
-        mp3: "songs/02 Justin Bieber - Somebody To Love.mp3",
-        cover: "covers/myworld2.0.jpg"
-      },
-      {
-        title: "13 Luis Fonsi - Despacito (Remix)",
-        mp3: "songs/13 Luis Fonsi - Despacito (Remix).mp3",
-        cover: "covers/despacito.jpg"
-      }
+      { title: "01 Justin Bieber - Heartbreaker", mp3: "songs/01 Justin Bieber - Heartbreaker.mp3", cover: "covers/journals.jpg" },
+      { title: "02 Justin Bieber - All That Matters", mp3: "songs/02 Justin Bieber - All That Matters.mp3", cover: "covers/journals.jpg" },
+      { title: "03 Justin Bieber - Hold Tight", mp3: "songs/03 Justin Bieber - Hold Tight.mp3", cover: "covers/journals.jpg" },
+      { title: "10 Justin Bieber - Confident", mp3: "songs/10 Justin Bieber - Confident.mp3", cover: "covers/journals.jpg" },
+      { title: "02 Justin Bieber - Boyfriend", mp3: "songs/02 Justin Bieber - Boyfriend.mp3", cover: "covers/believe.jpg" },
+      { title: "03 Justin Bieber - As Long As You Love Me", mp3: "songs/03 Justin Bieber - As Long As You Love Me.mp3", cover: "covers/believe.jpg" },
+      { title: "10 Justin Bieber - Beauty And A Beat", mp3: "songs/10 Justin Bieber - Beauty And A Beat.mp3", cover: "covers/believe.jpg" },
+      { title: "02 Justin Bieber - Favorite Girl (Album Version)", mp3: "songs/02 Justin Bieber - Favorite Girl (Album Version).mp3", cover: "covers/my world.jpg" },
+      { title: "01 Justin Bieber - One Time (Album Version)", mp3: "songs/01 Justin Bieber - One Time (Album Version).mp3", cover: "covers/my world.jpg" },
+      { title: "05 Justin Bieber - One Less Lonely Girl (Album Version)", mp3: "songs/05 Justin Bieber - One Less Lonely Girl (Album Version).mp3", cover: "covers/my world.jpg" },
+      { title: "07 Justin Bieber - Love Me (Album Version)", mp3: "songs/07 Justin Bieber - Love Me (Album Version).mp3", cover: "covers/my world.jpg" },
+      { title: "02 Justin Bieber - Somebody To Love", mp3: "songs/02 Justin Bieber - Somebody To Love.mp3", cover: "covers/my world 2.0.jpg" },
+      { title: "01 Justin Bieber - Baby", mp3: "songs/01 Justin Bieber - Baby.mp3", cover: "covers/my world 2.0.jpg" },
+      { title: "04 Justin Bieber - U Smile (Album Version)", mp3: "songs/04 Justin Bieber - U Smile (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
+      { title: "06 Justin Bieber - Never Let You Go (Album Version)", mp3: "songs/06 Justin Bieber - Never Let You Go (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
+      { title: "09 Justin Bieber - Up (Album Version)", mp3: "songs/09 Justin Bieber - Up (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
+      { title: "10 Justin Bieber - That Should Be Me (Album Version)", mp3: "songs/10 Justin Bieber - That Should Be Me (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
+      { title: "01 Justin Bieber - Never Say Never", mp3: "songs/01 Justin Bieber - Never Say Never.mp3", cover: "covers/never say never.jpg" },
+      { title: "01 Justin Bieber - Friends", mp3: "songs/01 Justin Bieber - Friends.mp3", cover: "covers/Friends.jpg" },
+      { title: "02 Justin Bieber - I'll Show You", mp3: "songs/02 Justin Bieber - I'll Show You.mp3", cover: "covers/purpose.jpg" },
+      { title: "03 Justin Bieber - What Do You Mean", mp3: "songs/03 Justin Bieber - What Do You Mean.mp3", cover: "covers/purpose.jpg" },
+      { title: "04 Justin Bieber - Sorry", mp3: "songs/04 Justin Bieber - Sorry.mp3", cover: "covers/purpose.jpg" },
+      { title: "06 Justin Bieber - Company", mp3: "songs/06 Justin Bieber - Company.mp3", cover: "covers/purpose.jpg" },
+      { title: "09 Justin Bieber - Where Are U Now", mp3: "songs/09 Justin Bieber - Where Are U Now.mp3", cover: "covers/where are you now.jpg" },
+      { title: "Justin Bieber - Peaches", mp3: "songs/Justin Bieber - Peaches.mp3", cover: "covers/justice.jpg" },
+      { title: "Justin Bieber - Somebody", mp3: "songs/Justin Bieber - Somebody.mp3", cover: "covers/justice.jpg" },
+      { title: "Justin Bieber - Honest", mp3: "songs/Justin Bieber - Honest.mp3", cover: "covers/honest.jpg" },
+      { title: "Justin Bieber - Intentions", mp3: "songs/Justin Bieber - Intentions.mp3", cover: "covers/changes.jpg" },
+      { title: "Justin Bieber - Come Around Me", mp3: "songs/Justin Bieber - Come Around Me.mp3", cover: "covers/changes.jpg" },
+      { title: "02 Justin Bieber - Under The Mistletoe", mp3: "songs/02 Justin Bieber - Under The Mistletoe.mp3", cover: "covers/under the mistletoe.jpg" },
+      { title: "12 Justin Bieber - Christmas Love", mp3: "songs/12 Justin Bieber - Christmas Love.mp3", cover: "covers/under the mistletoe.jpg" },
+      { title: "01 One Direction - What Makes You Beautiful", mp3: "songs/01 One Direction - What Makes You Beautiful.mp3", cover: "covers/up all night.jpg" },
+      { title: "02 One Direction - Gotta Be You", mp3: "songs/02 One Direction - Gotta Be You.mp3", cover: "covers/up all night.jpg" },
+      { title: "03 One Direction - One Thing", mp3: "songs/03 One Direction - One Thing.mp3", cover: "covers/up all night.jpg" },
+      { title: "04 One Direction - More Than This", mp3: "songs/04 One Direction - More Than This.mp3", cover: "covers/up all night.jpg" },
+      { title: "05 One Direction - Up All Night", mp3: "songs/05 One Direction - Up All Night.mp3", cover: "covers/up all night.jpg" },
+      { title: "01 One Direction - Live While We re Young", mp3: "songs/01 One Direction - Live While We re Young.mp3", cover: "covers/take me home.jpg" },
+      { title: "02 One Direction - Kiss You", mp3: "songs/02 One Direction - Kiss You.mp3", cover: "covers/take me home.jpg" },
+      { title: "One Direction - Best Song Ever", mp3: "songs/One Direction - Best Song Ever.mp3", cover: "covers/midnight memories.jpg" },
+      { title: "One Direction - Story of My Life", mp3: "songs/One Direction - Story of My Life.mp3", cover: "covers/midnight memories.jpg" },
+      { title: "04 One Direction - Midnight Memories", mp3: "songs/04 One Direction - Midnight Memories.mp3", cover: "covers/midnight memories.jpg" },
+      { title: "One Direction - You   I", mp3: "songs/One Direction - You   I.mp3", cover: "covers/midnight memories.jpg" },
+      { title: "01 One Direction - Steal My Girl", mp3: "songs/01 One Direction - Steal My Girl.mp3", cover: "covers/four.jpg" },
+      { title: "07 One Direction - Night Changes", mp3: "songs/07 One Direction - Night Changes.mp3", cover: "covers/four.jpg" },
+      { title: "02 One Direction - Drag Me Down", mp3: "songs/02 One Direction - Drag Me Down.mp3", cover: "covers/Made In The A.M..jpg" },
+      { title: "03 One Direction - Perfect", mp3: "songs03 One Direction - Perfect.mp3", cover: "covers/Made In The A.M..jpg" },
+      { title: "08 One Direction - Never Enough", mp3: "songs/08 One Direction - Never Enough.mp3", cover: "covers/Made In The A.M..jpg" },
+      { title: "13 One Direction - History", mp3: "songs/13 One Direction - History.mp3", cover: "covers/Made In The A.M..jpg" },,
+      { title: "01 Justin Bieber - Eenie Meenie", mp3: "songs/01 Justin Bieber - Eenie Meenie.mp3", cover: "covers/my world 2.0.jpg" },
+      { title: "09 Luis Fonsi - Despacito", mp3: "songs/09 Luis Fonsi - Despacito.mp3", cover: "covers/despacito.jpg" },
+      { title: "13 Luis Fonsi - Despacito (Remix)", mp3: "songs/13 Luis Fonsi - Despacito (Remix).mp3", cover: "covers/despacito.jpg" },
+      { title: "The Weeknd - Timeless", mp3: "songs/The Weeknd - Timeless.mp3", cover: "covers/timeless.jpg" },
+      { title: "Kendrick Lamar - luther", mp3: "songs/Kendrick Lamar - luther.mp3", cover: "covers/gnx.jpg" },
+      { title: "Kendrick Lamar - tv off", mp3: "songs/Kendrick Lamar - tv off.mp3", cover: "covers/gnx.jpg" },
+      { title: "Kendrick Lamar - peekaboo", mp3: "songs/Kendrick Lamar - peekaboo.mp3", cover: "covers/gnx.jpg" },
+      { title: "Kendrick Lamar - Not Like Us", mp3: "songs/Kendrick Lamar - Not Like Us.mp3", cover: "covers/not like us.jpg" },
+      { title: "11 Justin Timberlake - Not a Bad Thing", mp3: "songs/11 Justin Timberlake - Not a Bad Thing.mp3", cover: "covers/the2020experience.jpg" },
+      { title: "Justin Timberlake - Mirrors", mp3: "songs/Justin Timberlake - Mirrors.mp3", cover: "covers/the2020experience(deluxe version).jpg" },
+      { title: "01 Justin Timberlake - Can't Stop The Feeling", mp3: "songs/01 Justin Timberlake - Can't Stop The Feeling.mp3", cover: "covers/cant_stop_the_feeling.jpg" },
+      { title: "05 Nicki Minaj - Fly", mp3: "songs/05 Nicki Minaj - Fly.mp3", cover: "covers/pink friday.jpg" },
+      { title: "Nicki Minaj - Super Bass", mp3: "songs/Nicki Minaj - Super Bass.mp3", cover: "covers/pink friday.jpg" },
+      { title: "Nicki Minaj - Did It On em", mp3: "songs/Nicki Minaj - Did It On em.mp3", cover: "covers/pink friday.jpg" },
+      { title: "J. Cole - She Knows", mp3: "songs/J. Cole - She Knows.mp3", cover: "covers/Born Sinner.webp" },
+      { title: "01 Trey Songz - Animal", mp3: "songs/01 Trey Songz - Animal.mp3", cover: "covers/tremaine.jpg" },
+      { title: "04 Trey Songz - Heart Attack", mp3: "songs/04 Trey Songz - Heart Attack.mp3", cover: "covers/chapter v.jpg" },
+      { title: "12 Lil Wayne - How To Love", mp3: "songs/12 Lil Wayne - How To Love.mp3", cover: "covers/the carter iv.jpg" },
+      { title: "Lil Wayne - Mirror", mp3: "songs/Lil Wayne - Mirror.mp3", cover: "covers/the carter iv.jpg" },
     ];
 
     let currentIndex = 0;
     const audioPlayer = document.getElementById('audioPlayer');
     const coverImage = document.getElementById('coverImage');
     const songTitle = document.getElementById('songTitle');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const seekBar = document.getElementById('seekBar');
+    const currentTimeDisplay = document.getElementById('currentTime');
+    const totalTimeDisplay = document.getElementById('totalTime');
+    const sidebar = document.getElementById("playlistSidebar");
+    const searchInput = document.getElementById("searchInput");
+    const artistFilter = document.getElementById("artistFilter");
+    const albumFilter = document.getElementById("albumFilter");
 
-   function loadSong(index) {
+    function loadSong(index) {
       const song = playlist[index];
       audioPlayer.src = song.mp3;
       coverImage.src = song.cover;
       songTitle.textContent = song.title;
       audioPlayer.load();
-      audioPlayer.addEventListener('loadedmetadata', () => {
-        seekBar.max = Math.floor(audioPlayer.duration);
-        totalTimeDisplay.textContent = formatTime(audioPlayer.duration);
-      });
     }
 
     function playPause() {
@@ -116,7 +266,7 @@
         audioPlayer.play();
       } else {
         audioPlayer.pause();
-        audioPlayer.currentTime = 0; // "Close" the player
+        audioPlayer.currentTime = 0;
       }
     }
 
@@ -132,78 +282,129 @@
       audioPlayer.play();
     }
 
-    // Auto-play next song when current ends
-    audioPlayer.addEventListener('ended', nextSong);
+    audioPlayer.addEventListener('ended', () => {
+      if (isShuffle) {
+        currentIndex = Math.floor(Math.random() * playlist.length);
+      } else if (!audioPlayer.loop) {
+        currentIndex = (currentIndex + 1) % playlist.length;
+      }
+      loadSong(currentIndex);
+      audioPlayer.play();
+    });
 
-    // Load first song on startup
-    window.onload = () => loadSong(currentIndex);
+    volumeSlider.addEventListener('input', () => {
+      audioPlayer.volume = volumeSlider.value;
+    });
 
-    const volumeSlider = document.getElementById('volumeSlider');
-const seekBar = document.getElementById('seekBar');
-const currentTimeDisplay = document.getElementById('currentTime');
-const totalTimeDisplay = document.getElementById('totalTime');
+    audioPlayer.addEventListener('timeupdate', () => {
+      seekBar.value = Math.floor(audioPlayer.currentTime);
+      currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
+    });
 
-// Volume control
-volumeSlider.addEventListener('input', () => {
-  audioPlayer.volume = volumeSlider.value;
-});
+    seekBar.addEventListener('input', () => {
+      audioPlayer.currentTime = seekBar.value;
+    });
 
-// Seek control
-audioPlayer.addEventListener('timeupdate', () => {
-  seekBar.value = Math.floor(audioPlayer.currentTime);
-  currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
-});
+    audioPlayer.addEventListener('loadedmetadata', () => {
+      seekBar.max = Math.floor(audioPlayer.duration);
+      totalTimeDisplay.textContent = formatTime(audioPlayer.duration);
+    });
 
-seekBar.addEventListener('input', () => {
-  audioPlayer.currentTime = seekBar.value;
-});
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
 
-// Update seekBar max after metadata loads
-audioPlayer.addEventListener('loadedmetadata', () => {
-  seekBar.max = Math.floor(audioPlayer.duration);
-  totalTimeDisplay.textContent = formatTime(audioPlayer.duration);
-});
+    let isMuted = false;
+    let isLooping = false;
+    let isShuffle = false;
 
-// Format time in mm:ss
-function formatTime(seconds) {
-  const mins = Math.floor(seconds / 60);
-  const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-}
+    function toggleMute() {
+      isMuted = !isMuted;
+      audioPlayer.muted = isMuted;
+    }
 
-let isMuted = false;
-let isLooping = false;
-let isShuffle = false;
+    function toggleLoop() {
+      isLooping = !isLooping;
+      audioPlayer.loop = isLooping;
+    }
 
-// 🔇 Mute Toggle
-function toggleMute() {
-  isMuted = !isMuted;
-  audioPlayer.muted = isMuted;
-}
+    function toggleShuffle() {
+      isShuffle = !isShuffle;
+    }
 
-// 🔁 Loop Toggle
-function toggleLoop() {
-  isLooping = !isLooping;
-  audioPlayer.loop = isLooping;
-}
+    function parseArtist(title) {
+      const match = title.match(/^\d{0,2}?\s*([^-–]+)\s*[-–]/);
+      return match ? match[1].trim() : 'Unknown';
+    }
 
-// 🔀 Shuffle Toggle
-function toggleShuffle() {
-  isShuffle = !isShuffle;
-}
+    function parseAlbum(cover) {
+      return cover.split('/').pop().replace(/\.(jpg|jpeg|png|webp)/, '').replace(/[_-]/g, ' ');
+    }
 
-// 🔄 Modify 'ended' event for shuffle
-audioPlayer.addEventListener('ended', () => {
-  if (isShuffle) {
-    currentIndex = Math.floor(Math.random() * playlist.length);
-  } else if (!audioPlayer.loop) {
-    currentIndex = (currentIndex + 1) % playlist.length;
-  }
-  loadSong(currentIndex);
-  audioPlayer.play();
-});
+    function renderSidebar() {
+      sidebar.innerHTML = "";
+      const searchTerm = searchInput.value.toLowerCase();
+      const artistValue = artistFilter.value;
+      const albumValue = albumFilter.value;
 
+      playlist.forEach((song, index) => {
+        const artist = parseArtist(song.title);
+        const album = parseAlbum(song.cover);
+
+        const matchesSearch = song.title.toLowerCase().includes(searchTerm);
+        const matchesArtist = !artistValue || artist === artistValue;
+        const matchesAlbum = !albumValue || album === albumValue;
+
+        if (matchesSearch && matchesArtist && matchesAlbum) {
+          const li = document.createElement("li");
+          li.textContent = song.title;
+          li.onclick = () => {
+            currentIndex = index;
+            loadSong(currentIndex);
+            audioPlayer.play();
+          };
+          sidebar.appendChild(li);
+        }
+      });
+    }
+
+    function populateFilters() {
+      const artists = new Set();
+      const albums = new Set();
+
+      playlist.forEach(song => {
+        artists.add(parseArtist(song.title));
+        albums.add(parseAlbum(song.cover));
+      });
+
+      [...artists].sort().forEach(artist => {
+        const option = document.createElement("option");
+        option.value = artist;
+        option.textContent = artist;
+        artistFilter.appendChild(option);
+      });
+
+      [...albums].sort().forEach(album => {
+        const option = document.createElement("option");
+        option.value = album;
+        option.textContent = album;
+        albumFilter.appendChild(option);
+      });
+    }
+
+    searchInput.addEventListener("input", renderSidebar);
+    artistFilter.addEventListener("change", renderSidebar);
+    albumFilter.addEventListener("change", renderSidebar);
+
+    window.onload = () => {
+      loadSong(currentIndex);
+      populateFilters();
+      renderSidebar();
+    };
   </script>
 
 </body>
 </html>
+
