@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Powerful Time Teller</title>
+  <style>
+    body {
+      font-family: Century;
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+    .time {
+      font-size: 2.5em;
+      margin: 10px 0;
+    }
+    .zone {
+      font-size: 1.2em;
+      color: #aaa;
+    }
+    .time-container {
+      margin: 30px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>🕒 Powerful Time Teller</h1>
+
+  <div class="time-container">
+    <div class="time" id="localTime">Local Time: --:--:--</div>
+    <div class="zone" id="localZone">--</div>
+  </div>
+
+  <div class="time-container">
+    <div class="time" id="laTime">Los Angeles: --:--:--</div>
+    <div class="time" id="nyTime">New York: --:--:--</div>
+    <div class="time" id="londonTime">London: --:--:--</div>
+    <div class="time" id="berlinTime">Berlin: --:--:--</div>
+    <div class="time" id="tokyoTime">Tokyo: --:--:--</div>
+  </div>
+
+  <script>
+  function updateTime() {
+    const now = new Date();
+
+    const options12hr = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+
+    // Local Time
+    document.getElementById("localTime").textContent =
+      "Local Time: " + now.toLocaleTimeString("en-US", options12hr);
+    document.getElementById("localZone").textContent =
+      Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    // Cities in 12-hour format
+    const losAngeles = new Date().toLocaleTimeString("en-US", { ...options12hr, timeZone: "America/Los_Angeles" });
+    const newYork    = new Date().toLocaleTimeString("en-US", { ...options12hr, timeZone: "America/New_York" });
+    const london     = new Date().toLocaleTimeString("en-GB", { ...options12hr, timeZone: "Europe/London" });
+    const berlin     = new Date().toLocaleTimeString("de-DE", { ...options12hr, timeZone: "Europe/Berlin" });
+    const tokyo      = new Date().toLocaleTimeString("ja-JP", { ...options12hr, timeZone: "Asia/Tokyo" });
+
+    // Display
+    document.getElementById("laTime").textContent     = "Los Angeles: " + losAngeles;
+    document.getElementById("nyTime").textContent     = "New York: " + newYork;
+    document.getElementById("londonTime").textContent = "London: " + london;
+    document.getElementById("berlinTime").textContent = "Berlin: " + berlin;
+    document.getElementById("tokyoTime").textContent  = "Tokyo: " + tokyo;
+  }
+
+  setInterval(updateTime, 1000);
+  updateTime();
+  </script>
+</body>
+</html>
+
