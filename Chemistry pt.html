@@ -67,7 +67,19 @@
     .element:hover {
       background-color: #0077aa;
     }
-
+    .element:hover::after {
+      content: attr(data-name);
+      position: absolute;
+      background: #333;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      top: -35px;  
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+    }
     #dark-mode-toggle {
       margin: 10px auto;
       display: block;
@@ -138,6 +150,41 @@
       padding: 10px 0;
       margin-top: 20px;
     }
+    p {
+      font-size: 1.5em;
+      color: #333;
+      text-align: center;
+      margin-bottom: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    img {
+      display: block;
+      margin: 0 auto 20px auto;
+      width: 80%;
+      max-width: 600px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    a {
+      display: inline-block;
+      background-color: #007bff;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: background-color 0.3s ease;
+      text-align: center;
+    }
+
+    a:hover {
+      background-color: #0056b3;
+    }
+
   </style>
 </head>
 <body>
@@ -155,22 +202,132 @@
   </nav>
 
   <section id="periodic-table">
-    <h2>Interactive Periodic Table</h2>
-    <div id="periodic-container">
-      <button class="element" data-symbol="H" data-name="Hydrogen" data-atomic="1">H</button>
-      <button class="element" data-symbol="He" data-name="Helium" data-atomic="2">He</button>
-      <button class="element" data-symbol="Li" data-name="Lithium" data-atomic="3">Li</button>
-      <button class="element" data-symbol="Be" data-name="Beryllium" data-atomic="4">Be</button>
-      <button class="element" data-symbol="B" data-name="Boron" data-atomic="5">B</button>
-      <button class="element" data-symbol="C" data-name="Carbon" data-atomic="6">C</button>
-      <button class="element" data-symbol="N" data-name="Nitrogen" data-atomic="7">N</button>
-      <button class="element" data-symbol="O" data-name="Oxygen" data-atomic="8">O</button>
-      <button class="element" data-symbol="F" data-name="Fluorine" data-atomic="9">F</button>
-      <button class="element" data-symbol="Ne" data-name="Neon" data-atomic="10">Ne</button>
-    </div>
+  <h2>Interactive Periodic Table</h2>
+  <div id="periodic-container">
+    <!-- Period 1 -->
+    <button class="element" data-symbol="H" data-name="Hydrogen" data-atomic="1">H</button>
+    <button class="element" data-symbol="He" data-name="Helium" data-atomic="2">He</button>
+
+    <!-- Period 2 -->
+    <button class="element" data-symbol="Li" data-name="Lithium" data-atomic="3">Li</button>
+    <button class="element" data-symbol="Be" data-name="Beryllium" data-atomic="4">Be</button>
+    <button class="element" data-symbol="B" data-name="Boron" data-atomic="5">B</button>
+    <button class="element" data-symbol="C" data-name="Carbon" data-atomic="6">C</button>
+    <button class="element" data-symbol="N" data-name="Nitrogen" data-atomic="7">N</button>
+    <button class="element" data-symbol="O" data-name="Oxygen" data-atomic="8">O</button>
+    <button class="element" data-symbol="F" data-name="Fluorine" data-atomic="9">F</button>
+    <button class="element" data-symbol="Ne" data-name="Neon" data-atomic="10">Ne</button>
+
+    <!-- Period 3 -->
+    <button class="element" data-symbol="Na" data-name="Sodium" data-atomic="11">Na</button>
+    <button class="element" data-symbol="Mg" data-name="Magnesium" data-atomic="12">Mg</button>
+    <button class="element" data-symbol="Al" data-name="Aluminium" data-atomic="13">Al</button>
+    <button class="element" data-symbol="Si" data-name="Silicon" data-atomic="14">Si</button>
+    <button class="element" data-symbol="P" data-name="Phosphorus" data-atomic="15">P</button>
+    <button class="element" data-symbol="S" data-name="Sulfur" data-atomic="16">S</button>
+    <button class="element" data-symbol="Cl" data-name="Chlorine" data-atomic="17">Cl</button>
+    <button class="element" data-symbol="Ar" data-name="Argon" data-atomic="18">Ar</button>
+
+    <!-- Period 4 -->
+    <button class="element" data-symbol="K" data-name="Potassium" data-atomic="19">K</button>
+    <button class="element" data-symbol="Ca" data-name="Calcium" data-atomic="20">Ca</button>
+    <button class="element" data-symbol="Sc" data-name="Scandium" data-atomic="21">Sc</button>
+    <button class="element" data-symbol="Ti" data-name="Titanium" data-atomic="22">Ti</button>
+    <button class="element" data-symbol="V" data-name="Vanadium" data-atomic="23">V</button>
+    <button class="element" data-symbol="Cr" data-name="Chromium" data-atomic="24">Cr</button>
+    <button class="element" data-symbol="Mn" data-name="Manganese" data-atomic="25">Mn</button>
+    <button class="element" data-symbol="Fe" data-name="Iron" data-atomic="26">Fe</button>
+    <button class="element" data-symbol="Co" data-name="Cobalt" data-atomic="27">Co</button>
+    <button class="element" data-symbol="Ni" data-name="Nickel" data-atomic="28">Ni</button>
+    <button class="element" data-symbol="Cu" data-name="Copper" data-atomic="29">Cu</button>
+    <button class="element" data-symbol="Zn" data-name="Zinc" data-atomic="30">Zn</button>
+    <button class="element" data-symbol="Ga" data-name="Gallium" data-atomic="31">Ga</button>
+    <button class="element" data-symbol="Ge" data-name="Germanium" data-atomic="32">Ge</button>
+    <button class="element" data-symbol="As" data-name="Arsenic" data-atomic="33">As</button>
+    <button class="element" data-symbol="Se" data-name="Selenium" data-atomic="34">Se</button>
+    <button class="element" data-symbol="Br" data-name="Bromine" data-atomic="35">Br</button>
+    <button class="element" data-symbol="Kr" data-name="Krypton" data-atomic="36">Kr</button>
+
+    <!-- Period 5 -->
+    <button class="element" data-symbol="Rb" data-name="Rubidium" data-atomic="37">Rb</button>
+    <button class="element" data-symbol="Sr" data-name="Strontium" data-atomic="38">Sr</button>
+    <button class="element" data-symbol="Y" data-name="Yttrium" data-atomic="39">Y</button>
+    <button class="element" data-symbol="Zr" data-name="Zirconium" data-atomic="40">Zr</button>
+    <button class="element" data-symbol="Nb" data-name="Niobium" data-atomic="41">Nb</button>
+    <button class="element" data-symbol="Mo" data-name="Molybdenum" data-atomic="42">Mo</button>
+    <button class="element" data-symbol="Tc" data-name="Technetium" data-atomic="43">Tc</button>
+    <button class="element" data-symbol="Ru" data-name="Ruthenium" data-atomic="44">Ru</button>
+    <button class="element" data-symbol="Rh" data-name="Rhodium" data-atomic="45">Rh</button>
+    <button class="element" data-symbol="Pd" data-name="Palladium" data-atomic="46">Pd</button>
+    <button class="element" data-symbol="Ag" data-name="Silver" data-atomic="47">Ag</button>
+    <button class="element" data-symbol="Cd" data-name="Cadmium" data-atomic="48">Cd</button>
+    <button class="element" data-symbol="In" data-name="Indium" data-atomic="49">In</button>
+    <button class="element" data-symbol="Sn" data-name="Tin" data-atomic="50">Sn</button>
+    <button class="element" data-symbol="Sb" data-name="Antimony" data-atomic="51">Sb</button>
+    <button class="element" data-symbol="Te" data-name="Tellurium" data-atomic="52">Te</button>
+    <button class="element" data-symbol="I" data-name="Iodine" data-atomic="53">I</button>
+    <button class="element" data-symbol="Xe" data-name="Xenon" data-atomic="54">Xe</button>
+
+    <!-- Period 6 -->
+    <button class="element" data-symbol="Cs" data-name="Cesium" data-atomic="55">Cs</button>
+    <button class="element" data-symbol="Ba" data-name="Barium" data-atomic="56">Ba</button>
+    <button class="element" data-symbol="La" data-name="Lanthanum" data-atomic="57">La</button>
+    <button class="element" data-symbol="Ce" data-name="Cerium" data-atomic="58">Ce</button>
+    <button class="element" data-symbol="Pr" data-name="Praseodymium" data-atomic="59">Pr</button>
+    <button class="element" data-symbol="Nd" data-name="Neodymium" data-atomic="60">Nd</button>
+    <button class="element" data-symbol="Pm" data-name="Promethium" data-atomic="61">Pm</button>
+    <button class="element" data-symbol="Sm" data-name="Samarium" data-atomic="62">Sm</button>
+    <button class="element" data-symbol="Eu" data-name="Europium" data-atomic="63">Eu</button>
+    <button class="element" data-symbol="Gd" data-name="Gadolinium" data-atomic="64">Gd</button>
+    <button class="element" data-symbol="Tb" data-name="Terbium" data-atomic="65">Tb</button>
+    <button class="element" data-symbol="Dy" data-name="Dysprosium" data-atomic="66">Dy</button>
+    <button class="element" data-symbol="Ho" data-name="Holmium" data-atomic="67">Ho</button>
+    <button class="element" data-symbol="Er" data-name="Erbium" data-atomic="68">Er</button>
+    <button class="element" data-symbol="Tm" data-name="Thulium" data-atomic="69">Tm</button>
+    <button class="element" data-symbol="Yb" data-name="Ytterbium" data-atomic="70">Yb</button>
+    <button class="element" data-symbol="Lu" data-name="Lutetium" data-atomic="71">Lu</button>
+
+    <!-- Period 7 -->
+    <button class="element" data-symbol="Fr" data-name="Francium" data-atomic="87">Fr</button>
+    <button class="element" data-symbol="Ra" data-name="Radium" data-atomic="88">Ra</button>
+    <button class="element" data-symbol="Ac" data-name="Actinium" data-atomic="89">Ac</button>
+    <button class="element" data-symbol="Th" data-name="Thorium" data-atomic="90">Th</button>
+    <button class="element" data-symbol="Pa" data-name="Protactinium" data-atomic="91">Pa</button>
+    <button class="element" data-symbol="U" data-name="Uranium" data-atomic="92">U</button>
+    <button class="element" data-symbol="Np" data-name="Neptunium" data-atomic="93">Np</button>
+    <button class="element" data-symbol="Pu" data-name="Plutonium" data-atomic="94">Pu</button>
+    <button class="element" data-symbol="Am" data-name="Americium" data-atomic="95">Am</button>
+    <button class="element" data-symbol="Cm" data-name="Curium" data-atomic="96">Cm</button>
+    <button class="element" data-symbol="Bk" data-name="Berkelium" data-atomic="97">Bk</button>
+    <button class="element" data-symbol="Cf" data-name="Californium" data-atomic="98">Cf</button>
+    <button class="element" data-symbol="Es" data-name="Einsteinium" data-atomic="99">Es</button>
+    <button class="element" data-symbol="Fm" data-name="Fermium" data-atomic="100">Fm</button>
+    <button class="element" data-symbol="Md" data-name="Mendelevium" data-atomic="101">Md</button>
+    <button class="element" data-symbol="No" data-name="Nobelium" data-atomic="102">No</button>
+    <button class="element" data-symbol="Lr" data-name="Lawrencium" data-atomic="103">Lr</button>
+    <button class="element" data-symbol="Rf" data-name="Rutherfordium" data-atomic="104">Rf</button>
+    <button class="element" data-symbol="Db" data-name="Dubnium" data-atomic="105">Db</button>
+    <button class="element" data-symbol="Sg" data-name="Seaborgium" data-atomic="106">Sg</button>
+    <button class="element" data-symbol="Bh" data-name="Bohrium" data-atomic="107">Bh</button>
+    <button class="element" data-symbol="Hs" data-name="Hassium" data-atomic="108">Hs</button>
+    <button class="element" data-symbol="Mt" data-name="Meitnerium" data-atomic="109">Mt</button>
+    <button class="element" data-symbol="Ds" data-name="Darmstadtium" data-atomic="110">Ds</button>
+    <button class="element" data-symbol="Rg" data-name="Roentgenium" data-atomic="111">Rg</button>
+    <button class="element" data-symbol="Cn" data-name="Copernicium" data-atomic="112">Cn</button>
+    <button class="element" data-symbol="Nh" data-name="Nihonium" data-atomic="113">Nh</button>
+    <button class="element" data-symbol="Fl" data-name="Flerovium" data-atomic="114">Fl</button>
+    <button class="element" data-symbol="Mc" data-name="Moscovium" data-atomic="115">Mc</button>
+    <button class="element" data-symbol="Lv" data-name="Livermorium" data-atomic="116">Lv</button>
+    <button class="element" data-symbol="Ts" data-name="Tennessine" data-atomic="117">Ts</button>
+    <button class="element" data-symbol="Og" data-name="Oganesson" data-atomic="118">Og</button>
+  </div>
+</section>
+
+
 
     <p>The Periodic Table from PubChem</p>
     <img src="images/PubChem pt.jpeg">
+    <a href="https://pubchem.ncbi.nlm.nih.gov/periodic-table/#property=GroupBlock" target="_blank">Check this out!</a>
     
 
     <div id="element-modal" class="modal">
@@ -202,7 +359,7 @@
         document.getElementById('element-modal').style.display = 'block';
       });
     });
-
+  
     document.querySelector('.close').onclick = function () {
       document.getElementById('element-modal').style.display = 'none';
     };
