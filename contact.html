@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Contact Me</title>
   <!-- Font Awesome CDN -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  integrity="sha512-xxx…"
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+<link rel="icon" href="webd.ico" type="image/x-icon" />
+
   <style>
     * {
       margin: 0;
@@ -103,7 +112,29 @@
      font-size: 1.8em;
      transition: transform 0.3s ease, color 0.3s ease;
      text-decoration: none;
+     display: inline-block;
     }
+
+/* Apply animation to both icons and images */
+    .social-media a i,
+    .social-media a img {
+     transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+/* Hover effect for both icons and images */
+    .social-media a:hover i,
+    .social-media a:hover img {
+     transform: scale(1.2);
+     filter: brightness(1.2);
+    }
+    
+	.social-media a img {
+     width: 28px;
+     height: 28px;
+     border-radius: 50%;
+     vertical-align: middle;
+    }
+
 
     .social-media a .fa-facebook-f { color: #1877f2; }
     .social-media a .fa-instagram { color: #e1306c; }
@@ -111,11 +142,8 @@
     .social-media a .fa-github { color: #fff; }
     .social-media a .fa-youtube { color: #ff0000; }
     .social-media a .fa-telegram { color: #0088cc; }
+    .social-media a .fa-threads {color: #000000; }
 
-    .social-media a:hover {
-     transform: scale(1.2);
-     filter: brightness(1.2);
-    }
   </style>
 </head>
 <body>
@@ -136,6 +164,11 @@
          <a href="https://github.com/Some25Coding" target="_blank"><i class="fab fa-github"></i></a>
          <a href="https://www.youtube.com/@usersoressaaddisu" target="_blank"><i class="fab fa-youtube"></i></a>
 		 <a href="https://t.me/SrAs31" target="_blank"><i class="fab fa-telegram"></i></a>
+		 <a href="https://www.threads.net/@soressaaddisu11" target="_blank"><i class="fa-brands fa-threads"></i></i></a>
+
+
+
+
         </div>
       </div>
      
