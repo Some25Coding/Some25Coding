@@ -23,13 +23,85 @@
       margin: 20px auto;
     }
     .element {
-      position: relative;
-      background-color: #0099cc; color: #fff;
-      border: none; font-size: 14px;
-      cursor: pointer; text-align: center;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 4px;
-    }
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+  cursor: default;
+  user-select: none;
+  color: #000;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Groups with distinct background colors */
+.alkali-metal {
+  background-color: #ff6666; /* Light Red */
+  color: white;
+}
+
+.alkaline-earth-metal {
+  background-color: #ffcc66; /* Light Orange */
+  color: black;
+}
+
+.transition-metal {
+  background-color: #66ccff; /* Light Blue */
+  color: black;
+}
+
+.post-transition-metal {
+  background-color: #cccccc; /* Gray */
+  color: black;
+}
+
+.metalloid {
+  background-color: #ffff66; /* Yellow */
+  color: black;
+}
+
+.nonmetal {
+  background-color: #66ff66; /* Light Green */
+  color: black;
+}
+
+.halogen {
+  background-color: #ff66ff; /* Pink */
+  color: black;
+}
+
+.noble-gas {
+  background-color: #9999ff; /* Light Purple */
+  color: black;
+}
+
+.lanthanide {
+  background-color: #ffccff; /* Light Purple Pink */
+  color: black;
+}
+
+.actinide {
+  background-color: #ff99cc; /* Magenta */
+  color: black;
+}
+.alkali-metal       { background-color: #ff6666; }
+.alkaline-earth     { background-color: #ffdead; }
+.transition-metal   { background-color: #ffc966; }
+.metalloid          { background-color: #cccccc; }
+.nonmetal           { background-color: #99ccff; }
+.halogen            { background-color: #66ffcc; }
+.noble-gas          { background-color: #c299ff; }
+.lanthanide         { background-color: #ffb3e6; }
+.actinide           { background-color: #ff99cc; }
+.post-transition    { background-color: #d9d9d9; }
+.unknown            { background-color: #e0e0e0; }
+
+
+/* Add hover effect if you want */
+.element:hover {
+  filter: brightness(110%);
+  transition: filter 0.3s;
+}
+
     .element:hover { background-color: #0077aa; }
     .element:hover::after {
       content: attr(data-symbol) " • " attr(data-name);
@@ -84,145 +156,143 @@
   <h2>Periodic Table (Grid)</h2>
   <div id="periodic-container">
     <!-- Period 1 -->
-<button class="element" style="grid-column:1; grid-row:1;" data-symbol="H" data-name="Hydrogen" data-atomic="1">H<br>Hydrogen</button>
-<button class="element" style="grid-column:18; grid-row:1;" data-symbol="He" data-name="Helium" data-atomic="2">He<br>Helium</button>
+    <button class="element nonmetal" style="grid-column:1; grid-row:1;" data-symbol="H" data-name="Hydrogen" data-atomic="1">H<br>Hydrogen</button>
+    <button class="element noble-gas" style="grid-column:18; grid-row:1;" data-symbol="He" data-name="Helium" data-atomic="2">He<br>Helium</button>
 
-<!-- Period 2 -->
-<button class="element" style="grid-column:1; grid-row:2;" data-symbol="Li" data-name="Lithium" data-atomic="3">Li<br>Lithium</button>
-<button class="element" style="grid-column:2; grid-row:2;" data-symbol="Be" data-name="Beryllium" data-atomic="4">Be<br>Beryllium</button>
-<button class="element" style="grid-column:13; grid-row:2;" data-symbol="B" data-name="Boron" data-atomic="5">B<br>Boron</button>
-<button class="element" style="grid-column:14; grid-row:2;" data-symbol="C" data-name="Carbon" data-atomic="6">C<br>Carbon</button>
-<button class="element" style="grid-column:15; grid-row:2;" data-symbol="N" data-name="Nitrogen" data-atomic="7">N<br>Nitrogen</button>
-<button class="element" style="grid-column:16; grid-row:2;" data-symbol="O" data-name="Oxygen" data-atomic="8">O<br>Oxygen</button>
-<button class="element" style="grid-column:17; grid-row:2;" data-symbol="F" data-name="Fluorine" data-atomic="9">F<br>Fluorine</button>
-<button class="element" style="grid-column:18; grid-row:2;" data-symbol="Ne" data-name="Neon" data-atomic="10">Ne<br>Neon</button>
+    <!-- Period 2 -->
+    <button class="element alkali-metal" style="grid-column:1; grid-row:2;" data-symbol="Li" data-name="Lithium" data-atomic="3">Li<br>Lithium</button>
+    <button class="element alkaline-earth-metal" style="grid-column:2; grid-row:2;" data-symbol="Be" data-name="Beryllium" data-atomic="4">Be<br>Beryllium</button>
+    <button class="element metalloid" style="grid-column:13; grid-row:2;" data-symbol="B" data-name="Boron" data-atomic="5">B<br>Boron</button>
+    <button class="element nonmetal" style="grid-column:14; grid-row:2;" data-symbol="C" data-name="Carbon" data-atomic="6">C<br>Carbon</button>
+    <button class="element nonmetal" style="grid-column:15; grid-row:2;" data-symbol="N" data-name="Nitrogen" data-atomic="7">N<br>Nitrogen</button>
+    <button class="element nonmetal" style="grid-column:16; grid-row:2;" data-symbol="O" data-name="Oxygen" data-atomic="8">O<br>Oxygen</button>
+    <button class="element halogen" style="grid-column:17; grid-row:2;" data-symbol="F" data-name="Fluorine" data-atomic="9">F<br>Fluorine</button>
+    <button class="element noble-gas" style="grid-column:18; grid-row:2;" data-symbol="Ne" data-name="Neon" data-atomic="10">Ne<br>Neon</button>
 
-<!-- Period 3 -->
-<button class="element" style="grid-column:1; grid-row:3;" data-symbol="Na" data-name="Sodium" data-atomic="11">Na<br>Sodium</button>
-<button class="element" style="grid-column:2; grid-row:3;" data-symbol="Mg" data-name="Magnesium" data-atomic="12">Mg<br>Magnesium</button>
-<button class="element" style="grid-column:13; grid-row:3;" data-symbol="Al" data-name="Aluminium" data-atomic="13">Al<br>Aluminium</button>
-<button class="element" style="grid-column:14; grid-row:3;" data-symbol="Si" data-name="Silicon" data-atomic="14">Si<br>Silicon</button>
-<button class="element" style="grid-column:15; grid-row:3;" data-symbol="P" data-name="Phosphorus" data-atomic="15">P<br>Phosphorus</button>
-<button class="element" style="grid-column:16; grid-row:3;" data-symbol="S" data-name="Sulfur" data-atomic="16">S<br>Sulfur</button>
-<button class="element" style="grid-column:17; grid-row:3;" data-symbol="Cl" data-name="Chlorine" data-atomic="17">Cl<br>Chlorine</button>
-<button class="element" style="grid-column:18; grid-row:3;" data-symbol="Ar" data-name="Argon" data-atomic="18">Ar<br>Argon</button>
+    <!-- Period 3 -->
+    <button class="element alkali-metal" style="grid-column:1; grid-row:3;" data-symbol="Na" data-name="Sodium" data-atomic="11">Na<br>Sodium</button>
+    <button class="element alkaline-earth-metal" style="grid-column:2; grid-row:3;" data-symbol="Mg" data-name="Magnesium" data-atomic="12">Mg<br>Magnesium</button>
+    <button class="element post-transition-metal" style="grid-column:13; grid-row:3;" data-symbol="Al" data-name="Aluminium" data-atomic="13">Al<br>Aluminium</button>
+    <button class="element metalloid" style="grid-column:14; grid-row:3;" data-symbol="Si" data-name="Silicon" data-atomic="14">Si<br>Silicon</button>
+    <button class="element nonmetal" style="grid-column:15; grid-row:3;" data-symbol="P" data-name="Phosphorus" data-atomic="15">P<br>Phosphorus</button>
+    <button class="element nonmetal" style="grid-column:16; grid-row:3;" data-symbol="S" data-name="Sulfur" data-atomic="16">S<br>Sulfur</button>
+    <button class="element halogen" style="grid-column:17; grid-row:3;" data-symbol="Cl" data-name="Chlorine" data-atomic="17">Cl<br>Chlorine</button>
+    <button class="element noble-gas" style="grid-column:18; grid-row:3;" data-symbol="Ar" data-name="Argon" data-atomic="18">Ar<br>Argon</button>
 
-<!-- Period 4 -->
-<button class="element" style="grid-column:1; grid-row:4;" data-symbol="K" data-name="Potassium" data-atomic="19">K<br>Potassium</button>
-<button class="element" style="grid-column:2; grid-row:4;" data-symbol="Ca" data-name="Calcium" data-atomic="20">Ca<br>Calcium</button>
-<button class="element" style="grid-column:3; grid-row:4;" data-symbol="Sc" data-name="Scandium" data-atomic="21">Sc<br>Scandium</button>
-<button class="element" style="grid-column:4; grid-row:4;" data-symbol="Ti" data-name="Titanium" data-atomic="22">Ti<br>Titanium</button>
-<button class="element" style="grid-column:5; grid-row:4;" data-symbol="V" data-name="Vanadium" data-atomic="23">V<br>Vanadium</button>
-<button class="element" style="grid-column:6; grid-row:4;" data-symbol="Cr" data-name="Chromium" data-atomic="24">Cr<br>Chromium</button>
-<button class="element" style="grid-column:7; grid-row:4;" data-symbol="Mn" data-name="Manganese" data-atomic="25">Mn<br>Manganese</button>
-<button class="element" style="grid-column:8; grid-row:4;" data-symbol="Fe" data-name="Iron" data-atomic="26">Fe<br>Iron</button>
-<button class="element" style="grid-column:9; grid-row:4;" data-symbol="Co" data-name="Cobalt" data-atomic="27">Co<br>Cobalt</button>
-<button class="element" style="grid-column:10; grid-row:4;" data-symbol="Ni" data-name="Nickel" data-atomic="28">Ni<br>Nickel</button>
-<button class="element" style="grid-column:11; grid-row:4;" data-symbol="Cu" data-name="Copper" data-atomic="29">Cu<br>Copper</button>
-<button class="element" style="grid-column:12; grid-row:4;" data-symbol="Zn" data-name="Zinc" data-atomic="30">Zn<br>Zinc</button>
-<button class="element" style="grid-column:13; grid-row:4;" data-symbol="Ga" data-name="Gallium" data-atomic="31">Ga<br>Gallium</button>
-<button class="element" style="grid-column:14; grid-row:4;" data-symbol="Ge" data-name="Germanium" data-atomic="32">Ge<br>Germanium</button>
-<button class="element" style="grid-column:15; grid-row:4;" data-symbol="As" data-name="Arsenic" data-atomic="33">As<br>Arsenic</button>
-<button class="element" style="grid-column:16; grid-row:4;" data-symbol="Se" data-name="Selenium" data-atomic="34">Se<br>Selenium</button>
-<button class="element" style="grid-column:17; grid-row:4;" data-symbol="Br" data-name="Bromine" data-atomic="35">Br<br>Bromine</button>
-<button class="element" style="grid-column:18; grid-row:4;" data-symbol="Kr" data-name="Krypton" data-atomic="36">Kr<br>Krypton</button>
+    <!-- Period 4 -->
+    <button class="element alkali-metal" style="grid-column:1; grid-row:4;" data-symbol="K" data-name="Potassium" data-atomic="19">K<br>Potassium</button>
+    <button class="element alkaline-earth-metal" style="grid-column:2; grid-row:4;" data-symbol="Ca" data-name="Calcium" data-atomic="20">Ca<br>Calcium</button>
+    <button class="element transition-metal" style="grid-column:3; grid-row:4;" data-symbol="Sc" data-name="Scandium" data-atomic="21">Sc<br>Scandium</button>
+    <button class="element transition-metal" style="grid-column:4; grid-row:4;" data-symbol="Ti" data-name="Titanium" data-atomic="22">Ti<br>Titanium</button>
+    <button class="element transition-metal" style="grid-column:5; grid-row:4;" data-symbol="V" data-name="Vanadium" data-atomic="23">V<br>Vanadium</button>
+    <button class="element transition-metal" style="grid-column:6; grid-row:4;" data-symbol="Cr" data-name="Chromium" data-atomic="24">Cr<br>Chromium</button>
+    <button class="element transition-metal" style="grid-column:7; grid-row:4;" data-symbol="Mn" data-name="Manganese" data-atomic="25">Mn<br>Manganese</button>
+    <button class="element transition-metal" style="grid-column:8; grid-row:4;" data-symbol="Fe" data-name="Iron" data-atomic="26">Fe<br>Iron</button>
+    <button class="element transition-metal" style="grid-column:9; grid-row:4;" data-symbol="Co" data-name="Cobalt" data-atomic="27">Co<br>Cobalt</button>
+    <button class="element transition-metal" style="grid-column:10; grid-row:4;" data-symbol="Ni" data-name="Nickel" data-atomic="28">Ni<br>Nickel</button>
+    <button class="element transition-metal" style="grid-column:11; grid-row:4;" data-symbol="Cu" data-name="Copper" data-atomic="29">Cu<br>Copper</button>
+    <button class="element transition-metal" style="grid-column:12; grid-row:4;" data-symbol="Zn" data-name="Zinc" data-atomic="30">Zn<br>Zinc</button>
+    <button class="element post-transition-metal" style="grid-column:13; grid-row:4;" data-symbol="Ga" data-name="Gallium" data-atomic="31">Ga<br>Gallium</button>
+    <button class="element metalloid" style="grid-column:14; grid-row:4;" data-symbol="Ge" data-name="Germanium" data-atomic="32">Ge<br>Germanium</button>
+    <button class="element metalloid" style="grid-column:15; grid-row:4;" data-symbol="As" data-name="Arsenic" data-atomic="33">As<br>Arsenic</button>
+    <button class="element nonmetal" style="grid-column:16; grid-row:4;" data-symbol="Se" data-name="Selenium" data-atomic="34">Se<br>Selenium</button>
+    <button class="element halogen" style="grid-column:17; grid-row:4;" data-symbol="Br" data-name="Bromine" data-atomic="35">Br<br>Bromine</button>
+    <button class="element noble-gas" style="grid-column:18; grid-row:4;" data-symbol="Kr" data-name="Krypton" data-atomic="36">Kr<br>Krypton</button>
 
     <!-- Period 5 -->
-<button class="element" style="grid-column:1; grid-row:5;" data-symbol="Rb" data-name="Rubidium" data-atomic="37">Rb<br>Rubidium</button>
-<button class="element" style="grid-column:2; grid-row:5;" data-symbol="Sr" data-name="Strontium" data-atomic="38">Sr<br>Strontium</button>
-<button class="element" style="grid-column:3; grid-row:5;" data-symbol="Y" data-name="Yttrium" data-atomic="39">Y<br>Yttrium</button>
-<button class="element" style="grid-column:4; grid-row:5;" data-symbol="Zr" data-name="Zirconium" data-atomic="40">Zr<br>Zirconium</button>
-<button class="element" style="grid-column:5; grid-row:5;" data-symbol="Nb" data-name="Niobium" data-atomic="41">Nb<br>Niobium</button>
-<button class="element" style="grid-column:6; grid-row:5;" data-symbol="Mo" data-name="Molybdenum" data-atomic="42">Mo<br>Molybdenum</button>
-<button class="element" style="grid-column:7; grid-row:5;" data-symbol="Tc" data-name="Technetium" data-atomic="43">Tc<br>Technetium</button>
-<button class="element" style="grid-column:8; grid-row:5;" data-symbol="Ru" data-name="Ruthenium" data-atomic="44">Ru<br>Ruthenium</button>
-<button class="element" style="grid-column:9; grid-row:5;" data-symbol="Rh" data-name="Rhodium" data-atomic="45">Rh<br>Rhodium</button>
-<button class="element" style="grid-column:10; grid-row:5;" data-symbol="Pd" data-name="Palladium" data-atomic="46">Pd<br>Palladium</button>
-<button class="element" style="grid-column:11; grid-row:5;" data-symbol="Ag" data-name="Silver" data-atomic="47">Ag<br>Silver</button>
-<button class="element" style="grid-column:12; grid-row:5;" data-symbol="Cd" data-name="Cadmium" data-atomic="48">Cd<br>Cadmium</button>
-<button class="element" style="grid-column:13; grid-row:5;" data-symbol="In" data-name="Indium" data-atomic="49">In<br>Indium</button>
-<button class="element" style="grid-column:14; grid-row:5;" data-symbol="Sn" data-name="Tin" data-atomic="50">Sn<br>Tin</button>
-<button class="element" style="grid-column:15; grid-row:5;" data-symbol="Sb" data-name="Antimony" data-atomic="51">Sb<br>Antimony</button>
-<button class="element" style="grid-column:16; grid-row:5;" data-symbol="Te" data-name="Tellurium" data-atomic="52">Te<br>Tellurium</button>
-<button class="element" style="grid-column:17; grid-row:5;" data-symbol="I" data-name="Iodine" data-atomic="53">I<br>Iodine</button>
-<button class="element" style="grid-column:18; grid-row:5;" data-symbol="Xe" data-name="Xenon" data-atomic="54">Xe<br>Xenon</button>
-
+    <button class="element alkali-metal" style="grid-column:1; grid-row:5;" data-symbol="Rb" data-name="Rubidium" data-atomic="37">Rb<br>Rubidium</button>
+    <button class="element alkaline-earth-metal" style="grid-column:2; grid-row:5;" data-symbol="Sr" data-name="Strontium" data-atomic="38">Sr<br>Strontium</button>
+    <button class="element transition-metal" style="grid-column:3; grid-row:5;" data-symbol="Y" data-name="Yttrium" data-atomic="39">Y<br>Yttrium</button>
+    <button class="element transition-metal" style="grid-column:4; grid-row:5;" data-symbol="Zr" data-name="Zirconium" data-atomic="40">Zr<br>Zirconium</button>
+    <button class="element transition-metal" style="grid-column:5; grid-row:5;" data-symbol="Nb" data-name="Niobium" data-atomic="41">Nb<br>Niobium</button>
+    <button class="element transition-metal" style="grid-column:6; grid-row:5;" data-symbol="Mo" data-name="Molybdenum" data-atomic="42">Mo<br>Molybdenum</button>
+    <button class="element transition-metal" style="grid-column:7; grid-row:5;" data-symbol="Tc" data-name="Technetium" data-atomic="43">Tc<br>Technetium</button>
+    <button class="element transition-metal" style="grid-column:8; grid-row:5;" data-symbol="Ru" data-name="Ruthenium" data-atomic="44">Ru<br>Ruthenium</button>
+    <button class="element transition-metal" style="grid-column:9; grid-row:5;" data-symbol="Rh" data-name="Rhodium" data-atomic="45">Rh<br>Rhodium</button>
+    <button class="element transition-metal" style="grid-column:10; grid-row:5;" data-symbol="Pd" data-name="Palladium" data-atomic="46">Pd<br>Palladium</button>
+    <button class="element transition-metal" style="grid-column:11; grid-row:5;" data-symbol="Ag" data-name="Silver" data-atomic="47">Ag<br>Silver</button>
+    <button class="element transition-metal" style="grid-column:12; grid-row:5;" data-symbol="Cd" data-name="Cadmium" data-atomic="48">Cd<br>Cadmium</button>
+    <button class="element post-transition-metal" style="grid-column:13; grid-row:5;" data-symbol="In" data-name="Indium" data-atomic="49">In<br>Indium</button>
+    <button class="element post-transition-metal" style="grid-column:14; grid-row:5;" data-symbol="Sn" data-name="Tin" data-atomic="50">Sn<br>Tin</button>
+    <button class="element metalloid" style="grid-column:15; grid-row:5;" data-symbol="Sb" data-name="Antimony" data-atomic="51">Sb<br>Antimony</button>
+    <button class="element metalloid" style="grid-column:16; grid-row:5;" data-symbol="Te" data-name="Tellurium" data-atomic="52">Te<br>Tellurium</button>
+    <button class="element halogen" style="grid-column:17; grid-row:5;" data-symbol="I" data-name="Iodine" data-atomic="53">I<br>Iodine</button>
+    <button class="element noble-gas" style="grid-column:18; grid-row:5;" data-symbol="Xe" data-name="Xenon" data-atomic="54">Xe<br>Xenon</button>
 
     <!-- Period 6 -->
-<button class="element" style="grid-column:1; grid-row:6;" data-symbol="Cs" data-name="Cesium" data-atomic="55">Cs<br>Cesium</button>
-<button class="element" style="grid-column:2; grid-row:6;" data-symbol="Ba" data-name="Barium" data-atomic="56">Ba<br>Barium</button>
-<button class="element" style="grid-column:3; grid-row:6;" data-symbol="La" data-name="Lanthanum" data-atomic="57">La<br>Lanthanum</button>
-<button class="element" style="grid-column:4; grid-row:6;" data-symbol="Hf" data-name="Hafnium" data-atomic="72">Hf<br>Hafnium</button>
-<button class="element" style="grid-column:5; grid-row:6;" data-symbol="Ta" data-name="Tantalum" data-atomic="73">Ta<br>Tantalum</button>
-<button class="element" style="grid-column:6; grid-row:6;" data-symbol="W" data-name="Tungsten" data-atomic="74">W<br>Tungsten</button>
-<button class="element" style="grid-column:7; grid-row:6;" data-symbol="Re" data-name="Rhenium" data-atomic="75">Re<br>Rhenium</button>
-<button class="element" style="grid-column:8; grid-row:6;" data-symbol="Os" data-name="Osmium" data-atomic="76">Os<br>Osmium</button>
-<button class="element" style="grid-column:9; grid-row:6;" data-symbol="Ir" data-name="Iridium" data-atomic="77">Ir<br>Iridium</button>
-<button class="element" style="grid-column:10; grid-row:6;" data-symbol="Pt" data-name="Platinum" data-atomic="78">Pt<br>Platinum</button>
-<button class="element" style="grid-column:11; grid-row:6;" data-symbol="Au" data-name="Gold" data-atomic="79">Au<br>Gold</button>
-<button class="element" style="grid-column:12; grid-row:6;" data-symbol="Hg" data-name="Mercury" data-atomic="80">Hg<br>Mercury</button>
-<button class="element" style="grid-column:13; grid-row:6;" data-symbol="Tl" data-name="Thallium" data-atomic="81">Tl<br>Thallium</button>
-<button class="element" style="grid-column:14; grid-row:6;" data-symbol="Pb" data-name="Lead" data-atomic="82">Pb<br>Lead</button>
-<button class="element" style="grid-column:15; grid-row:6;" data-symbol="Bi" data-name="Bismuth" data-atomic="83">Bi<br>Bismuth</button>
-<button class="element" style="grid-column:16; grid-row:6;" data-symbol="Po" data-name="Polonium" data-atomic="84">Po<br>Polonium</button>
-<button class="element" style="grid-column:17; grid-row:6;" data-symbol="At" data-name="Astatine" data-atomic="85">At<br>Astatine</button>
-<button class="element" style="grid-column:18; grid-row:6;" data-symbol="Rn" data-name="Radon" data-atomic="86">Rn<br>Radon</button>
+    <button class="element alkali-metal" style="grid-column:1; grid-row:6;" data-symbol="Cs" data-name="Cesium" data-atomic="55">Cs<br>Cesium</button>
+    <button class="element alkaline-earth-metal" style="grid-column:2; grid-row:6;" data-symbol="Ba" data-name="Barium" data-atomic="56">Ba<br>Barium</button>
+    <button class="element lanthanide" style="grid-column:3; grid-row:9;" data-symbol="La" data-name="Lanthanum" data-atomic="57">La<br>Lanthanum</button>
+    <button class="element transition-metal" style="grid-column:4; grid-row:6;" data-symbol="Hf" data-name="Hafnium" data-atomic="72">Hf<br>Hafnium</button>
+    <button class="element transition-metal" style="grid-column:5; grid-row:6;" data-symbol="Ta" data-name="Tantalum" data-atomic="73">Ta<br>Tantalum</button>
+    <button class="element transition-metal" style="grid-column:6; grid-row:6;" data-symbol="W" data-name="Tungsten" data-atomic="74">W<br>Tungsten</button>
+    <button class="element transition-metal" style="grid-column:7; grid-row:6;" data-symbol="Re" data-name="Rhenium" data-atomic="75">Re<br>Rhenium</button>
+    <button class="element transition-metal" style="grid-column:8; grid-row:6;" data-symbol="Os" data-name="Osmium" data-atomic="76">Os<br>Osmium</button>
+    <button class="element transition-metal" style="grid-column:9; grid-row:6;" data-symbol="Ir" data-name="Iridium" data-atomic="77">Ir<br>Iridium</button>
+    <button class="element transition-metal" style="grid-column:10; grid-row:6;" data-symbol="Pt" data-name="Platinum" data-atomic="78">Pt<br>Platinum</button>
+    <button class="element transition-metal" style="grid-column:11; grid-row:6;" data-symbol="Au" data-name="Gold" data-atomic="79">Au<br>Gold</button>
+    <button class="element transition-metal" style="grid-column:12; grid-row:6;" data-symbol="Hg" data-name="Mercury" data-atomic="80">Hg<br>Mercury</button>
+    <button class="element post-transition-metal" style="grid-column:13; grid-row:6;" data-symbol="Tl" data-name="Thallium" data-atomic="81">Tl<br>Thallium</button>
+    <button class="element post-transition-metal" style="grid-column:14; grid-row:6;" data-symbol="Pb" data-name="Lead" data-atomic="82">Pb<br>Lead</button>
+    <button class="element post-transition-metal" style="grid-column:15; grid-row:6;" data-symbol="Bi" data-name="Bismuth" data-atomic="83">Bi<br>Bismuth</button>
+    <button class="element metalloid" style="grid-column:16; grid-row:6;" data-symbol="Po" data-name="Polonium" data-atomic="84">Po<br>Polonium</button>
+    <button class="element halogen" style="grid-column:17; grid-row:6;" data-symbol="At" data-name="Astatine" data-atomic="85">At<br>Astatine</button>
+    <button class="element noble-gas" style="grid-column:18; grid-row:6;" data-symbol="Rn" data-name="Radon" data-atomic="86">Rn<br>Radon</button>
 
-    
     <!-- Period 7 -->
-  <button class="element" style="grid-column:1; grid-row:7;" data-symbol="Fr" data-name="Francium" data-atomic="87">Fr<br>Francium</button>
-<button class="element" style="grid-column:2; grid-row:7;" data-symbol="Ra" data-name="Radium" data-atomic="88">Ra<br>Radium</button>
-<button class="element" style="grid-column:3; grid-row:7;" data-symbol="Ac" data-name="Actinium" data-atomic="89">Ac<br>Actinium</button>
-<button class="element" style="grid-column:4; grid-row:7;" data-symbol="Rf" data-name="Rutherfordium" data-atomic="104">Rf<br>Rutherfordium</button>
-<button class="element" style="grid-column:5; grid-row:7;" data-symbol="Db" data-name="Dubnium" data-atomic="105">Db<br>Dubnium</button>
-<button class="element" style="grid-column:6; grid-row:7;" data-symbol="Sg" data-name="Seaborgium" data-atomic="106">Sg<br>Seaborgium</button>
-<button class="element" style="grid-column:7; grid-row:7;" data-symbol="Bh" data-name="Bohrium" data-atomic="107">Bh<br>Bohrium</button>
-<button class="element" style="grid-column:8; grid-row:7;" data-symbol="Hs" data-name="Hassium" data-atomic="108">Hs<br>Hassium</button>
-<button class="element" style="grid-column:9; grid-row:7;" data-symbol="Mt" data-name="Meitnerium" data-atomic="109">Mt<br>Meitnerium</button>
-<button class="element" style="grid-column:10; grid-row:7;" data-symbol="Ds" data-name="Darmstadtium" data-atomic="110">Ds<br>Darmstadtium</button>
-<button class="element" style="grid-column:11; grid-row:7;" data-symbol="Rg" data-name="Roentgenium" data-atomic="111">Rg<br>Roentgenium</button>
-<button class="element" style="grid-column:12; grid-row:7;" data-symbol="Cn" data-name="Copernicium" data-atomic="112">Cn<br>Copernicium</button>
-<button class="element" style="grid-column:13; grid-row:7;" data-symbol="Nh" data-name="Nihonium" data-atomic="113">Nh<br>Nihonium</button>
-<button class="element" style="grid-column:14; grid-row:7;" data-symbol="Fl" data-name="Flerovium" data-atomic="114">Fl<br>Flerovium</button>
-<button class="element" style="grid-column:15; grid-row:7;" data-symbol="Mc" data-name="Moscovium" data-atomic="115">Mc<br>Moscovium</button>
-<button class="element" style="grid-column:16; grid-row:7;" data-symbol="Lv" data-name="Livermorium" data-atomic="116">Lv<br>Livermorium</button>
-<button class="element" style="grid-column:17; grid-row:7;" data-symbol="Ts" data-name="Tennessine" data-atomic="117">Ts<br>Tennessine</button>
-<button class="element" style="grid-column:18; grid-row:7;" data-symbol="Og" data-name="Oganesson" data-atomic="118">Og<br>Oganesson</button>
+    <button class="element alkali-metal" style="grid-column:1; grid-row:7;" data-symbol="Fr" data-name="Francium" data-atomic="87">Fr<br>Francium</button>
+    <button class="element alkaline-earth-metal" style="grid-column:2; grid-row:7;" data-symbol="Ra" data-name="Radium" data-atomic="88">Ra<br>Radium</button>
+    <button class="element actinide" style="grid-column:3; grid-row:10;" data-symbol="Ac" data-name="Actinium" data-atomic="89">Ac<br>Actinium</button>
+    <button class="element transition-metal" style="grid-column:4; grid-row:7;" data-symbol="Rf" data-name="Rutherfordium" data-atomic="104">Rf<br>Rutherfordium</button>
+    <button class="element transition-metal" style="grid-column:5; grid-row:7;" data-symbol="Db" data-name="Dubnium" data-atomic="105">Db<br>Dubnium</button>
+    <button class="element transition-metal" style="grid-column:6; grid-row:7;" data-symbol="Sg" data-name="Seaborgium" data-atomic="106">Sg<br>Seaborgium</button>
+    <button class="element transition-metal" style="grid-column:7; grid-row:7;" data-symbol="Bh" data-name="Bohrium" data-atomic="107">Bh<br>Bohrium</button>
+    <button class="element transition-metal" style="grid-column:8; grid-row:7;" data-symbol="Hs" data-name="Hassium" data-atomic="108">Hs<br>Hassium</button>
+    <button class="element transition-metal" style="grid-column:9; grid-row:7;" data-symbol="Mt" data-name="Meitnerium" data-atomic="109">Mt<br>Meitnerium</button>
+    <button class="element transition-metal" style="grid-column:10; grid-row:7;" data-symbol="Ds" data-name="Darmstadtium" data-atomic="110">Ds<br>Darmstadtium</button>
+    <button class="element transition-metal" style="grid-column:11; grid-row:7;" data-symbol="Rg" data-name="Roentgenium" data-atomic="111">Rg<br>Roentgenium</button>
+    <button class="element transition-metal" style="grid-column:12; grid-row:7;" data-symbol="Cn" data-name="Copernicium" data-atomic="112">Cn<br>Copernicium</button>
+    <button class="element post-transition-metal" style="grid-column:13; grid-row:7;" data-symbol="Nh" data-name="Nihonium" data-atomic="113">Nh<br>Nihonium</button>
+    <button class="element post-transition-metal" style="grid-column:14; grid-row:7;" data-symbol="Fl" data-name="Flerovium" data-atomic="114">Fl<br>Flerovium</button>
+    <button class="element post-transition-metal" style="grid-column:15; grid-row:7;" data-symbol="Mc" data-name="Moscovium" data-atomic="115">Mc<br>Moscovium</button>
+    <button class="element post-transition-metal" style="grid-column:16; grid-row:7;" data-symbol="Lv" data-name="Livermorium" data-atomic="116">Lv<br>Livermorium</button>
+    <button class="element halogen" style="grid-column:17; grid-row:7;" data-symbol="Ts" data-name="Tennessine" data-atomic="117">Ts<br>Tennessine</button>
+    <button class="element noble-gas" style="grid-column:18; grid-row:7;" data-symbol="Og" data-name="Oganesson" data-atomic="118">Og<br>Oganesson</button>
 
 
 
-     <!-- Lanthanides (row 8, grid-column starts at 4) -->
-<button class="element" style="grid-column:4; grid-row:8;" data-symbol="Ce" data-name="Cerium" data-atomic="58">Ce<br>Cerium</button>
-<button class="element" style="grid-column:5; grid-row:8;" data-symbol="Pr" data-name="Praseodymium" data-atomic="59">Pr<br>Praseodymium</button>
-<button class="element" style="grid-column:6; grid-row:8;" data-symbol="Nd" data-name="Neodymium" data-atomic="60">Nd<br>Neodymium</button>
-<button class="element" style="grid-column:7; grid-row:8;" data-symbol="Pm" data-name="Promethium" data-atomic="61">Pm<br>Promethium</button>
-<button class="element" style="grid-column:8; grid-row:8;" data-symbol="Sm" data-name="Samarium" data-atomic="62">Sm<br>Samarium</button>
-<button class="element" style="grid-column:9; grid-row:8;" data-symbol="Eu" data-name="Europium" data-atomic="63">Eu<br>Europium</button>
-<button class="element" style="grid-column:10; grid-row:8;" data-symbol="Gd" data-name="Gadolinium" data-atomic="64">Gd<br>Gadolinium</button>
-<button class="element" style="grid-column:11; grid-row:8;" data-symbol="Tb" data-name="Terbium" data-atomic="65">Tb<br>Terbium</button>
-<button class="element" style="grid-column:12; grid-row:8;" data-symbol="Dy" data-name="Dysprosium" data-atomic="66">Dy<br>Dysprosium</button>
-<button class="element" style="grid-column:13; grid-row:8;" data-symbol="Ho" data-name="Holmium" data-atomic="67">Ho<br>Holmium</button>
-<button class="element" style="grid-column:14; grid-row:8;" data-symbol="Er" data-name="Erbium" data-atomic="68">Er<br>Erbium</button>
-<button class="element" style="grid-column:15; grid-row:8;" data-symbol="Tm" data-name="Thulium" data-atomic="69">Tm<br>Thulium</button>
-<button class="element" style="grid-column:16; grid-row:8;" data-symbol="Yb" data-name="Ytterbium" data-atomic="70">Yb<br>Ytterbium</button>
-<button class="element" style="grid-column:17; grid-row:8;" data-symbol="Lu" data-name="Lutetium" data-atomic="71">Lu<br>Lutetium</button>
 
+     <!-- Lanthanides (Period 6, f-block) -->
+<button class="element lanthanide" style="grid-column:4; grid-row:9;" data-symbol="Ce" data-name="Cerium" data-atomic="58">Ce<br>Cerium</button>
+<button class="element lanthanide" style="grid-column:5; grid-row:9;" data-symbol="Pr" data-name="Praseodymium" data-atomic="59">Pr<br>Praseodymium</button>
+<button class="element lanthanide" style="grid-column:6; grid-row:9;" data-symbol="Nd" data-name="Neodymium" data-atomic="60">Nd<br>Neodymium</button>
+<button class="element lanthanide" style="grid-column:7; grid-row:9;" data-symbol="Pm" data-name="Promethium" data-atomic="61">Pm<br>Promethium</button>
+<button class="element lanthanide" style="grid-column:8; grid-row:9;" data-symbol="Sm" data-name="Samarium" data-atomic="62">Sm<br>Samarium</button>
+<button class="element lanthanide" style="grid-column:9; grid-row:9;" data-symbol="Eu" data-name="Europium" data-atomic="63">Eu<br>Europium</button>
+<button class="element lanthanide" style="grid-column:10; grid-row:9;" data-symbol="Gd" data-name="Gadolinium" data-atomic="64">Gd<br>Gadolinium</button>
+<button class="element lanthanide" style="grid-column:11; grid-row:9;" data-symbol="Tb" data-name="Terbium" data-atomic="65">Tb<br>Terbium</button>
+<button class="element lanthanide" style="grid-column:12; grid-row:9;" data-symbol="Dy" data-name="Dysprosium" data-atomic="66">Dy<br>Dysprosium</button>
+<button class="element lanthanide" style="grid-column:13; grid-row:9;" data-symbol="Ho" data-name="Holmium" data-atomic="67">Ho<br>Holmium</button>
+<button class="element lanthanide" style="grid-column:14; grid-row:9;" data-symbol="Er" data-name="Erbium" data-atomic="68">Er<br>Erbium</button>
+<button class="element lanthanide" style="grid-column:15; grid-row:9;" data-symbol="Tm" data-name="Thulium" data-atomic="69">Tm<br>Thulium</button>
+<button class="element lanthanide" style="grid-column:16; grid-row:9;" data-symbol="Yb" data-name="Ytterbium" data-atomic="70">Yb<br>Ytterbium</button>
+<button class="element lanthanide" style="grid-column:17; grid-row:9;" data-symbol="Lu" data-name="Lutetium" data-atomic="71">Lu<br>Lutetium</button>
 
-    <!-- Actinides (row 9, grid-column starts at 4) -->
-   <button class="element" style="grid-column:4; grid-row:9;" data-symbol="Th" data-name="Thorium" data-atomic="90">Th<br>Thorium</button>
-<button class="element" style="grid-column:5; grid-row:9;" data-symbol="Pa" data-name="Protactinium" data-atomic="91">Pa<br>Protactinium</button>
-<button class="element" style="grid-column:6; grid-row:9;" data-symbol="U" data-name="Uranium" data-atomic="92">U<br>Uranium</button>
-<button class="element" style="grid-column:7; grid-row:9;" data-symbol="Np" data-name="Neptunium" data-atomic="93">Np<br>Neptunium</button>
-<button class="element" style="grid-column:8; grid-row:9;" data-symbol="Pu" data-name="Plutonium" data-atomic="94">Pu<br>Plutonium</button>
-<button class="element" style="grid-column:9; grid-row:9;" data-symbol="Am" data-name="Americium" data-atomic="95">Am<br>Americium</button>
-<button class="element" style="grid-column:10; grid-row:9;" data-symbol="Cm" data-name="Curium" data-atomic="96">Cm<br>Curium</button>
-<button class="element" style="grid-column:11; grid-row:9;" data-symbol="Bk" data-name="Berkelium" data-atomic="97">Bk<br>Berkelium</button>
-<button class="element" style="grid-column:12; grid-row:9;" data-symbol="Cf" data-name="Californium" data-atomic="98">Cf<br>Californium</button>
-<button class="element" style="grid-column:13; grid-row:9;" data-symbol="Es" data-name="Einsteinium" data-atomic="99">Es<br>Einsteinium</button>
-<button class="element" style="grid-column:14; grid-row:9;" data-symbol="Fm" data-name="Fermium" data-atomic="100">Fm<br>Fermium</button>
-<button class="element" style="grid-column:15; grid-row:9;" data-symbol="Md" data-name="Mendelevium" data-atomic="101">Md<br>Mendelevium</button>
-<button class="element" style="grid-column:16; grid-row:9;" data-symbol="No" data-name="Nobelium" data-atomic="102">No<br>Nobelium</button>
-<button class="element" style="grid-column:17; grid-row:9;" data-symbol="Lr" data-name="Lawrencium" data-atomic="103">Lr<br>Lawrencium</button>
+<!-- Actinides (Period 7, f-block) -->
+<button class="element actinide" style="grid-column:4; grid-row:10;" data-symbol="Th" data-name="Thorium" data-atomic="90">Th<br>Thorium</button>
+<button class="element actinide" style="grid-column:5; grid-row:10;" data-symbol="Pa" data-name="Protactinium" data-atomic="91">Pa<br>Protactinium</button>
+<button class="element actinide" style="grid-column:6; grid-row:10;" data-symbol="U" data-name="Uranium" data-atomic="92">U<br>Uranium</button>
+<button class="element actinide" style="grid-column:7; grid-row:10;" data-symbol="Np" data-name="Neptunium" data-atomic="93">Np<br>Neptunium</button>
+<button class="element actinide" style="grid-column:8; grid-row:10;" data-symbol="Pu" data-name="Plutonium" data-atomic="94">Pu<br>Plutonium</button>
+<button class="element actinide" style="grid-column:9; grid-row:10;" data-symbol="Am" data-name="Americium" data-atomic="95">Am<br>Americium</button>
+<button class="element actinide" style="grid-column:10; grid-row:10;" data-symbol="Cm" data-name="Curium" data-atomic="96">Cm<br>Curium</button>
+<button class="element actinide" style="grid-column:11; grid-row:10;" data-symbol="Bk" data-name="Berkelium" data-atomic="97">Bk<br>Berkelium</button>
+<button class="element actinide" style="grid-column:12; grid-row:10;" data-symbol="Cf" data-name="Californium" data-atomic="98">Cf<br>Californium</button>
+<button class="element actinide" style="grid-column:13; grid-row:10;" data-symbol="Es" data-name="Einsteinium" data-atomic="99">Es<br>Einsteinium</button>
+<button class="element actinide" style="grid-column:14; grid-row:10;" data-symbol="Fm" data-name="Fermium" data-atomic="100">Fm<br>Fermium</button>
+<button class="element actinide" style="grid-column:15; grid-row:10;" data-symbol="Md" data-name="Mendelevium" data-atomic="101">Md<br>Mendelevium</button>
+<button class="element actinide" style="grid-column:16; grid-row:10;" data-symbol="No" data-name="Nobelium" data-atomic="102">No<br>Nobelium</button>
+<button class="element actinide" style="grid-column:17; grid-row:10;" data-symbol="Lr" data-name="Lawrencium" data-atomic="103">Lr<br>Lawrencium</button>
 
   </div>
 
