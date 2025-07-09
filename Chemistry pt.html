@@ -493,11 +493,12 @@ In 1860, the modern scientific consensus emerged at the first international chem
         const name = el.getAttribute('data-name');
         const symbol = el.getAttribute('data-symbol');
         const atomic = el.getAttribute('data-atomic');
+        const mass = el.getAttribute('data-mass');
 
         document.getElementById('element-name').textContent = name;
         document.getElementById('element-symbol').textContent = `Symbol: ${symbol}`;
         document.getElementById('element-atomic-number').textContent = `Atomic Number: ${atomic}`;
-
+        document.getElementById('element-mass-number').textContent = `Mass Number: ${mass}`;
         document.getElementById('popup').style.display = 'block';
       });
     });
@@ -514,6 +515,7 @@ In 1860, the modern scientific consensus emerged at the first international chem
         document.getElementById('element-name').innerText = btn.dataset.name;
         document.getElementById('element-symbol').innerText = btn.dataset.symbol;
         document.getElementById('element-atomic').innerText = btn.dataset.atomic;
+        document.getElementById('element-mass').innerText = btn.dataset.mass;
         document.getElementById('element-modal').style.display = 'block';
       });
     });
@@ -529,7 +531,7 @@ In 1860, the modern scientific consensus emerged at the first international chem
       if (e.key === 'Escape') document.getElementById('element-modal').style.display = 'none';
     });
 
-function openPopup(name, symbol, number, mass) {
+  function openPopup(name, symbol, number, mass) {
   const popup = document.getElementById('popup');
   const content = document.getElementById('popup-content');
 
@@ -558,5 +560,6 @@ document.getElementById('close-button').onclick = function () {
   </script>
 </body>
 </html>
+
 
 
