@@ -419,7 +419,58 @@
       const ms = Math.floor((s%1)*1000);
       return `[${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}.${String(ms).padStart(3,'0')}]`;
     }
+
+document.addEventListener("keydown", (e) => {
+  const active = document.activeElement;
+  const isFormElement = ["INPUT", "TEXTAREA", "SELECT"].includes(active.tagName) || active.isContentEditable;
+
+  if (isFormElement) return; // Don't trigger shortcuts when typing
+
+  switch (e.key.toLowerCase()) {
+    case " ": // Spacebar: Play/Pause
+      e.preventDefault();
+      playPause();
+      break;
+    case "arrowright":
+      e.preventDefault();
+      audio.currentTime = Math.min(audio.currentTime + 5, audio.duration);
+      break;
+    case "arrowleft":
+      e.preventDefault();
+      audio.currentTime = Math.max(audio.currentTime - 5, 0);
+      break;
+    case "arrowup":
+      e.preventDefault();
+      audio.volume = Math.min(audio.volume + 0.1, 1);
+      vol.value = audio.volume;
+      break;
+    case "arrowdown":
+      e.preventDefault();
+      audio.volume = Math.max(audio.volume - 0.1, 0);
+      vol.value = audio.volume;
+      break;
+    case "n":
+      nextSong();
+      break;
+    case "p":
+      prevSong();
+      break;
+    case "s":
+      toggleShuffle();
+      break;
+    case "l":
+      toggleLoop();
+      break;
+    case "m":
+      toggleMute();
+      break;
+    case "y":
+      parseLyrics();
+  }
+});
+
   </script>
 </body>
 </html>
+
 
