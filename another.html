@@ -200,16 +200,6 @@
   <script>
     // Sample playlist (trimmed for brevity)
         const playlist = [
-      { title: "Justin Bieber - DAISIES", mp3: "songs/Justin Bieber - DAISIES.mp3", cover: "covers/Swag.jpg" },
-      { title: "Justin Bieber - YUKON", mp3: "songs/Justin Bieber - YUKON.mp3", cover: "covers/Swag.jpg" },
-      { title: "Justin Bieber - GO BABY", mp3: "songs/Justin Bieber - GO BABY.mp3", cover: "covers/Swag.jpg" },
-      { title: "01 Justin Bieber - Heartbreaker", mp3: "songs/01 Justin Bieber - Heartbreaker.mp3", cover: "covers/journals.jpg" },
-      { title: "02 Justin Bieber - All That Matters", mp3: "songs/02 Justin Bieber - All That Matters.mp3", cover: "covers/journals.jpg" },
-      { title: "03 Justin Bieber - Hold Tight", mp3: "songs/03 Justin Bieber - Hold Tight.mp3", cover: "covers/journals.jpg" },
-      { title: "10 Justin Bieber - Confident", mp3: "songs/10 Justin Bieber - Confident.mp3", cover: "covers/journals.jpg" },
-      { title: "02 Justin Bieber - Boyfriend", mp3: "songs/02 Justin Bieber - Boyfriend.mp3", cover: "covers/believe.jpg" },
-      { title: "03 Justin Bieber - As Long As You Love Me", mp3: "songs/03 Justin Bieber - As Long As You Love Me.mp3", cover: "covers/believe.jpg" },
-      { title: "10 Justin Bieber - Beauty And A Beat", mp3: "songs/10 Justin Bieber - Beauty And A Beat.mp3", cover: "covers/believe.jpg" },
       { title: "02 Justin Bieber - Favorite Girl (Album Version)", mp3: "songs/02 Justin Bieber - Favorite Girl (Album Version).mp3", cover: "covers/my world.jpg" },
       { title: "01 Justin Bieber - One Time (Album Version)", mp3: "songs/01 Justin Bieber - One Time (Album Version).mp3", cover: "covers/my world.jpg" },
       { title: "05 Justin Bieber - One Less Lonely Girl (Album Version)", mp3: "songs/05 Justin Bieber - One Less Lonely Girl (Album Version).mp3", cover: "covers/my world.jpg" },
@@ -221,19 +211,29 @@
       { title: "09 Justin Bieber - Up (Album Version)", mp3: "songs/09 Justin Bieber - Up (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
       { title: "10 Justin Bieber - That Should Be Me (Album Version)", mp3: "songs/10 Justin Bieber - That Should Be Me (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
       { title: "01 Justin Bieber - Never Say Never", mp3: "songs/01 Justin Bieber - Never Say Never.mp3", cover: "covers/never say never.jpg" },
-      { title: "01 Justin Bieber - Friends", mp3: "songs/01 Justin Bieber - Friends.mp3", cover: "covers/Friends.jpg" },
+      { title: "02 Justin Bieber - Under The Mistletoe", mp3: "songs/02 Justin Bieber - Under The Mistletoe.mp3", cover: "covers/under the mistletoe.jpg" },
+      { title: "12 Justin Bieber - Christmas Love", mp3: "songs/12 Justin Bieber - Christmas Love.mp3", cover: "covers/under the mistletoe.jpg" },
+      { title: "02 Justin Bieber - Boyfriend", mp3: "songs/02 Justin Bieber - Boyfriend.mp3", cover: "covers/believe.jpg" },
+      { title: "03 Justin Bieber - As Long As You Love Me", mp3: "songs/03 Justin Bieber - As Long As You Love Me.mp3", cover: "covers/believe.jpg" },
+      { title: "10 Justin Bieber - Beauty And A Beat", mp3: "songs/10 Justin Bieber - Beauty And A Beat.mp3", cover: "covers/believe.jpg" },
+      { title: "01 Justin Bieber - Heartbreaker", mp3: "songs/01 Justin Bieber - Heartbreaker.mp3", cover: "covers/journals.jpg" },
+      { title: "02 Justin Bieber - All That Matters", mp3: "songs/02 Justin Bieber - All That Matters.mp3", cover: "covers/journals.jpg" },
+      { title: "03 Justin Bieber - Hold Tight", mp3: "songs/03 Justin Bieber - Hold Tight.mp3", cover: "covers/journals.jpg" },
+      { title: "10 Justin Bieber - Confident", mp3: "songs/10 Justin Bieber - Confident.mp3", cover: "covers/journals.jpg" },
       { title: "02 Justin Bieber - I'll Show You", mp3: "songs/02 Justin Bieber - I'll Show You.mp3", cover: "covers/purpose.jpg" },
       { title: "03 Justin Bieber - What Do You Mean", mp3: "songs/03 Justin Bieber - What Do You Mean.mp3", cover: "covers/purpose.jpg" },
       { title: "04 Justin Bieber - Sorry", mp3: "songs/04 Justin Bieber - Sorry.mp3", cover: "covers/purpose.jpg" },
       { title: "06 Justin Bieber - Company", mp3: "songs/06 Justin Bieber - Company.mp3", cover: "covers/purpose.jpg" },
       { title: "09 Justin Bieber - Where Are U Now", mp3: "songs/09 Justin Bieber - Where Are U Now.mp3", cover: "covers/where are you now.jpg" },
+      { title: "01 Justin Bieber - Friends", mp3: "songs/01 Justin Bieber - Friends.mp3", cover: "covers/Friends.jpg" },
+      { title: "Justin Bieber - Intentions", mp3: "songs/Justin Bieber - Intentions.mp3", cover: "covers/changes.jpg" },
+      { title: "Justin Bieber - Come Around Me", mp3: "songs/Justin Bieber - Come Around Me.mp3", cover: "covers/changes.jpg" },
       { title: "Justin Bieber - Peaches", mp3: "songs/Justin Bieber - Peaches.mp3", cover: "covers/justice.jpg" },
       { title: "Justin Bieber - Somebody", mp3: "songs/Justin Bieber - Somebody.mp3", cover: "covers/justice.jpg" },
       { title: "Justin Bieber - Honest", mp3: "songs/Justin Bieber - Honest.mp3", cover: "covers/honest.jpg" },
-      { title: "Justin Bieber - Intentions", mp3: "songs/Justin Bieber - Intentions.mp3", cover: "covers/changes.jpg" },
-      { title: "Justin Bieber - Come Around Me", mp3: "songs/Justin Bieber - Come Around Me.mp3", cover: "covers/changes.jpg" },
-      { title: "02 Justin Bieber - Under The Mistletoe", mp3: "songs/02 Justin Bieber - Under The Mistletoe.mp3", cover: "covers/under the mistletoe.jpg" },
-      { title: "12 Justin Bieber - Christmas Love", mp3: "songs/12 Justin Bieber - Christmas Love.mp3", cover: "covers/under the mistletoe.jpg" },
+      { title: "Justin Bieber - DAISIES", mp3: "songs/Justin Bieber - DAISIES.mp3", cover: "covers/Swag.jpg" },
+      { title: "Justin Bieber - YUKON", mp3: "songs/Justin Bieber - YUKON.mp3", cover: "covers/Swag.jpg" },
+      { title: "Justin Bieber - GO BABY", mp3: "songs/Justin Bieber - GO BABY.mp3", cover: "covers/Swag.jpg" },
       { title: "01 One Direction - What Makes You Beautiful", mp3: "songs/01 One Direction - What Makes You Beautiful.mp3", cover: "covers/up all night.jpg" },
       { title: "02 One Direction - Gotta Be You", mp3: "songs/02 One Direction - Gotta Be You.mp3", cover: "covers/up all night.jpg" },
       { title: "03 One Direction - One Thing", mp3: "songs/03 One Direction - One Thing.mp3", cover: "covers/up all night.jpg" },
@@ -472,5 +472,6 @@ document.addEventListener("keydown", (e) => {
   </script>
 </body>
 </html>
+
 
 
