@@ -420,14 +420,16 @@
       return `[${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}.${String(ms).padStart(3,'0')}]`;
     }
 
+// Open file picker with 'y' key (lyrics)
 document.addEventListener("keydown", (e) => {
   const active = document.activeElement;
   const isFormElement = ["INPUT", "TEXTAREA", "SELECT"].includes(active.tagName) || active.isContentEditable;
 
-  if (isFormElement) return; // Don't trigger shortcuts when typing
+  // If we're typing in a form element, don't trigger
+  if (isFormElement && active !== fileInput) return;
 
   switch (e.key.toLowerCase()) {
-    case " ": // Spacebar: Play/Pause
+    case " ":
       e.preventDefault();
       playPause();
       break;
@@ -464,14 +466,17 @@ document.addEventListener("keydown", (e) => {
     case "m":
       toggleMute();
       break;
-    case "y":
-      parseLyrics();
+    case "y": // ⬅ New shortcut to load lyrics file
+      fileInput.click();
+      break;
   }
 });
+
 
   </script>
 </body>
 </html>
+
 
 
 
