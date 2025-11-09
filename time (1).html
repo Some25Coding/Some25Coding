@@ -3,78 +3,190 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Powerful Time Teller</title>
+  <title>Powerful Time Teller 🌍</title>
   <style>
     body {
-      font-family: Century;
+      font-family: Century, sans-serif;
       background: #111;
       color: #fff;
       text-align: center;
-      padding: 50px;
+      padding: 40px;
     }
     h1 {
       font-size: 3em;
       margin-bottom: 20px;
     }
     .time {
-      font-size: 2.5em;
+      font-size: 2em;
       margin: 10px 0;
     }
     .zone {
       font-size: 1.2em;
       color: #aaa;
     }
+    .weather {
+      font-size: 1.1em;
+      color: #9df;
+      margin-top: 10px;
+    }
     .time-container {
-      margin: 30px 0;
+      margin: 20px auto;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 15px;
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 0 10px #000;
+      max-width: 450px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .time-container:hover {
+      background: rgba(255,255,255,0.1);
+      transform: scale(1.02);
+    }
+    .more-info {
+      display: none;
+      font-size: 1em;
+      color: #ccc;
+      margin-top: 10px;
+      border-top: 1px solid #333;
+      padding-top: 10px;
+    }
+    .expanded .more-info {
+      display: block;
     }
   </style>
 </head>
 <body>
   <h1>🕒 Powerful Time Teller</h1>
 
-  <div class="time-container">
+  <!-- LOCAL -->
+  <div class="time-container" id="localCard">
     <div class="time" id="localTime">Local Time: --:--:--</div>
     <div class="zone" id="localZone">--</div>
+    <div class="weather" id="localWeather">🌡️ Temperature: --°C | 💧 Humidity: --%</div>
+    <div class="more-info" id="localMore">Loading...</div>
   </div>
 
-  <div class="time-container">
-    <div class="time" id="laTime">Los Angeles: --:--:--</div>
-    <div class="time" id="nyTime">New York: --:--:--</div>
-    <div class="time" id="londonTime">London: --:--:--</div>
-    <div class="time" id="berlinTime">Berlin: --:--:--</div>
-    <div class="time" id="tokyoTime">Tokyo: --:--:--</div>
-  </div>
+  <!-- WORLD CITIES -->
+  <div id="worldTimes"></div>
 
   <script>
+  const cities = [
+    { name: "Los Angeles", timeZone: "America/Los_Angeles" },
+    { name: "New York", timeZone: "America/New_York" },
+    { name: "London", timeZone: "Europe/London" },
+    { name: "Berlin", timeZone: "Europe/Berlin" },
+    { name: "Tokyo", timeZone: "Asia/Tokyo" }
+  ];
+
+  // Create time + weather containers
+  const worldContainer = document.getElementById("worldTimes");
+  cities.forEach(city => {
+    const div = document.createElement("div");
+    div.classList.add("time-container");
+    div.id = `${city.name}Card`;
+    div.innerHTML = `
+      <div class="time" id="${city.name}Time">${city.name}: --:--:--</div>
+      <div class="weather" id="${city.name}Weather">🌡️ Temperature: --°C | 💧 Humidity: --%</div>
+      <div class="more-info" id="${city.name}More">Loading...</div>
+    `;
+    worldContainer.appendChild(div);
+  });
+
+  // Convert weather description to emoji
+  function weatherToEmoji(description) {
+    description = description.toLowerCase();
+    if (description.includes("sun") || description.includes("clear")) return "☀️";
+    if (description.includes("cloud")) return "☁️";
+    if (description.includes("rain")) return "🌧️";
+    if (description.includes("storm") || description.includes("thunder")) return "⛈️";
+    if (description.includes("snow")) return "❄️";
+    if (description.includes("fog") || description.includes("mist") || description.includes("haze")) return "🌫️";
+    return "🌍";
+  }
+
+  // Update time function
   function updateTime() {
     const now = new Date();
-
     const options12hr = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
 
-    // Local Time
     document.getElementById("localTime").textContent =
       "Local Time: " + now.toLocaleTimeString("en-US", options12hr);
     document.getElementById("localZone").textContent =
       Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    // Cities in 12-hour format
-    const losAngeles = new Date().toLocaleTimeString("en-US", { ...options12hr, timeZone: "America/Los_Angeles" });
-    const newYork    = new Date().toLocaleTimeString("en-US", { ...options12hr, timeZone: "America/New_York" });
-    const london     = new Date().toLocaleTimeString("en-GB", { ...options12hr, timeZone: "Europe/London" });
-    const berlin     = new Date().toLocaleTimeString("de-DE", { ...options12hr, timeZone: "Europe/Berlin" });
-    const tokyo      = new Date().toLocaleTimeString("ja-JP", { ...options12hr, timeZone: "Asia/Tokyo" });
-
-    // Display
-    document.getElementById("laTime").textContent     = "Los Angeles: " + losAngeles;
-    document.getElementById("nyTime").textContent     = "New York: " + newYork;
-    document.getElementById("londonTime").textContent = "London: " + london;
-    document.getElementById("berlinTime").textContent = "Berlin: " + berlin;
-    document.getElementById("tokyoTime").textContent  = "Tokyo: " + tokyo;
+    cities.forEach(city => {
+      const cityTime = new Date().toLocaleTimeString("en-US", { ...options12hr, timeZone: city.timeZone });
+      document.getElementById(`${city.name}Time`).textContent = `${city.name}: ${cityTime}`;
+    });
   }
 
+  // Fetch weather from wttr.in
+  async function fetchWeather(cityName) {
+    const response = await fetch(`https://wttr.in/${cityName}?format=j1`);
+    const data = await response.json();
+    const current = data.current_condition[0];
+    const tempC = current.temp_C;
+    const humidity = current.humidity;
+    const desc = current.weatherDesc[0].value;
+    const feelsLike = current.FeelsLikeC;
+    const wind = current.windspeedKmph;
+    const emoji = weatherToEmoji(desc);
+
+    return { tempC, humidity, desc, feelsLike, wind, emoji };
+  }
+
+  // Update weather for all cards
+  async function updateWeather() {
+    // Local (auto)
+    try {
+      const res = await fetch("https://wttr.in/?format=j1");
+      const data = await res.json();
+      const cur = data.current_condition[0];
+      const desc = cur.weatherDesc[0].value;
+      const emoji = weatherToEmoji(desc);
+      document.getElementById("localWeather").textContent =
+        `${emoji} ${desc} | 🌡️ ${cur.temp_C}°C | 💧 ${cur.humidity}%`;
+      document.getElementById("localMore").innerHTML =
+        `Feels like: ${cur.FeelsLikeC}°C<br>Wind: ${cur.windspeedKmph} km/h<br>Pressure: ${cur.pressure} hPa`;
+    } catch {
+      document.getElementById("localWeather").textContent = "🌍 Weather unavailable";
+    }
+
+    // Other cities
+    for (const city of cities) {
+      try {
+        const w = await fetchWeather(city.name);
+        document.getElementById(`${city.name}Weather`).textContent =
+          `${w.emoji} ${w.desc} | 🌡️ ${w.tempC}°C | 💧 ${w.humidity}%`;
+        document.getElementById(`${city.name}More`).innerHTML =
+          `Feels like: ${w.feelsLike}°C<br>Wind: ${w.wind} km/h`;
+      } catch {
+        document.getElementById(`${city.name}Weather`).textContent = "🌍 Weather unavailable";
+      }
+    }
+  }
+
+  // Toggle card expansion
+  function toggleCard(cardId) {
+    const card = document.getElementById(cardId);
+    card.classList.toggle("expanded");
+  }
+
+  // Add click listeners
+  document.getElementById("localCard").addEventListener("click", () => toggleCard("localCard"));
+  cities.forEach(city => {
+    document.getElementById(`${city.name}Card`)
+      .addEventListener("click", () => toggleCard(`${city.name}Card`));
+  });
+
+  // Start updates
   setInterval(updateTime, 1000);
   updateTime();
+
+  updateWeather();
+  setInterval(updateWeather, 600000); // every 10 min
   </script>
 </body>
 </html>
-
