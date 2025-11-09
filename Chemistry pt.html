@@ -1,20 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="description" content="Basic chemistry concepts like matter, atoms, molecules, and reactions.">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Chemistry World – Periodic Table Grid</title>
   <style>
     body {
       font-family: Arial, sans-serif; margin: 0; padding: 0;
       background: #000000; color: #ffffff;
-      background: url('images/Chemistry.jpg') no-repeat center center fixed;
-      background-size: cover;
     }
-    header { background: transparent; color: white; padding: 20px; text-align: center; }
-    nav { background: transparent; text-align: center; padding: 10px; }
+    header { background: #004d99; color: white; padding: 20px; text-align: center; }
+    nav { background: #0066cc; text-align: center; padding: 10px; }
     nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
     nav a:hover { text-decoration: underline; }
 
@@ -25,16 +22,6 @@
   flex-wrap: wrap;
 }
 
-h1 {
-  color: chocolate; 
-}
-h2 {
-  color: chocolate;
-}
-h3 {
-  color: chocolate; 
-  
-}
 #periodic-container {
       display: grid;
       grid-template-columns: repeat(18, 60px);
@@ -47,8 +34,8 @@ h3 {
 #legend {
   border: 1px solid #ccc;
   padding: 15px;
-  background-color: transparent;
-  color: #ffffff;
+  background-color: #f8f8f8;
+  color: #000000;
   border-radius: 8px;
   font-family: sans-serif;
   min-width: 220px;
@@ -87,16 +74,17 @@ h3 {
   border-radius: 5px;
   text-align: center;
 }
-.alkali-metal       { background-color: crimson; }
+.alkali-metal       { background-color: #ff6666; }
 .alkaline-earth-metal     { background-color: #ffdead; }
-.transition-metal   { background-color: coral; }
+.transition-metal   { background-color: #ffc966; }
 .metalloid          { background-color: #09beeb; }
 .nonmetal           { background-color: #99ccff; }
 .halogen            { background-color: #66ffcc; }
-.noble-gas          { background-color: magenta }
+.noble-gas          { background-color: #c299ff; }
 .lanthanide         { background-color: #ffb3e6; }
-.actinide           { background-color:aqua }
+.actinide           { background-color: #ff99cc; }
 .post-transition-metal    { background-color: #e5fb3d; }
+.unknown            { background-color: #e0e0e0; }
 
 
 /* Add hover effect if you want */
@@ -131,14 +119,14 @@ h3 {
   width: 100vw;
   height: 100vh;
   overflow: auto;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(3px);
   animation: fadeIn 0.3s ease forwards;
 }
 
 /* Scale-in content box */
 #popup-content {
-  background-color: rgb(0, 0, 0);
+  background-color: #fff;
   margin: 10% auto;
   padding: 30px 20px;
   border-radius: 10px;
@@ -171,12 +159,12 @@ h3 {
   top: 10px;
   right: 15px;
   font-size: 24px;
-  color: #ffffff;
+  color: #333;
   cursor: pointer;
 }
 
 #close-button:hover {
-  color: #d62828;
+  color: red;
 }
 
 /* Element text styles */
@@ -184,22 +172,22 @@ h3 {
   margin: 10px 0;
   font-size: 24px;
   font-weight: bold;
-  color: #ffffff;
+  color: #222;
 }
 
 #element-symbol {
   font-size: 40px;
   font-weight: bold;
-  color: #ffffff;
+  color: #007acc;
 }
 
 #element-atomic-number {
   font-size: 18px;
-  color: #ffffff;
+  color: #555;
 }
 #element-mass-number {
   font-size: 18px;
-  color: #ffffff;
+  color: #666;
 }
 
     /* Dark mode */
@@ -211,7 +199,7 @@ h3 {
     body.dark-mode .element { background:#444; }
     body.dark-mode .modal-content { background:#2a2a2a; color:#fff; }
 
-    footer { background:transparent; color:white; text-align:center; padding:10px 0; margin-top:20px; }
+    footer { background:#003366; color:white; text-align:center; padding:10px 0; margin-top:20px; }
   </style>
 </head>
 <body>
@@ -221,11 +209,12 @@ h3 {
   </header>
   <nav>
     <a href="#periodic-table">Periodic Table</a>
+    <a href="#descriptions">Descriptions</a>
     <a href="#history">History</a>
   </nav>
 
   <section id="periodic-table">
-  <h2>Periodic Table (Grid)</h2>
+  <h2>The Modern Periodic Table (Grid)</h2>
   
     <div id="popup">
   <div id="popup-content">
@@ -396,7 +385,13 @@ h3 {
       </ul>
     </div>
   </div>
+   
+  <p>From:<a href="pubchem.ncbi.nlm.nih.gov/periodic-table/#property=GroupBlock" >PubChem</a></p>
+  </section>
 
+   <hr>
+
+  <section id="descriptions">
   <h2>Common Chemical Compounds</h2>
 <ul>
   <li><strong>Sodium chloride (NaCl)</strong> – table salt, used in cooking and food preservation</li>
@@ -451,23 +446,7 @@ h3 {
 
   </section>
 
-<section>
-  <details>
-  <summary style="color: chocolate;">What is Matter?</summary>
-  <p>Matter is anything that has mass and occupies space...</p>
-  </details>
-
-  <h2>States of Matter</h2>
-  <ul>
-    <li>Solid</li>
-    <li>Liquid</li>
-    <li>Gas</li>
-    <li>Plasma</li>
-    <li>Bose-Einstein Condensate</li>
-  </ul>
-
-
-</section>
+   <hr>
 
   <section id="history">
     <h2>History of the Periodic Table</h2>
@@ -510,9 +489,10 @@ lithium, sodium, and potassium"
 All those attempts to sort elements by atomic weights were inhibited by the inaccurate determination of weights, and not just slightly: carbon, oxygen and many other elements were believed to be half their actual masses (cf. the illustration by Dalton above), because only monatomic gases were believed to exist.[15] Even though Amedeo Avogadro and, independently of him, André-Marie Ampère, proposed the solution in the form of diatomic molecules and Avogadro's law already in the 1810s, it was not until after Stanislao Cannizzaro's publications in late 1850s when the theory began to be widely considered.
 
 In 1860, the modern scientific consensus emerged at the first international chemical conference, the Karlsruhe Congress, and a revised list of elements and atomic masses was adopted. It helped spur creation of more extensive systems. The first such system emerged in two years.[</p>
-<p style="color: #ffffff;">Source: <a href="https://en.wikipedia.org/wiki/History_of_the_periodic_table" target="_blank">Wikipedia</a></p>
+<p>Source: <a href="https://en.wikipedia.org/wiki/History_of_the_periodic_table" target="_blank">Wikipedia</a></p>
 </section>
 
+<hr>
   <footer><p>&copy; 2025 Chemistry World</p></footer>
 
   <script>1
@@ -590,9 +570,4 @@ document.getElementById('close-button').onclick = function () {
 };
   </script>
 </body>
-</html>
-
-
-
-
-
+</html
