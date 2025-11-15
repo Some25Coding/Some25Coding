@@ -1,164 +1,113 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Music Player + Lyrics Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Chemistry World – Periodic Table Grid</title>
   <style>
-    /* Animated gradient background */
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      display: flex;
-      height: 100vh;
-      transition: background 0.5s, color 0.5s;
-      background: linear-gradient(-45deg, #f4f4f4, #e3e3e3, #f9f9f9, #f4f4f4);
-      background-size: 400% 400%;
-      animation: backgroundWave 15s ease infinite;
-      overflow: hidden;
+      font-family: Arial, sans-serif; margin: 0; padding: 0;
+      background: #000000; color: #ffffff;
     }
-    @keyframes backgroundWave {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    body.dark-mode {
-      background: linear-gradient(-45deg, #000000, #000000, #000000, #000000);
-      color: #00ffff;
+    header { background: #004d99; color: white; padding: 20px; text-align: center; }
+    nav { background: #0066cc; text-align: center; padding: 10px; }
+    nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
+
+    #layout-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px; /* Space between table and legend */
+  flex-wrap: wrap;
+}
+
+#periodic-container {
+      display: grid;
+      grid-template-columns: repeat(18, 60px);
+      grid-auto-rows: 60px;
+      gap: 4px;
+      justify-content: center;
+      margin: 20px auto;
     }
 
-    /* Sidebar */
-    .sidebar {
-      width: 250px;
-      padding: 10px;
-      background: #fff;
-      overflow-y: auto;
-      border-right: 2px solid #fff;
-    }
-    .sidebar input, .sidebar select {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border-radius: 5px;
-      border: none;
-      font-size: 14px;
-    }
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .sidebar li {
-      padding: 8px;
-      border-bottom: 1px solid #ccc;
-      cursor: pointer;
-    }
-    .sidebar li:hover {
-      background: #ddd;
+#legend {
+  border: 1px solid #ccc;
+  padding: 15px;
+  background-color: #f8f8f8;
+  color: #000000;
+  border-radius: 8px;
+  font-family: sans-serif;
+  min-width: 220px;
+}
+
+#legend h3 {
+  margin-top: 0;
+}
+#legend ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#legend li {
+  display: flex;
+  align-items: center;
+  margin: 6px 0;
+}
+
+.legend-box {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border: 1px solid #555;
+  border-radius: 4px;
+}
+
+    .element {
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+  cursor: default;
+  user-select: none;
+  color: #000;
+  border-radius: 5px;
+  text-align: center;
+}
+.alkali-metal       { background-color: #ff6666; }
+.alkaline-earth-metal     { background-color: #ffdead; }
+.transition-metal   { background-color: #ffc966; }
+.metalloid          { background-color: #09beeb; }
+.nonmetal           { background-color: #99ccff; }
+.halogen            { background-color: #66ffcc; }
+.noble-gas          { background-color: #c299ff; }
+.lanthanide         { background-color: #ffb3e6; }
+.actinide           { background-color: #ff99cc; }
+.post-transition-metal    { background-color: #e5fb3d; }
+.unknown            { background-color: #e0e0e0; }
+
+
+/* Add hover effect if you want */
+.element:hover {
+  filter: brightness(110%);
+  transition: filter 0.3s;
+}
+
+    .element:hover { background-color: #0077aa; }
+    .element:hover::after {
+      content: attr(data-symbol) " • " attr(data-name);
+      position: absolute; background: #333; color: #fff;
+      padding: 4px 8px; border-radius: 4px;
+      font-size: 0.8em; top: -30px; left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      z-index: 5;
     }
 
-    /* Main content */
-    .main-content {
-      flex: 1;
-      overflow-y: auto;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-    h1 {
-      text-align: center;
-      margin-top: 0;
-    }
-    .dark-toggle {
-      text-align: center;
-      margin: 10px 0;
-    }
-    .player {
-      text-align: center;
-    }
-    .cover {
-      width: 200px;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      margin-bottom: 10px;
-      transition: opacity 0.5s ease;
-    }
-    .song-title {
-      font-size: 1.2em;
-      margin-bottom: 10px;
-    }
-    .controls button {
-      margin: 5px;
-      padding: 8px 12px;
-      border: none;
-      border-radius: 4px;
-      background: #007bff;
-      color: white;
-      font-size: 14px;
-      text-align: center;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .controls button:hover {
-      background: #0056b3;
-    }
-    .sliders {
-      margin-top: 10px;
-    }
-    .time-display {
-      font-size: 0.9em;
-      margin-bottom: 5px;
-    }
-    .lyrics-container {
-      margin-top: 20px;
-    }
-    #lyrics {
-      max-height: 150px;
-      overflow-y: auto;
-      padding: 15px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      white-space: pre-wrap;
-      transition: background 0.3s, color 0.3s;
-    }
-    .line {
-      margin: 8px 0;
-      padding: 6px 12px;
-      border-radius: 6px;
-      transition: background-color 0.3s, transform 0.3s;
-      cursor: default;
-    }
-    .line:hover {
-      background: #f1f1f1;
-    }
-    .line.active {
-      background: #d1ecf1;
-      transform: scale(1.02);
-      font-weight: bold;
-    }
-    .timestamp {
-      font-family: monospace;
-      margin-right: 10px;
-      color: #888;
-      font-size: 0.85em;
+    #dark-mode-toggle { margin:10px auto; display:block;
+      padding:10px 20px; background:#333; color:white;
+      border:none; border-radius:5px; cursor:pointer;
     }
 
-    /* Dark mode overrides */
-    body.dark-mode .sidebar { background: #333; color: #ccc; }
-    body.dark-mode input, body.dark-mode select { background: #555; color: #eee; }
-    body.dark-mode li:hover { background: #444; }
-    body.dark-mode .main-content { color: #e0e0e0; }
-    body.dark-mode #lyrics { background: #222; box-shadow: 0 4px 10px rgba(255,255,255,0.1); color: #ccc; }
-    body.dark-mode .line:hover { background: #333; }
-    body.dark-mode .line.active { background: #0056b3; color: #fff; }
-
-    @media (max-width: 600px) {
-      .sidebar { display: none; }
-    }
-    
  /* Fade-in overlay */
 #popup {
   display: none; /* Hidden by default */
@@ -216,357 +165,412 @@
 #close-button:hover {
   color: red;
 }
+
+/* Element text styles */
+#element-name {
+  margin: 10px 0;
+  font-size: 24px;
+  font-weight: bold;
+  color: #222;
+}
+
+#element-symbol {
+  font-size: 40px;
+  font-weight: bold;
+  color: #007acc;
+}
+
+#element-atomic-number {
+  font-size: 18px;
+  color: #555;
+}
+#element-mass-number {
+  font-size: 18px;
+  color: #666;
+}
+
+    /* Dark mode */
+    body.dark-mode { background:#121212; color:#fff; }
+    body.dark-mode header, body.dark-mode footer, body.dark-mode nav {
+      background:#1e1e1e;
+    }
+    body.dark-mode section { background:#1a1a1a; }
+    body.dark-mode .element { background:#444; }
+    body.dark-mode .modal-content { background:#2a2a2a; color:#fff; }
+
+    footer { background:#003366; color:white; text-align:center; padding:10px 0; margin-top:20px; }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <input type="text" id="searchInput" placeholder="Search songs...">
-    <select id="artistFilter"><option value="">All Artists</option></select>
-    <select id="albumFilter"><option value="">All Albums</option></select>
-    <ul id="playlist"></ul>
-  </div>
-  <div class="main-content">
-    <h1>🎶 Music Player + Lyrics</h1>
-    <div class="player">
-      <img id="cover" src="" alt="Cover" class="cover">
-      <div class="song-title" id="songTitle">No song loaded</div>
-      <audio id="audio"></audio>
-      <div class="controls">
-        <button onclick="prevSong()">⏮️</button>
-        <button onclick="playPause()">▶️/⏸️</button>
-        <button onclick="nextSong()">⏭️</button>
-        <button onclick="toggleMute()">🔇</button>
-        <button onclick="toggleLoop()">🔁</button>
-        <button onclick="toggleShuffle()">🔀</button>
-      </div>
-      <div class="sliders">
-        <div class="time-display"><span id="curTime">0:00</span> / <span id="durTime">0:00</span></div>
-        <input type="range" id="seek" min="0" step="1" value="0"><br>
-        Volume: <input type="range" id="vol" min="0" max="1" step="0.01" value="1">
-      </div>
+  <header>
+    <h1>Chemistry World</h1>
+    <p>Interactive Grid-Style Periodic Table</p>
+  </header>
+  <nav>
+    <a href="#periodic-table">Periodic Table</a>
+    <a href="#descriptions">Descriptions</a>
+    <a href="#history">History</a>
+  </nav>
 
+  <section id="periodic-table">
+  <h2>The Modern Periodic Table (Grid)</h2>
   
     <div id="popup">
   <div id="popup-content">
     <span id="close-button">&times;</span>
-    <p id="lyricsData"></p>
+    <h2 id="element-name"></h2>
+    <p id="element-symbol"></p>
+    <p id="element-atomic-number"></p>
+    <p id="element-mass-number"></p>
   </div>
 </div>
-<div class="lyrics-container">
-     <button onclick="parseLyrics()"> <input type="file" id="fileInput" accept=".lrc"> </button>
-      <div id="lyrics"></div>
+  <div id="layout-container">
+  <div id="periodic-container">
+   <!-- Period 1 -->
+<button class="element nonmetal"    style="grid-column:1; grid-row:1;"   data-symbol="H"  data-name="Hydrogen"       data-atomic="1"   data-mass="1.008">H<br>Hydrogen</button>
+<button class="element noble-gas"   style="grid-column:18; grid-row:1;"  data-symbol="He" data-name="Helium"         data-atomic="2"   data-mass="4.0026">He<br>Helium</button>
+
+<!-- Period 2 -->
+<button class="element alkali-metal"           style="grid-column:1; grid-row:2;"  data-symbol="Li" data-name="Lithium"       data-atomic="3"   data-mass="6.94">Li<br>Lithium</button>
+<button class="element alkaline-earth-metal"   style="grid-column:2; grid-row:2;"  data-symbol="Be" data-name="Beryllium"     data-atomic="4"   data-mass="9.0122">Be<br>Beryllium</button>
+<button class="element metalloid"              style="grid-column:13; grid-row:2;" data-symbol="B"  data-name="Boron"         data-atomic="5"   data-mass="10.81">B<br>Boron</button>
+<button class="element nonmetal"               style="grid-column:14; grid-row:2;" data-symbol="C"  data-name="Carbon"        data-atomic="6"   data-mass="12.011">C<br>Carbon</button>
+<button class="element nonmetal"               style="grid-column:15; grid-row:2;" data-symbol="N"  data-name="Nitrogen"      data-atomic="7"   data-mass="14.007">N<br>Nitrogen</button>
+<button class="element nonmetal"               style="grid-column:16; grid-row:2;" data-symbol="O"  data-name="Oxygen"        data-atomic="8"   data-mass="15.999">O<br>Oxygen</button>
+<button class="element halogen"                style="grid-column:17; grid-row:2;" data-symbol="F"  data-name="Fluorine"      data-atomic="9"   data-mass="18.998">F<br>Fluorine</button>
+<button class="element noble-gas"              style="grid-column:18; grid-row:2;" data-symbol="Ne" data-name="Neon"          data-atomic="10"  data-mass="20.18">Ne<br>Neon</button>
+
+<!-- ... -->
+
+<!-- Continue similarly through all periods ... -->
+
+<!-- Period 3 -->
+<button class="element alkali-metal"           style="grid-column:1; grid-row:3;"   data-symbol="Na" data-name="Sodium, Natrium"        data-atomic="11"  data-mass="22.9897693">Na<br>Sodium</button>
+<button class="element alkaline-earth-metal"   style="grid-column:2; grid-row:3;"   data-symbol="Mg" data-name="Magnesium"     data-atomic="12"  data-mass="24.305">Mg<br>Magnesium</button>
+<button class="element post-transition-metal"  style="grid-column:13; grid-row:3;"  data-symbol="Al" data-name="Aluminium"     data-atomic="13"  data-mass="26.981538">Al<br>Aluminium</button>
+<button class="element metalloid"              style="grid-column:14; grid-row:3;"  data-symbol="Si" data-name="Silicon"       data-atomic="14"  data-mass="28.085">Si<br>Silicon</button>
+<button class="element nonmetal"               style="grid-column:15; grid-row:3;"  data-symbol="P"  data-name="Phosphorus"    data-atomic="15"  data-mass="30.973762">P<br>Phosphorus</button>
+<button class="element nonmetal"               style="grid-column:16; grid-row:3;"  data-symbol="S"  data-name="Sulfur"        data-atomic="16"  data-mass="32.07">S<br>Sulfur</button>
+<button class="element halogen"                style="grid-column:17; grid-row:3;"  data-symbol="Cl" data-name="Chlorine"      data-atomic="17"  data-mass="35.45">Cl<br>Chlorine</button>
+<button class="element noble-gas"              style="grid-column:18; grid-row:3;"  data-symbol="Ar" data-name="Argon"         data-atomic="18"  data-mass="39.9">Ar<br>Argon</button>
+
+<!-- Period 4 -->
+<button class="element alkali-metal"           style="grid-column:1; grid-row:4;"   data-symbol="K"  data-name="Potassium, Kalium"     data-atomic="19"  data-mass="39.0983">K<br>Potassium</button>
+<button class="element alkaline-earth-metal"   style="grid-column:2; grid-row:4;"   data-symbol="Ca" data-name="Calcium"       data-atomic="20"  data-mass="40.08">Ca<br>Calcium</button>
+<button class="element transition-metal"       style="grid-column:3; grid-row:4;"   data-symbol="Sc" data-name="Scandium"      data-atomic="21"  data-mass="44.95591">Sc<br>Scandium</button>
+<button class="element transition-metal"       style="grid-column:4; grid-row:4;"   data-symbol="Ti" data-name="Titanium"      data-atomic="22"  data-mass="47.867">Ti<br>Titanium</button>
+<button class="element transition-metal"       style="grid-column:5; grid-row:4;"   data-symbol="V"  data-name="Vanadium"      data-atomic="23"  data-mass="50.9415">V<br>Vanadium</button>
+<button class="element transition-metal"       style="grid-column:6; grid-row:4;"   data-symbol="Cr" data-name="Chromium"      data-atomic="24"  data-mass="51.996">Cr<br>Chromium</button>
+<button class="element transition-metal"       style="grid-column:7; grid-row:4;"   data-symbol="Mn" data-name="Manganese"     data-atomic="25"  data-mass="54.93804">Mn<br>Manganese</button>
+<button class="element transition-metal"       style="grid-column:8; grid-row:4;"   data-symbol="Fe" data-name="Iron, Ferrum"          data-atomic="26"  data-mass="55.84">Fe<br>Iron</button>
+<button class="element transition-metal"       style="grid-column:9; grid-row:4;"   data-symbol="Co" data-name="Cobalt"        data-atomic="27"  data-mass="58.93319">Co<br>Cobalt</button>
+<button class="element transition-metal"       style="grid-column:10; grid-row:4;"  data-symbol="Ni" data-name="Nickel"        data-atomic="28"  data-mass="58.693">Ni<br>Nickel</button>
+<button class="element transition-metal"       style="grid-column:11; grid-row:4;"  data-symbol="Cu" data-name="Copper, Cuprum"        data-atomic="29"  data-mass="63.55">Cu<br>Copper</button>
+<button class="element transition-metal"       style="grid-column:12; grid-row:4;"  data-symbol="Zn" data-name="Zinc"          data-atomic="30"  data-mass="65.4">Zn<br>Zinc</button>
+<button class="element post-transition-metal"  style="grid-column:13; grid-row:4;"  data-symbol="Ga" data-name="Gallium"       data-atomic="31"  data-mass="69.723">Ga<br>Gallium</button>
+<button class="element metalloid"              style="grid-column:14; grid-row:4;"  data-symbol="Ge" data-name="Germanium"     data-atomic="32"  data-mass="72.63">Ge<br>Germanium</button>
+<button class="element metalloid"              style="grid-column:15; grid-row:4;"  data-symbol="As" data-name="Arsenic"       data-atomic="33"  data-mass="74.92159">As<br>Arsenic</button>
+<button class="element nonmetal"               style="grid-column:16; grid-row:4;"  data-symbol="Se" data-name="Selenium"      data-atomic="34"  data-mass="78.97">Se<br>Selenium</button>
+<button class="element halogen"                style="grid-column:17; grid-row:4;"  data-symbol="Br" data-name="Bromine"       data-atomic="35"  data-mass="79.9">Br<br>Bromine</button>
+<button class="element noble-gas"              style="grid-column:18; grid-row:4;"  data-symbol="Kr" data-name="Krypton"       data-atomic="36"  data-mass="83.8">Kr<br>Krypton</button>
+
+<!-- Period 5 -->
+<button class="element alkali-metal"           style="grid-column:1; grid-row:5;"   data-symbol="Rb" data-name="Rubidium"      data-atomic="37"  data-mass="85.468">Rb<br>Rubidium</button>
+<button class="element alkaline-earth-metal"   style="grid-column:2; grid-row:5;"   data-symbol="Sr" data-name="Strontium"     data-atomic="38"  data-mass="87.62">Sr<br>Strontium</button>
+<button class="element transition-metal"       style="grid-column:3; grid-row:5;"   data-symbol="Y"  data-name="Yttrium"       data-atomic="39"  data-mass="88.90584">Y<br>Yttrium</button>
+<button class="element transition-metal"       style="grid-column:4; grid-row:5;"   data-symbol="Zr" data-name="Zirconium"     data-atomic="40"  data-mass="91.22">Zr<br>Zirconium</button>
+<button class="element transition-metal"       style="grid-column:5; grid-row:5;"   data-symbol="Nb" data-name="Niobium"       data-atomic="41"  data-mass="92.90637">Nb<br>Niobium</button>
+<button class="element transition-metal"       style="grid-column:6; grid-row:5;"   data-symbol="Mo" data-name="Molybdenum"    data-atomic="42"  data-mass="95.95">Mo<br>Molybdenum</button>
+<button class="element transition-metal"       style="grid-column:7; grid-row:5;"   data-symbol="Tc" data-name="Technetium"    data-atomic="43"  data-mass="96.90636">Tc<br>Technetium</button>
+<button class="element transition-metal"       style="grid-column:8; grid-row:5;"   data-symbol="Ru" data-name="Ruthenium"     data-atomic="44"  data-mass="101.1">Ru<br>Ruthenium</button>
+<button class="element transition-metal"       style="grid-column:9; grid-row:5;"   data-symbol="Rh" data-name="Rhodium"       data-atomic="45"  data-mass="102.9055">Rh<br>Rhodium</button>
+<button class="element transition-metal"       style="grid-column:10; grid-row:5;"  data-symbol="Pd" data-name="Palladium"     data-atomic="46"  data-mass="106.42">Pd<br>Palladium</button>
+<button class="element transition-metal"       style="grid-column:11; grid-row:5;"  data-symbol="Ag" data-name="Silver, Argentum"        data-atomic="47"  data-mass="107.868">Ag<br>Silver</button>
+<button class="element transition-metal"       style="grid-column:12; grid-row:5;"  data-symbol="Cd" data-name="Cadmium"       data-atomic="48"  data-mass="112.41">Cd<br>Cadmium</button>
+<button class="element post-transition-metal"  style="grid-column:13; grid-row:5;"  data-symbol="In" data-name="Indium"        data-atomic="49"  data-mass="114.818">In<br>Indium</button>
+<button class="element post-transition-metal"  style="grid-column:14; grid-row:5;"  data-symbol="Sn" data-name="Tin, Stannum"           data-atomic="50"  data-mass="118.71">Sn<br>Tin</button>
+<button class="element metalloid"              style="grid-column:15; grid-row:5;"  data-symbol="Sb" data-name="Antimony, Stibium"      data-atomic="51"  data-mass="121.76">Sb<br>Antimony</button>
+<button class="element metalloid"              style="grid-column:16; grid-row:5;"  data-symbol="Te" data-name="Tellurium"     data-atomic="52"  data-mass="127.6">Te<br>Tellurium</button>
+<button class="element halogen"                style="grid-column:17; grid-row:5;"  data-symbol="I"  data-name="Iodine"        data-atomic="53"  data-mass="126.9045">I<br>Iodine</button>
+<button class="element noble-gas"              style="grid-column:18; grid-row:5;"  data-symbol="Xe" data-name="Xenon"         data-atomic="54"  data-mass="131.29">Xe<br>Xenon</button>
+
+<!-- Period 6 -->
+<button class="element alkali-metal"           style="grid-column:1; grid-row:6;"   data-symbol="Cs" data-name="Cesium"        data-atomic="55"  data-mass="132.905452">Cs<br>Cesium</button>
+<button class="element alkaline-earth-metal"   style="grid-column:2; grid-row:6;"   data-symbol="Ba" data-name="Barium"        data-atomic="56"  data-mass="137.33">Ba<br>Barium</button>
+<button class="element lanthanide"            style="grid-column:3; grid-row:9;"   data-symbol="La" data-name="Lanthanum"     data-atomic="57"  data-mass="138.9055">La<br>Lanthanum</button>
+<button class="element transition-metal"       style="grid-column:4; grid-row:6;"   data-symbol="Hf" data-name="Hafnium"       data-atomic="72"  data-mass="178.49">Hf<br>Hafnium</button>
+<button class="element transition-metal"       style="grid-column:5; grid-row:6;"   data-symbol="Ta" data-name="Tantalum"      data-atomic="73"  data-mass="180.9479">Ta<br>Tantalum</button>
+<button class="element transition-metal"       style="grid-column:6; grid-row:6;"   data-symbol="W"  data-name="Tungsten, Wolfram"      data-atomic="74"  data-mass="183.84">W<br>Tungsten</button>
+<button class="element transition-metal"       style="grid-column:7; grid-row:6;"   data-symbol="Re" data-name="Rhenium"       data-atomic="75"  data-mass="186.207">Re<br>Rhenium</button>
+<button class="element transition-metal"       style="grid-column:8; grid-row:6;"   data-symbol="Os" data-name="Osmium"        data-atomic="76"  data-mass="190.2">Os<br>Osmium</button>
+<button class="element transition-metal"       style="grid-column:9; grid-row:6;"   data-symbol="Ir" data-name="Iridium"       data-atomic="77"  data-mass="192.22">Ir<br>Iridium</button>
+<button class="element transition-metal"       style="grid-column:10; grid-row:6;"  data-symbol="Pt" data-name="Platinum"      data-atomic="78"  data-mass="195.08">Pt<br>Platinum</button>
+<button class="element transition-metal"       style="grid-column:11; grid-row:6;"  data-symbol="Au" data-name="Gold, Aurum"          data-atomic="79"  data-mass="196.96657">Au<br>Gold</button>
+<button class="element transition-metal"       style="grid-column:12; grid-row:6;"  data-symbol="Hg" data-name="Mercury, Hydrargyrum"       data-atomic="80"  data-mass="200.59">Hg<br>Mercury</button>
+<button class="element post-transition-metal"  style="grid-column:13; grid-row:6;"  data-symbol="Tl" data-name="Thallium"      data-atomic="81"  data-mass="204.383">Tl<br>Thallium</button>
+<button class="element post-transition-metal"  style="grid-column:14; grid-row:6;"  data-symbol="Pb" data-name="Lead, Plumbum"          data-atomic="82"  data-mass="207">Pb<br>Lead</button>
+<button class="element post-transition-metal"  style="grid-column:15; grid-row:6;"  data-symbol="Bi" data-name="Bismuth"       data-atomic="83"  data-mass="208.9804">Bi<br>Bismuth</button>
+<button class="element metalloid"              style="grid-column:16; grid-row:6;"  data-symbol="Po" data-name="Polonium"      data-atomic="84"  data-mass="208.98243">Po<br>Polonium</button>
+<button class="element halogen"                style="grid-column:17; grid-row:6;"  data-symbol="At" data-name="Astatine"      data-atomic="85"  data-mass="209.98715">At<br>Astatine</button>
+<button class="element noble-gas"              style="grid-column:18; grid-row:6;"  data-symbol="Rn" data-name="Radon"         data-atomic="86"  data-mass="222.01758">Rn<br>Radon</button>
+
+<!-- Period 7 -->
+<button class="element alkali-metal"           style="grid-column:1; grid-row:7;"   data-symbol="Fr" data-name="Francium"      data-atomic="87"  data-mass="[223]">Fr<br>Francium</button>
+<button class="element alkaline-earth-metal"   style="grid-column:2; grid-row:7;"   data-symbol="Ra" data-name="Radium"        data-atomic="88"  data-mass="[226]">Ra<br>Radium</button>
+<button class="element actinide"               style="grid-column:3; grid-row:10;"  data-symbol="Ac" data-name="Actinium"      data-atomic="89"  data-mass="[227]">Ac<br>Actinium</button>
+<button class="element transition-metal"       style="grid-column:4; grid-row:7;"   data-symbol="Rf" data-name="Rutherfordium" data-atomic="104" data-mass="[267]">Rf<br>Rutherfordium</button>
+<button class="element transition-metal"       style="grid-column:5; grid-row:7;"   data-symbol="Db" data-name="Dubnium"       data-atomic="105" data-mass="[268]">Db<br>Dubnium</button>
+<button class="element transition-metal"       style="grid-column:6; grid-row:7;"   data-symbol="Sg" data-name="Seaborgium"    data-atomic="106" data-mass="[269]">Sg<br>Seaborgium</button>
+<button class="element transition-metal"       style="grid-column:7; grid-row:7;"   data-symbol="Bh" data-name="Bohrium"       data-atomic="107" data-mass="[270]">Bh<br>Bohrium</button>
+<button class="element transition-metal"       style="grid-column:8; grid-row:7;"   data-symbol="Hs" data-name="Hassium"       data-atomic="108" data-mass="[269]">Hs<br>Hassium</button>
+<button class="element transition-metal"       style="grid-column:9; grid-row:7;"   data-symbol="Mt" data-name="Meitnerium"    data-atomic="109" data-mass="[278]">Mt<br>Meitnerium</button>
+<button class="element transition-metal"       style="grid-column:10; grid-row:7;"  data-symbol="Ds" data-name="Darmstadtium"  data-atomic="110" data-mass="[281]">Ds<br>Darmstadtium</button>
+<button class="element transition-metal"       style="grid-column:11; grid-row:7;"  data-symbol="Rg" data-name="Roentgenium"   data-atomic="111" data-mass="[282]">Rg<br>Roentgenium</button>
+<button class="element transition-metal"       style="grid-column:12; grid-row:7;"  data-symbol="Cn" data-name="Copernicium"   data-atomic="112" data-mass="[285]">Cn<br>Copernicium</button>
+<button class="element post-transition-metal"  style="grid-column:13; grid-row:7;"  data-symbol="Nh" data-name="Nihonium"      data-atomic="113" data-mass="[286]">Nh<br>Nihonium</button>
+<button class="element post-transition-metal"  style="grid-column:14; grid-row:7;"  data-symbol="Fl" data-name="Flerovium"     data-atomic="114" data-mass="[289]">Fl<br>Flerovium</button>
+<button class="element post-transition-metal"  style="grid-column:15; grid-row:7;"  data-symbol="Mc" data-name="Moscovium"     data-atomic="115" data-mass="[290]">Mc<br>Moscovium</button>
+<button class="element post-transition-metal"  style="grid-column:16; grid-row:7;"  data-symbol="Lv" data-name="Livermorium"   data-atomic="116" data-mass="[293]">Lv<br>Livermorium</button>
+<button class="element halogen"                style="grid-column:17; grid-row:7;"  data-symbol="Ts" data-name="Tennessine"    data-atomic="117" data-mass="[294]">Ts<br>Tennessine</button>
+<button class="element noble-gas"              style="grid-column:18; grid-row:7;"  data-symbol="Og" data-name="Oganesson"     data-atomic="118" data-mass="[294]">Og<br>Oganesson</button>
+
+<!-- Lanthanides (Period 6, f-block) -->
+<button class="element lanthanide" style="grid-column:4; grid-row:9;" data-symbol="Ce" data-name="Cerium" data-atomic="58" data-mass="140.116">Ce<br>Cerium</button>
+<button class="element lanthanide" style="grid-column:5; grid-row:9;" data-symbol="Pr" data-name="Praseodymium" data-atomic="59" data-mass="140.90766">Pr<br>Praseodymium</button>
+<button class="element lanthanide" style="grid-column:6; grid-row:9;" data-symbol="Nd" data-name="Neodymium" data-atomic="60" data-mass="144.242">Nd<br>Neodymium</button>
+<button class="element lanthanide" style="grid-column:7; grid-row:9;" data-symbol="Pm" data-name="Promethium" data-atomic="61" data-mass="[145]">Pm<br>Promethium</button>
+<button class="element lanthanide" style="grid-column:8; grid-row:9;" data-symbol="Sm" data-name="Samarium" data-atomic="62" data-mass="150.36">Sm<br>Samarium</button>
+<button class="element lanthanide" style="grid-column:9; grid-row:9;" data-symbol="Eu" data-name="Europium" data-atomic="63" data-mass="151.964">Eu<br>Europium</button>
+<button class="element lanthanide" style="grid-column:10; grid-row:9;" data-symbol="Gd" data-name="Gadolinium" data-atomic="64" data-mass="157.25">Gd<br>Gadolinium</button>
+<button class="element lanthanide" style="grid-column:11; grid-row:9;" data-symbol="Tb" data-name="Terbium" data-atomic="65" data-mass="158.92535">Tb<br>Terbium</button>
+<button class="element lanthanide" style="grid-column:12; grid-row:9;" data-symbol="Dy" data-name="Dysprosium" data-atomic="66" data-mass="162.5">Dy<br>Dysprosium</button>
+<button class="element lanthanide" style="grid-column:13; grid-row:9;" data-symbol="Ho" data-name="Holmium" data-atomic="67" data-mass="164.93033">Ho<br>Holmium</button>
+<button class="element lanthanide" style="grid-column:14; grid-row:9;" data-symbol="Er" data-name="Erbium" data-atomic="68" data-mass="167.259">Er<br>Erbium</button>
+<button class="element lanthanide" style="grid-column:15; grid-row:9;" data-symbol="Tm" data-name="Thulium" data-atomic="69" data-mass="168.93422">Tm<br>Thulium</button>
+<button class="element lanthanide" style="grid-column:16; grid-row:9;" data-symbol="Yb" data-name="Ytterbium" data-atomic="70" data-mass="173.045">Yb<br>Ytterbium</button>
+<button class="element lanthanide" style="grid-column:17; grid-row:9;" data-symbol="Lu" data-name="Lutetium" data-atomic="71" data-mass="174.9668">Lu<br>Lutetium</button>
+
+<!-- Actinides (Period 7, f-block) -->
+<button class="element actinide" style="grid-column:4; grid-row:10;" data-symbol="Th" data-name="Thorium" data-atomic="90" data-mass="232.0377">Th<br>Thorium</button>
+<button class="element actinide" style="grid-column:5; grid-row:10;" data-symbol="Pa" data-name="Protactinium" data-atomic="91" data-mass="231.03588">Pa<br>Protactinium</button>
+<button class="element actinide" style="grid-column:6; grid-row:10;" data-symbol="U" data-name="Uranium" data-atomic="92" data-mass="238.02891">U<br>Uranium</button>
+<button class="element actinide" style="grid-column:7; grid-row:10;" data-symbol="Np" data-name="Neptunium" data-atomic="93" data-mass="[237]">Np<br>Neptunium</button>
+<button class="element actinide" style="grid-column:8; grid-row:10;" data-symbol="Pu" data-name="Plutonium" data-atomic="94" data-mass="[244]">Pu<br>Plutonium</button>
+<button class="element actinide" style="grid-column:9; grid-row:10;" data-symbol="Am" data-name="Americium" data-atomic="95" data-mass="[243]">Am<br>Americium</button>
+<button class="element actinide" style="grid-column:10; grid-row:10;" data-symbol="Cm" data-name="Curium" data-atomic="96" data-mass="[247]">Cm<br>Curium</button>
+<button class="element actinide" style="grid-column:11; grid-row:10;" data-symbol="Bk" data-name="Berkelium" data-atomic="97" data-mass="[247]">Bk<br>Berkelium</button>
+<button class="element actinide" style="grid-column:12; grid-row:10;" data-symbol="Cf" data-name="Californium" data-atomic="98" data-mass="[251]">Cf<br>Californium</button>
+<button class="element actinide" style="grid-column:13; grid-row:10;" data-symbol="Es" data-name="Einsteinium" data-atomic="99" data-mass="[252]">Es<br>Einsteinium</button>
+<button class="element actinide" style="grid-column:14; grid-row:10;" data-symbol="Fm" data-name="Fermium" data-atomic="100" data-mass="[257]">Fm<br>Fermium</button>
+<button class="element actinide" style="grid-column:15; grid-row:10;" data-symbol="Md" data-name="Mendelevium" data-atomic="101" data-mass="[258]">Md<br>Mendelevium</button>
+<button class="element actinide" style="grid-column:16; grid-row:10;" data-symbol="No" data-name="Nobelium" data-atomic="102" data-mass="[259]">No<br>Nobelium</button>
+<button class="element actinide" style="grid-column:17; grid-row:10;" data-symbol="Lr" data-name="Lawrencium" data-atomic="103" data-mass="[262]">Lr<br>Lawrencium</button>
+
+  </div>
+
+   <div id="legend">
+      <h3>Element Classification Key</h3>
+      <ul>
+        <li><span class="legend-box alkali-metal"></span> Alkali Metal</li>
+        <li><span class="legend-box alkaline-earth-metal"></span> Alkaline Earth Metal</li>
+        <li><span class="legend-box transition-metal"></span> Transition Metal</li>
+        <li><span class="legend-box post-transition-metal"></span> Post-Transition Metal</li>
+        <li><span class="legend-box metalloid"></span> Metalloid</li>
+        <li><span class="legend-box nonmetal"></span> Nonmetal</li>
+        <li><span class="legend-box halogen"></span> Halogen</li>
+        <li><span class="legend-box noble-gas"></span> Noble Gas</li>
+        <li><span class="legend-box lanthanide"></span> Lanthanide Series</li>
+        <li><span class="legend-box actinide"></span> Actinide Series</li>
+      </ul>
     </div>
   </div>
-      <div class="dark-toggle">
-      <label>
-        🌙 Dark Mode
-        <input type="checkbox" id="darkModeToggle">
-      </label>
-    </div>
-    </div>
-    
+   
+  <p>From:<a href="https://pubchem.ncbi.nlm.nih.gov/periodic-table/" >PubChem</a></p>
+  </section>
 
-  <script>
-    // Sample playlist (trimmed for brevity)
-        const playlist = [
-      { title: "Justin Bieber - DAISIES", mp3: "songs/Justin Bieber - DAISIES.mp3", cover: "covers/Swag.jpg" },
-      { title: "Justin Bieber - YUKON", mp3: "songs/Justin Bieber - YUKON.mp3", cover: "covers/Swag.jpg" },
-      { title: "Justin Bieber - GO BABY", mp3: "songs/Justin Bieber - GO BABY.mp3", cover: "covers/Swag.jpg" },
-      { title: "01 Justin Bieber - Heartbreaker", mp3: "songs/01 Justin Bieber - Heartbreaker.mp3", cover: "covers/journals.jpg" },
-      { title: "02 Justin Bieber - All That Matters", mp3: "songs/02 Justin Bieber - All That Matters.mp3", cover: "covers/journals.jpg" },
-      { title: "03 Justin Bieber - Hold Tight", mp3: "songs/03 Justin Bieber - Hold Tight.mp3", cover: "covers/journals.jpg" },
-      { title: "10 Justin Bieber - Confident", mp3: "songs/10 Justin Bieber - Confident.mp3", cover: "covers/journals.jpg" },
-      { title: "02 Justin Bieber - Boyfriend", mp3: "songs/02 Justin Bieber - Boyfriend.mp3", cover: "covers/believe.jpg" },
-      { title: "03 Justin Bieber - As Long As You Love Me", mp3: "songs/03 Justin Bieber - As Long As You Love Me.mp3", cover: "covers/believe.jpg" },
-      { title: "10 Justin Bieber - Beauty And A Beat", mp3: "songs/10 Justin Bieber - Beauty And A Beat.mp3", cover: "covers/believe.jpg" },
-      { title: "02 Justin Bieber - Favorite Girl (Album Version)", mp3: "songs/02 Justin Bieber - Favorite Girl (Album Version).mp3", cover: "covers/my world.jpg" },
-      { title: "01 Justin Bieber - One Time (Album Version)", mp3: "songs/01 Justin Bieber - One Time (Album Version).mp3", cover: "covers/my world.jpg" },
-      { title: "05 Justin Bieber - One Less Lonely Girl (Album Version)", mp3: "songs/05 Justin Bieber - One Less Lonely Girl (Album Version).mp3", cover: "covers/my world.jpg" },
-      { title: "07 Justin Bieber - Love Me (Album Version)", mp3: "songs/07 Justin Bieber - Love Me (Album Version).mp3", cover: "covers/my world.jpg" },
-      { title: "02 Justin Bieber - Somebody To Love", mp3: "songs/02 Justin Bieber - Somebody To Love.mp3", cover: "covers/my world 2.0.jpg" },
-      { title: "01 Justin Bieber - Baby", mp3: "songs/01 Justin Bieber - Baby.mp3", cover: "covers/my world 2.0.jpg" },
-      { title: "01 Justin Bieber - Eenie Meenie", mp3: "songs/01 Justin Bieber - Eenie Meenie.mp3", cover: "covers/my world 2.0.jpg" },
-      { title: "04 Justin Bieber - U Smile (Album Version)", mp3: "songs/04 Justin Bieber - U Smile (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
-      { title: "06 Justin Bieber - Never Let You Go (Album Version)", mp3: "songs/06 Justin Bieber - Never Let You Go (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
-      { title: "09 Justin Bieber - Up (Album Version)", mp3: "songs/09 Justin Bieber - Up (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
-      { title: "10 Justin Bieber - That Should Be Me (Album Version)", mp3: "songs/10 Justin Bieber - That Should Be Me (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
-      { title: "01 Justin Bieber - Never Say Never", mp3: "songs/01 Justin Bieber - Never Say Never.mp3", cover: "covers/never say never.jpg" },
-      { title: "01 Justin Bieber - Friends", mp3: "songs/01 Justin Bieber - Friends.mp3", cover: "covers/Friends.jpg" },
-      { title: "02 Justin Bieber - I'll Show You", mp3: "songs/02 Justin Bieber - I'll Show You.mp3", cover: "covers/purpose.jpg" },
-      { title: "03 Justin Bieber - What Do You Mean", mp3: "songs/03 Justin Bieber - What Do You Mean.mp3", cover: "covers/purpose.jpg" },
-      { title: "04 Justin Bieber - Sorry", mp3: "songs/04 Justin Bieber - Sorry.mp3", cover: "covers/purpose.jpg" },
-      { title: "06 Justin Bieber - Company", mp3: "songs/06 Justin Bieber - Company.mp3", cover: "covers/purpose.jpg" },
-      { title: "09 Justin Bieber - Where Are U Now", mp3: "songs/09 Justin Bieber - Where Are U Now.mp3", cover: "covers/where are you now.jpg" },
-      { title: "Justin Bieber - Peaches", mp3: "songs/Justin Bieber - Peaches.mp3", cover: "covers/justice.jpg" },
-      { title: "Justin Bieber - Somebody", mp3: "songs/Justin Bieber - Somebody.mp3", cover: "covers/justice.jpg" },
-      { title: "Justin Bieber - Honest", mp3: "songs/Justin Bieber - Honest.mp3", cover: "covers/honest.jpg" },
-      { title: "Justin Bieber - Intentions", mp3: "songs/Justin Bieber - Intentions.mp3", cover: "covers/changes.jpg" },
-      { title: "Justin Bieber - Come Around Me", mp3: "songs/Justin Bieber - Come Around Me.mp3", cover: "covers/changes.jpg" },
-      { title: "02 Justin Bieber - Under The Mistletoe", mp3: "songs/02 Justin Bieber - Under The Mistletoe.mp3", cover: "covers/under the mistletoe.jpg" },
-      { title: "12 Justin Bieber - Christmas Love", mp3: "songs/12 Justin Bieber - Christmas Love.mp3", cover: "covers/under the mistletoe.jpg" },
-      { title: "01 Tyga - Wait For A Minute", mp3: "songs/01 Tyga - Wait For A Minute.mp3", cover: "covers/ait For A Minute.jpg"    },
-      { title: "01 One Direction - What Makes You Beautiful", mp3: "songs/01 One Direction - What Makes You Beautiful.mp3", cover: "covers/up all night.jpg" },
-      { title: "02 One Direction - Gotta Be You", mp3: "songs/02 One Direction - Gotta Be You.mp3", cover: "covers/up all night.jpg" },
-      { title: "03 One Direction - One Thing", mp3: "songs/03 One Direction - One Thing.mp3", cover: "covers/up all night.jpg" },
-      { title: "04 One Direction - More Than This", mp3: "songs/04 One Direction - More Than This.mp3", cover: "covers/up all night.jpg" },
-      { title: "05 One Direction - Up All Night", mp3: "songs/05 One Direction - Up All Night.mp3", cover: "covers/up all night.jpg" },
-      { title: "01 One Direction - Live While We re Young", mp3: "songs/01 One Direction - Live While We re Young.mp3", cover: "covers/take me home.jpg" },
-      { title: "02 One Direction - Kiss You", mp3: "songs/02 One Direction - Kiss You.mp3", cover: "covers/take me home.jpg" },
-      { title: "One Direction - Best Song Ever", mp3: "songs/One Direction - Best Song Ever.mp3", cover: "covers/midnight memories.jpg" },
-      { title: "One Direction - Story of My Life", mp3: "songs/One Direction - Story of My Life.mp3", cover: "covers/midnight memories.jpg" },
-      { title: "04 One Direction - Midnight Memories", mp3: "songs/04 One Direction - Midnight Memories.mp3", cover: "covers/midnight memories.jpg" },
-      { title: "One Direction - You   I", mp3: "songs/One Direction - You   I.mp3", cover: "covers/midnight memories.jpg" },
-      { title: "01 One Direction - Steal My Girl", mp3: "songs/01 One Direction - Steal My Girl.mp3", cover: "covers/four.jpg" },
-      { title: "07 One Direction - Night Changes", mp3: "songs/07 One Direction - Night Changes.mp3", cover: "covers/four.jpg" },
-      { title: "02 One Direction - Drag Me Down", mp3: "songs/02 One Direction - Drag Me Down.mp3", cover: "covers/Made In The A.M..jpg" },
-      { title: "03 One Direction - Perfect", mp3: "songs/03 One Direction - Perfect.mp3", cover: "covers/Made In The A.M..jpg" },
-      { title: "08 One Direction - Never Enough", mp3: "songs/08 One Direction - Never Enough.mp3", cover: "covers/Made In The A.M..jpg" },
-      { title: "13 One Direction - History", mp3: "songs/13 One Direction - History.mp3", cover: "covers/Made In The A.M..jpg" },
-      { title: "Alesso - Midnight", mp3: "songs/Alesso - Midnight.mp3", cover: "covers/LP1.jpg" },
-      { title: "Liam Payne - Stack It Up", mp3: "songs/Liam Payne - Stack It Up.mp3", cover: "covers/LP1.jpg" },
-      { title: "Liam Payne - Strip That Down", mp3: "songs/Liam Payne - Strip That Down.mp3", cover: "covers/LP1.jpg" },
-      { title: "Liam Payne - For You (Fifty Shades Freed)", mp3: "songs/Liam Payne - For You (Fifty Shades Freed).mp3", cover: "covers/LP1.jpg" },
-      { title: "Liam Payne - Familiar", mp3: "songs/Liam Payne - Familiar.mp3", cover: "covers/LP1.jpg" },
-      { title: "Liam Payne - Polaroid", mp3: "songs/Liam Payne - Polaroid.mp3", cover: "covers/LP1.jpg" },
-      { title: "ZEDD - Get Low", mp3: "songs/ZEDD - Get Low.mp3", cover: "covers/LP1.jpg" },
-      { title: "Liam Payne - Bedroom Floor", mp3: "songs/Liam Payne - Bedroom Floor.mp3", cover: "covers/LP1.jpg" },
-      { title: "Liam Payne - Naughty List", mp3: "songs/Liam Payne - Naughty List.mp3", cover: "covers/Naughty List.jpg" }, 
-      { title: "Austin Mahone - Mmm Yeah (feat. Pitbull)", mp3: "songs/Austin Mahone - Mmm Yeah (feat. Pitbull).mp3", cover: "covers/The Secret.jpg" }, 
-      { title: "06 Austin Mahone - All I Ever Need", mp3: "songs/06 Austin Mahone - All I Ever Need.mp3", cover: "covers/The Secret.jpg" },
-      { title: "01 Austin Mahone - Say You re Just a Friend (feat. Flo Rida)", mp3: "songs/01 Austin Mahone - Say You re Just a Friend (feat. Flo Rida).mp3", cover: "covers/Say You're Just A Friend.jpg" },
-      { title: "02 Omarion - Post to Be (feat. Chris Brown & Jhene Aiko)", mp3: "songs/02 Omarion - Post to Be (feat. Chris Brown & Jhene Aiko).mp3", cover: "covers/Sex Playlist.jpg"  },
-      { title: "09 Luis Fonsi - Despacito", mp3: "songs/09 Luis Fonsi - Despacito.mp3", cover: "covers/despacito.jpg" },
-      { title: "13 Luis Fonsi - Despacito (Remix)", mp3: "songs/13 Luis Fonsi - Despacito (Remix).mp3", cover: "covers/despacito.jpg" },
-      { title: "The Weeknd - Timeless", mp3: "songs/The Weeknd - Timeless.mp3", cover: "covers/timeless.jpg" },
-      { title: "The Weeknd - The Hills", mp3: "songs/The Weeknd - The Hills.mp3", cover: "covers/Beauty Behind The Madness.jpg" },
-      { title: "The Weeknd - Can t Feel My Face", mp3: "songs/The Weeknd - Can t Feel My Face.mp3", cover: "covers/Beauty Behind The Madness.jpg" },
-      { title: "01 The Weeknd - Starboy", mp3: "songs/01 The Weeknd - Starboy.mp3", cover: "covers/Starboy.jpg" },
-      { title: "The Weeknd - Party Monster", mp3: "songs/The Weeknd - Party Monster.mp3", cover: "covers/Starboy.jpg" },
-      { title: "The Weeknd - False Alarm", mp3: "songs/The Weeknd - False Alarm.mp3", cover: "covers/Starboy.jpg" },
-      { title: "The Weeknd - Reminder", mp3: "songs/The Weeknd - Reminder.mp3", cover: "covers/Starboy.jpg" },
-      { title: "The Weeknd - I Feel It Coming", mp3: "songs/The Weeknd - I Feel It Coming.mp3", cover: "covers/Starboy.jpg"},
-      { title: "The Weeknd - Take My Breath", mp3: "songs/The Weeknd - Take My Breath.mp3", cover: "covers/Dawn FM.jpg"},
-      { title: "The Weeknd - Out of Time", mp3: "songs/The Weeknd - Out of Time.mp3", cover: "covers/Dawn FM.jpg"},
-      { title: "The Weeknd - Is There Someone Else", mp3: "songs/The Weeknd - Is There Someone Else.mp3", cover: "covers/Dawn FM.jpg"},
-      { title: "02 Ariana Grande - Problem", mp3: "songs/02 Ariana Grande - Problem.mp3", cover: "covers/My Everything.jpg"},
-      { title: "03 Ariana Grande - One Last Time", mp3: "songs/03 Ariana Grande - One Last Time.mp3", cover: "covers/My Everything.jpg"},
-      { title: "05 Ariana Grande - Break Free", mp3: "songs/05 Ariana Grande - Break Free.mp3", cover: "covers/My Everything.jpg"},
-      { title: "09 Ariana Grande - Love Me Harder", mp3: "songs/09 Ariana Grande - Love Me Harder.mp3", cover: "covers/My Everything.jpg"},
-      { title: "Kendrick Lamar - luther", mp3: "songs/Kendrick Lamar - luther.mp3", cover: "covers/gnx.jpg" },
-      { title: "Kendrick Lamar - tv off", mp3: "songs/Kendrick Lamar - tv off.mp3", cover: "covers/gnx.jpg" },
-      { title: "Kendrick Lamar - peekaboo", mp3: "songs/Kendrick Lamar - peekaboo.mp3", cover: "covers/gnx.jpg" },
-      { title: "Kendrick Lamar - Not Like Us", mp3: "songs/Kendrick Lamar - Not Like Us.mp3", cover: "covers/not like us.jpg" },
-      { title: "2Pac - Hit  Em Up (Single Version)", mp3: "songs/2Pac - Hit  Em Up (Single Version).mp3", cover: "covers/Hit 'Em Up.jpg" },
-      { title: "The Notorious B.I.G. - Big Poppa", mp3: "songs/02 The Notorious B.I.G. - Big Poppa.mp3", cover: "covers/Big Poppa.jpg" },
-      { title: "Eminem - Godzilla", mp3: "songs/Eminem - Godzilla.mp3", cover: "covers/Music To Be Remebered.jpg" },
-      { title: "13 Eminem - Venom (Music From The Motion Picture)", mp3: "songs/13 Eminem - Venom (Music From The Motion Picture).mp3", cover: "covers/Kamikaze.jpg" },
-      { title: "11 Justin Timberlake - Not a Bad Thing", mp3: "songs/11 Justin Timberlake - Not a Bad Thing.mp3", cover: "covers/the2020experience.jpg" },
-      { title: "Justin Timberlake - Mirrors", mp3: "songs/Justin Timberlake - Mirrors.mp3", cover: "covers/the2020experience(deluxe version).jpg" },
-      { title: "01 Justin Timberlake - Can't Stop The Feeling", mp3: "songs/01 Justin Timberlake - Can't Stop The Feeling.mp3", cover: "covers/cant_stop_the_feeling.jpg" },
-      { title: "05 Nicki Minaj - Fly", mp3: "songs/05 Nicki Minaj - Fly.mp3", cover: "covers/pink friday.jpg" },
-      { title: "03 Ne-Yo - So Sick", mp3: "songs/03 Ne-Yo - So Sick.mp3", cover: "covers/So Sick.jpg" },
-      { title: "Rihanna - Hate That I Love You", mp3: "songs/Rihanna - Hate That I Love You.mp3", cover: "covers/Good Girl Gone Bad (Reloaded).jpg" },
-      { title: "02 Usher - Yeah!", mp3: "songs/02 Usher - Yeah!.mp3", cover: "covers/confessions.jpg" },
-      { title: "Usher - DJ Got Us Fallin  In Love (feat. Pitbull)", mp3: "songs/Usher - DJ Got Us Fallin  In Love (feat. Pitbull).mp3", cover: "covers/Versus.jpg"    },
-      { title: "14 Young Jeezy - Soul Survivor", mp3: "songs/14 Young Jeezy - Soul Survivor.mp3", cover: "covers/Let's Get It_ Thug Motivation 101 (Deluxe Edition).jpg" },
-      { title: "Nicki Minaj - Super Bass", mp3: "songs/Nicki Minaj - Super Bass.mp3", cover: "covers/pink friday.jpg" },
-      { title: "Nicki Minaj - Did It On em", mp3: "songs/Nicki Minaj - Did It On em.mp3", cover: "covers/pink friday.jpg" },
-      { title: "J. Cole - She Knows", mp3: "songs/J. Cole - She Knows.mp3", cover: "covers/Born Sinner.webp" },
-      { title: "01 Trey Songz - Animal", mp3: "songs/01 Trey Songz - Animal.mp3", cover: "covers/tremaine.jpg" },
-      { title: "04 Trey Songz - Heart Attack", mp3: "songs/04 Trey Songz - Heart Attack.mp3", cover: "covers/chapter v.jpg" },
-      { title: "12 Lil Wayne - How To Love", mp3: "songs/12 Lil Wayne - How To Love.mp3", cover: "covers/the carter iv.jpg" },
-      { title: "Lil Wayne - Mirror", mp3: "songs/Lil Wayne - Mirror.mp3", cover: "covers/the carter iv.jpg" },
-    ];
+   <hr>
 
-    const audio = document.getElementById("audio");
-    const cover = document.getElementById("cover");
-    const songTitle = document.getElementById("songTitle");
-    const seek = document.getElementById("seek");
-    const curTime = document.getElementById("curTime");
-    const durTime = document.getElementById("durTime");
-    const vol = document.getElementById("vol");
-    const playlistEl = document.getElementById("playlist");
-    const sidebar = document.getElementById("playlistSidebar");
-    const searchInput = document.getElementById("searchInput");
-    const artistFilter = document.getElementById("artistFilter");
-    const albumFilter = document.getElementById("albumFilter");
-    const lyricsDiv = document.getElementById("lyrics");
-    const darkToggle = document.getElementById("darkModeToggle");
-    const fileInput = document.getElementById("fileInput");
+  <section id="descriptions">
+  <h2>Common Chemical Compounds</h2>
+<ul>
+  <li><strong>Sodium chloride (NaCl)</strong> – table salt, used in cooking and food preservation</li>
+  <li><strong>Glucose (C₆H₁₂O₆)</strong> – essential fuel for living organisms.</li>
+  <li><strong>Calcium carbonate (CaCO₃)</strong> – found in limestone, chalk, eggshells; used in antacids :contentReference[oaicite:3]{index=3}</li>
+  <li><strong>Ammonia (NH₃)</strong> – common cleaning agent and fertilizer</li>
+  <li><strong>Methane (CH₄)</strong> – main component of natural gas (“marsh gas”)</li>
+  <li><strong>Hydrogen peroxide (H₂O₂)</strong> – disinfectant that decomposes into water and oxygen</li>
+  <li><strong>Hydrochloric acid (HCl)</strong> – strong acid used in labs and digestion</li>
+</ul>
 
-    let current = 0, isShuffle=false, isLoop=false, isMuted=false;
-    let parsedLyrics = [], lyricEls = [];
+<h2>Types of Chemical Reactions</h2>
 
-    // Initialize
-    window.onload = () => {
-      populatePlaylist();
-      loadSong(0);
-      vol.value = audio.volume;
-    };
-// Dark mode toggle with blur to prevent spacebar hijack
-darkToggle.onchange = () => {
-  document.body.classList.toggle("dark-mode", darkToggle.checked);
-  darkToggle.blur(); // Remove focus so it doesn't hijack spacebar
-};
+<h3>Synthesis (Combination)</h3>
+<p>Two or more reactants combine to form a single product:</p>
+<pre>2H₂ (g) + O₂ (g) → 2H₂O (l)</pre>
 
-    // Playback controls
-    function playPause() { audio.paused? audio.play(): audio.pause(); }
-    function nextSong() {
-      current = isShuffle ? Math.floor(Math.random()*playlist.length)
-                : (current+1)%playlist.length;
-      loadSong(current); audio.play();
-    }
-    function prevSong() {
-      current = (current-1+playlist.length)%playlist.length;
-      loadSong(current); audio.play();
-    }
-    function toggleMute() { isMuted = !isMuted; audio.muted = isMuted; }
-    function toggleLoop() { isLoop = !isLoop; audio.loop = isLoop; }
-    function toggleShuffle() { isShuffle = !isShuffle; }
-    
-    // Seek & volume
-    seek.oninput = () => audio.currentTime = seek.value;
-    vol.oninput = () => audio.volume = vol.value;
+<p>Example: 2 Mg (s) + O₂ (g) → 2 MgO (s) </p>
 
-    audio.onloadedmetadata = () => {
-      seek.max = Math.floor(audio.duration);
-      durTime.textContent = formatTime(audio.duration);
-    };
-    audio.ontimeupdate = () => {
-      seek.value = Math.floor(audio.currentTime);
-      curTime.textContent = formatTime(audio.currentTime);
-      updateLyrics(audio.currentTime);
-    };
-    audio.onended = () => { if(!isLoop) nextSong(); };
+<h3>Decomposition</h3>
+<p>A compound breaks down into simpler substances:</p>
+<pre>CaCO₃ (s) → CaO (s) + CO₂ (g)</pre>
 
-    // Playlist rendering
-    function populatePlaylist() {
-      playlistEl.innerHTML = "";
-      playlist.forEach((s, i) => {
-        const li = document.createElement("li");
-        li.textContent = s.title;
-        li.onclick = () => { current=i; loadSong(i); audio.play(); };
-        playlistEl.appendChild(li);
+
+<p>Or electrolysis:</p>
+<pre>2H₂O (l) → 2H₂ (g) + O₂ (g) </pre>
+
+<h3>Single-Replacement (Displacement)</h3>
+<p>An element replaces another in a compound:</p>
+<pre>Zn (s) + CuSO₄ (aq) → ZnSO₄ (aq) + Cu (s) </pre>
+<pre>Zn (s) + 2 HCl (aq) → ZnCl₂ (aq) + H₂ (g) </pre>
+
+<h3>Double-Replacement</h3>
+<p>Exchange of ions between two compounds:</p>
+<pre>AgNO₃ (aq) + NaCl (aq) → AgCl (s) ↓ + NaNO₃ (aq)</pre>
+
+
+<h3>Combustion</h3>
+<p>Fuel reacts with oxygen, releasing heat and often light:</p>
+<pre>CH₄ + 2 O₂ → CO₂ + 2 H₂O + heat</pre>
+
+
+<h3>Acid-Base (Neutralization)</h3>
+<p>An acid and base react to form salt and water:</p>
+<pre>HCl + NaOH → NaCl + H₂O</pre>
+
+
+<h3>Redox (Oxidation-Reduction)</h3>
+<p>Electron transfer occurs between reactants:</p>
+<pre>2H₂ (g) + F₂ (g) → 2 HF (g)</pre>
+<p>Hydrogen is oxidized (loses electrons)</p>
+
+  </section>
+
+   <hr>
+
+  <section id="history">
+    <h2>History of the Periodic Table</h2>
+    <p>The periodic table is an arrangement of the chemical elements, structured by their atomic number, electron configuration and recurring chemical properties. In the basic form, elements are presented in order of increasing atomic number, in the reading sequence. Then, rows and columns are created by starting new rows and inserting blank cells, so that rows (periods) and columns (groups) show elements with recurring properties (called periodicity). For example, all elements in group (column) 18 are noble gases that are largely—though not completely—unreactive.
+
+The history of the periodic table reflects over two centuries of growth in the understanding of the chemical and physical properties of the elements, with major contributions made by Antoine-Laurent de Lavoisier, Johann Wolfgang Döbereiner, John Newlands, Julius Lothar Meyer, Dmitri Mendeleev, Glenn T. Seaborg, and others.[1][2]</p>
+    <h2>Early history</h2>
+    <p>Around 330 BCE, the Greek philosopher Aristotle proposed that everything is made up of a mixture of one or more roots, an idea originally suggested by the Sicilian philosopher Empedocles. The four roots, which the Athenian philosopher Plato called elements, were earth, water, air and fire. Similar ideas existed in other ancient traditions, such as Indian philosophy with five elements: Earth, water, fire, air and aether collectively called 'pañca bhūta'.[3]
+
+Of the chemical elements shown on the periodic table, nine – carbon, sulfur, iron, copper, silver, tin, gold, mercury, and lead – have been known since antiquity, as they are found in their native form and are relatively simple to mine with primitive tools.[4] Five more elements were known in the age of alchemy: zinc, arsenic, antimony, and bismuth.[citation needed] Platinum was known to pre-Columbian South Americans, but knowledge of it did not reach Europe until the 16th century</p>
+    <h2>First classification</h2>
+    <p>The history of the periodic table is also a history of the discovery of the chemical elements. In 1661, Boyle defined elements as "those primitive and simple Bodies of which the mixt ones are said to be composed, and into which they are ultimately resolved."[5]
+
+The first person in recorded history to discover a new element was Hennig Brand, a bankrupt German merchant. Brand tried to discover the philosopher's stone—a mythical object that was supposed to turn inexpensive base metals into gold. In 1669, or later, his experiments with distilled human urine resulted in the production of a glowing white substance, which he called "cold fire" (kaltes Feuer).[6] He kept his discovery secret until 1680, when Anglo-Irish[7] chemist Robert Boyle rediscovered phosphorus and published his findings.
+
+The discovery of phosphorus helped to raise the question of what it meant for a substance (any given variety of matter) to be an element, in a world where versions of atomic theory were only speculative and later understandings of the nature of substances were only beginning to become possible.
+
+In 1718, Étienne François Geoffroy's Affinity Table made use of several aspects — (1) tabular grouping and (2) correlation with chemical affinity — that would later be reprised.
+
+
+Geoffroy's 1718 Affinity Table: at the head of each column is a chemical species with which all the species below can combine. Some historians have defined this table as being the start of the chemical revolution.[8]
+In 1789, French chemist Antoine Lavoisier wrote Traité Élémentaire de Chimie (Elementary Treatise of Chemistry), which is considered to be the first modern textbook about chemistry. Lavoisier defined an element as a substance whose smallest units cannot be broken down into a simpler substance.[9] Lavoisier's book contained a list of "simple substances" that Lavoisier believed could not be broken down further, which included oxygen, nitrogen, hydrogen, phosphorus, mercury, zinc and sulfur, which formed the basis for the modern list of elements. Lavoisier's list also included "light" and "caloric", which at the time were believed to be material substances. He classified these substances into metals and nonmetals. While many leading chemists refused to believe Lavoisier's new revelations, the Elementary Treatise was written well enough to convince the younger generation. However, Lavoisier's descriptions of his elements lack completeness, as he only classified them as metals and non-metals.
+
+
+Dalton's 1806 list of known elements by atomic weight
+In 1808–10, British natural philosopher John Dalton published a method by which to arrive at provisional atomic weights for the elements known in his day, from stoichiometric measurements and reasonable inferences. Dalton's atomic theory was adopted by many chemists during the 1810s and 1820s.
+
+In 1815, British physician and chemist William Prout noticed that atomic weights seemed to be multiples of that of hydrogen.[10][11]
+
+In 1817, German physicist Johann Wolfgang Döbereiner began to formulate one of the earliest attempts to classify the elements.[12] In 1829, he found that he could form some of the elements into groups of three, with the members of each group having related properties. He termed these groups triads.[13] In 1843, building on work done by Döbereiner, Leopold Gmelin developed a forerunner of the modern periodic table that listed 55 chemical elements grouped by common characteristics.[14]
+
+Definition of Triad law
+
+"Chemically analogous elements arranged in increasing order of their atomic weights formed well marked groups of three called Triads in which the atomic weight of the middle element was found to be generally the arithmetic mean of the atomic weight of the other two elements in the triad.
+
+chlorine, bromine, and iodine
+calcium, strontium, and barium
+sulfur, selenium, and tellurium
+lithium, sodium, and potassium"
+All those attempts to sort elements by atomic weights were inhibited by the inaccurate determination of weights, and not just slightly: carbon, oxygen and many other elements were believed to be half their actual masses (cf. the illustration by Dalton above), because only monatomic gases were believed to exist.[15] Even though Amedeo Avogadro and, independently of him, André-Marie Ampère, proposed the solution in the form of diatomic molecules and Avogadro's law already in the 1810s, it was not until after Stanislao Cannizzaro's publications in late 1850s when the theory began to be widely considered.
+
+In 1860, the modern scientific consensus emerged at the first international chemical conference, the Karlsruhe Congress, and a revised list of elements and atomic masses was adopted. It helped spur creation of more extensive systems. The first such system emerged in two years.[</p>
+<p>Source: <a href="https://en.wikipedia.org/wiki/History_of_the_periodic_table" target="_blank">Wikipedia</a></p>
+</section>
+
+<hr>
+  <footer><p>&copy; 2025 Chemistry World</p></footer>
+
+  <script>1
+     document.addEventListener("DOMContentLoaded", function () {
+    const elements = document.querySelectorAll('.element');
+
+    elements.forEach(el => {
+      el.addEventListener('click', function () {
+        const name = el.getAttribute('data-name');
+        const symbol = el.getAttribute('data-symbol');
+        const atomic = el.getAttribute('data-atomic');
+        const mass = el.getAttribute('data-mass');
+
+        document.getElementById('element-name').textContent = name;
+        document.getElementById('element-symbol').textContent = `Symbol: ${symbol}`;
+        document.getElementById('element-atomic-number').textContent = `Atomic Number: ${atomic}`;
+        document.getElementById('element-mass-number').textContent = `Mass Number: ${mass}`;
+        document.getElementById('popup').style.display = 'block';
       });
-    }
+    });
 
- // Load song
-    function loadSong(i) {
-      const s = playlist[i];
-      audio.src = s.mp3;
-      cover.src = s.cover;
-      songTitle.textContent = s.title;
-      parseLyrics([]); // Clear any existing lyrics
-      audio.load();
-    }
-
-
-    // Lyrics parsing & display
-    fileInput.onchange = () => {
-      const f = fileInput.files[0];
-      if (!f) return;
-      const rdr = new FileReader();
-      rdr.onload = () => parseLyrics(parseLRC(rdr.result));
-      rdr.readAsText(f);
+    // ✅ Attach the close event once the DOM is loaded
+    const closeButton = document.getElementById('close-button');
+    closeButton.addEventListener('click', function () {
+      document.getElementById('popup').style.display = 'none';
+    });
+  });
+    // Modal logic
+    document.querySelectorAll('.element').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.getElementById('element-name').innerText = btn.dataset.name;
+        document.getElementById('element-symbol').innerText = btn.dataset.symbol;
+        document.getElementById('element-atomic').innerText = btn.dataset.atomic;
+        document.getElementById('element-mass').innerText = btn.dataset.mass;
+        document.getElementById('element-modal').style.display = 'block';
+      });
+    });
+    document.querySelector('.close').onclick = () => {
+      elementModal.style.display = 'none';
     };
-    function parseLRC(txt) {
-      const lines = txt.split(/\r?\n/);
-      const arr = [];
-      const re = /\[(\d{2}):(\d{2})\.(\d{2,3})\]/g;
-      for (const L of lines) {
-        let m; let text = L;
-        while ((m = re.exec(L)) !== null) {
-          const time = +m[1]*60 + +m[2] + +m[3]/1000;
-          const t = L.slice(re.lastIndex).trim();
-          arr.push({time, text: t});
-        }
+    window.onclick = e => {
+      if (e.target === document.getElementById('element-modal')) {
+        elementModal.style.display = 'none';
       }
-      return arr.sort((a,b)=>a.time-b.time);
-    }
-    function parseLyrics(arr) {
-      parsedLyrics = arr;
-      lyricEls = [];
-      lyricsDiv.innerHTML = "";
-      arr.forEach((o,i)=>{
-        const d = document.createElement("div");
-        d.className = "line";
-        d.innerHTML = `<span class="timestamp">${formatTimeMs(o.time)}</span>${o.text}`;
-        lyricsDiv.appendChild(d);
-        lyricEls.push({time:o.time, el:d});
-      });
-    }
-    function updateLyrics(ct) {
-      lyricEls.forEach(({time, el}, i) => {
-        if (ct>=time && (i===lyricEls.length-1 || ct<lyricEls[i+1].time)) {
-          document.querySelectorAll(".line").forEach(x=>x.classList.remove("active"));
-          el.classList.add("active");
-          el.scrollIntoView({behavior:"smooth", block:"center"});
-        }
-      });
-    }
+    };
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') document.getElementById('element-modal').style.display = 'none';
+    });
 
+  function openPopup(name, symbol, number, mass) {
+  const popup = document.getElementById('popup');
+  const content = document.getElementById('popup-content');
 
-    // Helpers
-    function formatTime(s) {
-      const m = Math.floor(s/60), sec = Math.floor(s%60);
-      return `${m}:${sec<10?'0':''}${sec}`;
-    }
-    function formatTimeMs(s) {
-      const m = Math.floor(s/60), sec = Math.floor(s%60);
-      const ms = Math.floor((s%1)*1000);
-      return `[${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}.${String(ms).padStart(3,'0')}]`;
-    }
-  
-document.addEventListener("keydown", (e) => {
-  const active = document.activeElement;
-  const isFormElement = ["INPUT", "TEXTAREA", "SELECT"].includes(active.tagName) || active.isContentEditable;
+  // Reset animations to replay them
+  content.style.animation = 'none';
+  popup.style.animation = 'none';
+  void popup.offsetWidth;
+  void content.offsetWidth;
 
-  if (isFormElement) return; // Don't trigger shortcuts when typing
+  // Reapply animations
+  popup.style.animation = 'fadeIn 0.3s ease forwards';
+  content.style.animation = 'popupSlide 0.4s ease forwards';
 
-  switch (e.key.toLowerCase()) {
-    case " ": // Spacebar: Play/Pause
-      e.preventDefault();
-      playPause();
-      break;
-    case "arrowright":
-      e.preventDefault();
-      audio.currentTime = Math.min(audio.currentTime + 5, audio.duration);
-      break;
-    case "arrowleft":
-      e.preventDefault();
-      audio.currentTime = Math.max(audio.currentTime - 5, 0);
-      break;
-    case "arrowup":
-      e.preventDefault();
-      audio.volume = Math.min(audio.volume + 0.1, 1);
-      vol.value = audio.volume;
-      break;
-    case "arrowdown":
-      e.preventDefault();
-      audio.volume = Math.max(audio.volume - 0.1, 0);
-      vol.value = audio.volume;
-      break;
-    case "n":
-      nextSong();
-      break;
-    case "p":
-      prevSong();
-      break;
-    case "s":
-      toggleShuffle();
-      break;
-    case "l":
-      toggleLoop();
-      break;
-    case "m":
-      toggleMute();
-      break;
-    case "y":
-      parseLyrics();
-  }
-});
+  // Set popup content
+  document.getElementById('element-name').textContent = name;
+  document.getElementById('element-symbol').textContent = symbol;
+  document.getElementById('element-atomic-number').textContent = "Atomic Number: " + number;
+  document.getElementById('element-mass-number').textContent = "Mass Number: " + mass;
 
+  popup.style.display = 'block';
+}
 
+document.getElementById('close-button').onclick = function () {
+  document.getElementById('popup').style.display = 'none';
+};
   </script>
 </body>
 </html>
+
+
+
+
