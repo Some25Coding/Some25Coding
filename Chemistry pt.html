@@ -6,12 +6,13 @@
   <title>Chemistry World – Periodic Table Grid</title>
   <style>
     body {
-      font-family: Arial, sans-serif; margin: 0; padding: 0;
+      font-family: Century; margin: 0; padding: 0;
       background: #000000; color: #ffffff;
     }
     header { background: #004d99; color: white; padding: 20px; text-align: center; }
     nav { background: #0066cc; text-align: center; padding: 10px; }
-    nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: bold; }
+    nav a { color: rgb(0, 0, 0); text-decoration: none; margin: 0 15px; font-weight: bold; }
+    nav button:hover { text-decoration: underline; }
     nav a:hover { text-decoration: underline; }
 
     #layout-container {
@@ -36,7 +37,7 @@
   background-color: #f8f8f8;
   color: #000000;
   border-radius: 8px;
-  font-family: sans-serif;
+  font-family: Century;
   min-width: 220px;
 }
 
@@ -66,7 +67,7 @@
     .element {
   border: 1px solid #ccc;
   padding: 10px;
-  font-family: Arial, sans-serif;
+  font-family: Century;
   cursor: default;
   user-select: none;
   color: #000;
@@ -132,7 +133,7 @@
   width: 90%;
   max-width: 400px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  font-family: "Segoe UI", sans-serif;
+  font-family: Century;
   position: relative;
   text-align: center;
   transform: scale(0.7);
@@ -207,12 +208,155 @@
     <p>Interactive Grid-Style Periodic Table</p>
   </header>
   <nav>
-    <a href="#periodic-table">Periodic Table</a>
-    <a href="#descriptions">Descriptions</a>
-    <a href="#history">History</a>
+    
+    <button><a href="#descriptions">Descriptions</a></button>
+    <button><a href="#history">History</a></button>
+    <button><a href="#periodic-table">Periodic Table</a></button>
   </nav>
 
-  <section id="periodic-table">
+   <hr>
+
+  <section id="descriptions">
+    <h1><u><b>Chemistry</b></u></h1>
+    <p><b>Chemistry is a branch of Natural Science which studies abiut the composition of matter.</b></p>
+
+    <h2>Branches of Chemistry</h2>
+   
+    <h3><u><b>1. Organic Chemistry</b></u></h3>
+<p>Organic chemistry is the study of carbon-containing compounds and their properties, structures, and reactions. 
+This branch is crucial for understanding biological processes and developing pharmaceuticals, plastics, and other materials.
+ Organic chemists focus on compounds that contain carbon-hydrogen (C-H) bonds, which are fundamental to life.</p>
+
+
+<h3><u><b>2. Inorganic Chemistry</b></u></h3>
+<p>Inorganic chemistry deals with compounds that do not contain carbon-hydrogen bonds. This includes metals, minerals, and organometallic compounds. 
+  Inorganic chemists study the properties and reactions of these substances, which have applications in materials science, catalysis, and environmental science.</p> 
+
+
+<h3><u><b>3. Analytical Chemistry</b></u></h3>
+<p>Analytical chemistry focuses on the techniques and methods used to determine the composition of substances. 
+This branch involves qualitative and quantitative analysis to identify chemical components and their concentrations. 
+Analytical chemists develop tools and methods for measuring chemical properties, which are essential in various fields, including pharmaceuticals and environmental monitoring.</p> 
+
+
+<h3><u><b>4. Physical Chemistry</b></u></h3>
+<p>Physical chemistry combines principles of physics and chemistry to study how matter behaves on a molecular and atomic level. 
+This branch explores topics such as thermodynamics, kinetics, and quantum chemistry.
+ Physical chemists use techniques like spectroscopy and chromatography to understand the physical properties of substances and their interactions.</p>
+
+
+<h3><u><b>5. Biochemistry</b></u></h3>
+<p>Biochemistry is the study of chemical processes within and related to living organisms. 
+  This branch focuses on the molecular mechanisms of biological functions, including the structure and function of biomolecules like proteins, nucleic acids, carbohydrates, and lipids. 
+  Biochemistry is essential for understanding metabolism, genetics, and cellular processes.</p> 
+
+
+
+<p>These five branches of chemistry are interconnected and contribute to a comprehensive understanding of the chemical world, leading to advancements in various scientific and industrial fields.</p>
+
+  <h2>Common Chemical Compounds</h2>
+<ul>
+  <li><strong>Sodium chloride (NaCl)</strong> – table salt, used in cooking and food preservation.</li>
+  <li><strong>Glucose (C₆H₁₂O₆)</strong> – essential fuel for living organisms.</li>
+  <li><strong>Calcium carbonate (CaCO₃)</strong> – found in limestone, chalk, eggshells; used in antacids.</li>
+  <li><strong>Ammonia (NH₃)</strong> – common cleaning agent and fertilizer.</li>
+  <li><strong>Methane (CH₄)</strong> – main component of natural gas (“marsh gas”).</li>
+  <li><strong>Hydrogen peroxide (H₂O₂)</strong> – disinfectant that decomposes into water and oxygen.</li>
+  <li><strong>Hydrochloric acid (HCl)</strong> – strong acid used in labs and digestion.</li>
+  <li><strong>Sodium Hydroxide (NaOH)</strong> –  used as a drain cleaner.</li>
+</ul>
+
+<h2>Types of Chemical Reactions</h2>
+
+<h3>Synthesis (Combination)</h3>
+<p>Two or more reactants combine to form a single product:</p>
+<pre>2H₂ (g) + O₂ (g) → 2H₂O (l)</pre>
+
+<p>Example: 2 Mg (s) + O₂ (g) → 2 MgO (s) </p>
+
+<h3>Decomposition</h3>
+<p>A compound breaks down into simpler substances:</p>
+<pre>CaCO₃ (s) → CaO (s) + CO₂ (g)</pre>
+
+
+<p>Or electrolysis:</p>
+<pre>2H₂O (l) → 2H₂ (g) + O₂ (g) </pre>
+
+<h3>Single-Replacement (Displacement)</h3>
+<p>An element replaces another in a compound:</p>
+<pre>Zn (s) + CuSO₄ (aq) → ZnSO₄ (aq) + Cu (s) </pre>
+<pre>Zn (s) + 2 HCl (aq) → ZnCl₂ (aq) + H₂ (g) </pre>
+
+<h3>Double-Replacement</h3>
+<p>Exchange of ions between two compounds:</p>
+<pre>AgNO₃ (aq) + NaCl (aq) → AgCl (s) ↓ + NaNO₃ (aq)</pre>
+
+
+<h3>Combustion</h3>
+<p>Fuel reacts with oxygen, releasing heat and often light:</p>
+<pre>CH₄ + 2 O₂ → CO₂ + 2 H₂O + heat</pre>
+
+
+<h3>Acid-Base (Neutralization)</h3>
+<p>An acid and base react to form salt and water:</p>
+<pre>HCl + NaOH → NaCl + H₂O</pre>
+
+
+<h3>Redox (Oxidation-Reduction)</h3>
+<p>Electron transfer occurs between reactants:</p>
+<pre>2H₂ (g) + F₂ (g) → 2 HF (g)</pre>
+<p>Hydrogen is oxidized (loses electrons)</p>
+
+  </section>
+
+   <hr>
+
+  <section id="history">
+    <h2>History of the Periodic Table</h2>
+    <p>The periodic table is an arrangement of the chemical elements, structured by their atomic number, electron configuration and recurring chemical properties. In the basic form, elements are presented in order of increasing atomic number, in the reading sequence. Then, rows and columns are created by starting new rows and inserting blank cells, so that rows (periods) and columns (groups) show elements with recurring properties (called periodicity). For example, all elements in group (column) 18 are noble gases that are largely—though not completely—unreactive.
+
+The history of the periodic table reflects over two centuries of growth in the understanding of the chemical and physical properties of the elements, with major contributions made by Antoine-Laurent de Lavoisier, Johann Wolfgang Döbereiner, John Newlands, Julius Lothar Meyer, Dmitri Mendeleev, Glenn T. Seaborg, and others.[1][2]</p>
+    <h2>Early history</h2>
+    <p>Around 330 BCE, the Greek philosopher Aristotle proposed that everything is made up of a mixture of one or more roots, an idea originally suggested by the Sicilian philosopher Empedocles. The four roots, which the Athenian philosopher Plato called elements, were earth, water, air and fire. Similar ideas existed in other ancient traditions, such as Indian philosophy with five elements: Earth, water, fire, air and aether collectively called 'pañca bhūta'.[3]
+
+Of the chemical elements shown on the periodic table, nine – carbon, sulfur, iron, copper, silver, tin, gold, mercury, and lead – have been known since antiquity, as they are found in their native form and are relatively simple to mine with primitive tools.[4] Five more elements were known in the age of alchemy: zinc, arsenic, antimony, and bismuth.[citation needed] Platinum was known to pre-Columbian South Americans, but knowledge of it did not reach Europe until the 16th century</p>
+    <h2>First classification</h2>
+    <p>The history of the periodic table is also a history of the discovery of the chemical elements. In 1661, Boyle defined elements as "those primitive and simple Bodies of which the mixt ones are said to be composed, and into which they are ultimately resolved."[5]
+
+The first person in recorded history to discover a new element was Hennig Brand, a bankrupt German merchant. Brand tried to discover the philosopher's stone—a mythical object that was supposed to turn inexpensive base metals into gold. In 1669, or later, his experiments with distilled human urine resulted in the production of a glowing white substance, which he called "cold fire" (kaltes Feuer).[6] He kept his discovery secret until 1680, when Anglo-Irish[7] chemist Robert Boyle rediscovered phosphorus and published his findings.
+
+The discovery of phosphorus helped to raise the question of what it meant for a substance (any given variety of matter) to be an element, in a world where versions of atomic theory were only speculative and later understandings of the nature of substances were only beginning to become possible.
+
+In 1718, Étienne François Geoffroy's Affinity Table made use of several aspects — (1) tabular grouping and (2) correlation with chemical affinity — that would later be reprised.
+
+
+Geoffroy's 1718 Affinity Table: at the head of each column is a chemical species with which all the species below can combine. Some historians have defined this table as being the start of the chemical revolution.[8]
+In 1789, French chemist Antoine Lavoisier wrote Traité Élémentaire de Chimie (Elementary Treatise of Chemistry), which is considered to be the first modern textbook about chemistry. Lavoisier defined an element as a substance whose smallest units cannot be broken down into a simpler substance.[9] Lavoisier's book contained a list of "simple substances" that Lavoisier believed could not be broken down further, which included oxygen, nitrogen, hydrogen, phosphorus, mercury, zinc and sulfur, which formed the basis for the modern list of elements. Lavoisier's list also included "light" and "caloric", which at the time were believed to be material substances. He classified these substances into metals and nonmetals. While many leading chemists refused to believe Lavoisier's new revelations, the Elementary Treatise was written well enough to convince the younger generation. However, Lavoisier's descriptions of his elements lack completeness, as he only classified them as metals and non-metals.
+
+
+Dalton's 1806 list of known elements by atomic weight
+In 1808–10, British natural philosopher John Dalton published a method by which to arrive at provisional atomic weights for the elements known in his day, from stoichiometric measurements and reasonable inferences. Dalton's atomic theory was adopted by many chemists during the 1810s and 1820s.
+
+In 1815, British physician and chemist William Prout noticed that atomic weights seemed to be multiples of that of hydrogen.[10][11]
+
+In 1817, German physicist Johann Wolfgang Döbereiner began to formulate one of the earliest attempts to classify the elements.[12] In 1829, he found that he could form some of the elements into groups of three, with the members of each group having related properties. He termed these groups triads.[13] In 1843, building on work done by Döbereiner, Leopold Gmelin developed a forerunner of the modern periodic table that listed 55 chemical elements grouped by common characteristics.[14]
+
+Definition of Triad law
+
+"Chemically analogous elements arranged in increasing order of their atomic weights formed well marked groups of three called Triads in which the atomic weight of the middle element was found to be generally the arithmetic mean of the atomic weight of the other two elements in the triad.
+
+chlorine, bromine, and iodine
+calcium, strontium, and barium
+sulfur, selenium, and tellurium
+lithium, sodium, and potassium"
+All those attempts to sort elements by atomic weights were inhibited by the inaccurate determination of weights, and not just slightly: carbon, oxygen and many other elements were believed to be half their actual masses (cf. the illustration by Dalton above), because only monatomic gases were believed to exist.[15] Even though Amedeo Avogadro and, independently of him, André-Marie Ampère, proposed the solution in the form of diatomic molecules and Avogadro's law already in the 1810s, it was not until after Stanislao Cannizzaro's publications in late 1850s when the theory began to be widely considered.
+
+In 1860, the modern scientific consensus emerged at the first international chemical conference, the Karlsruhe Congress, and a revised list of elements and atomic masses was adopted. It helped spur creation of more extensive systems. The first such system emerged in two years.[</p>
+<p>Source: <a href="https://en.wikipedia.org/wiki/History_of_the_periodic_table" target="_blank">Wikipedia</a></p>
+</section>
+
+<hr>
+ <section id="periodic-table">
   <h2>The Modern Periodic Table (Grid)</h2>
   
     <div id="popup">
@@ -385,113 +529,9 @@
     </div>
   </div>
    
-  <p>From:<a href="https://pubchem.ncbi.nlm.nih.gov/periodic-table/" >PubChem</a></p>
+  <p>From:<a href="https://pubchem.ncbi.nlm.nih.gov/periodic-table/" target="_blank" >PubChem</a></p>
   </section>
 
-   <hr>
-
-  <section id="descriptions">
-  <h2>Common Chemical Compounds</h2>
-<ul>
-  <li><strong>Sodium chloride (NaCl)</strong> – table salt, used in cooking and food preservation</li>
-  <li><strong>Glucose (C₆H₁₂O₆)</strong> – essential fuel for living organisms.</li>
-  <li><strong>Calcium carbonate (CaCO₃)</strong> – found in limestone, chalk, eggshells; used in antacids :contentReference[oaicite:3]{index=3}</li>
-  <li><strong>Ammonia (NH₃)</strong> – common cleaning agent and fertilizer</li>
-  <li><strong>Methane (CH₄)</strong> – main component of natural gas (“marsh gas”)</li>
-  <li><strong>Hydrogen peroxide (H₂O₂)</strong> – disinfectant that decomposes into water and oxygen</li>
-  <li><strong>Hydrochloric acid (HCl)</strong> – strong acid used in labs and digestion</li>
-</ul>
-
-<h2>Types of Chemical Reactions</h2>
-
-<h3>Synthesis (Combination)</h3>
-<p>Two or more reactants combine to form a single product:</p>
-<pre>2H₂ (g) + O₂ (g) → 2H₂O (l)</pre>
-
-<p>Example: 2 Mg (s) + O₂ (g) → 2 MgO (s) </p>
-
-<h3>Decomposition</h3>
-<p>A compound breaks down into simpler substances:</p>
-<pre>CaCO₃ (s) → CaO (s) + CO₂ (g)</pre>
-
-
-<p>Or electrolysis:</p>
-<pre>2H₂O (l) → 2H₂ (g) + O₂ (g) </pre>
-
-<h3>Single-Replacement (Displacement)</h3>
-<p>An element replaces another in a compound:</p>
-<pre>Zn (s) + CuSO₄ (aq) → ZnSO₄ (aq) + Cu (s) </pre>
-<pre>Zn (s) + 2 HCl (aq) → ZnCl₂ (aq) + H₂ (g) </pre>
-
-<h3>Double-Replacement</h3>
-<p>Exchange of ions between two compounds:</p>
-<pre>AgNO₃ (aq) + NaCl (aq) → AgCl (s) ↓ + NaNO₃ (aq)</pre>
-
-
-<h3>Combustion</h3>
-<p>Fuel reacts with oxygen, releasing heat and often light:</p>
-<pre>CH₄ + 2 O₂ → CO₂ + 2 H₂O + heat</pre>
-
-
-<h3>Acid-Base (Neutralization)</h3>
-<p>An acid and base react to form salt and water:</p>
-<pre>HCl + NaOH → NaCl + H₂O</pre>
-
-
-<h3>Redox (Oxidation-Reduction)</h3>
-<p>Electron transfer occurs between reactants:</p>
-<pre>2H₂ (g) + F₂ (g) → 2 HF (g)</pre>
-<p>Hydrogen is oxidized (loses electrons)</p>
-
-  </section>
-
-   <hr>
-
-  <section id="history">
-    <h2>History of the Periodic Table</h2>
-    <p>The periodic table is an arrangement of the chemical elements, structured by their atomic number, electron configuration and recurring chemical properties. In the basic form, elements are presented in order of increasing atomic number, in the reading sequence. Then, rows and columns are created by starting new rows and inserting blank cells, so that rows (periods) and columns (groups) show elements with recurring properties (called periodicity). For example, all elements in group (column) 18 are noble gases that are largely—though not completely—unreactive.
-
-The history of the periodic table reflects over two centuries of growth in the understanding of the chemical and physical properties of the elements, with major contributions made by Antoine-Laurent de Lavoisier, Johann Wolfgang Döbereiner, John Newlands, Julius Lothar Meyer, Dmitri Mendeleev, Glenn T. Seaborg, and others.[1][2]</p>
-    <h2>Early history</h2>
-    <p>Around 330 BCE, the Greek philosopher Aristotle proposed that everything is made up of a mixture of one or more roots, an idea originally suggested by the Sicilian philosopher Empedocles. The four roots, which the Athenian philosopher Plato called elements, were earth, water, air and fire. Similar ideas existed in other ancient traditions, such as Indian philosophy with five elements: Earth, water, fire, air and aether collectively called 'pañca bhūta'.[3]
-
-Of the chemical elements shown on the periodic table, nine – carbon, sulfur, iron, copper, silver, tin, gold, mercury, and lead – have been known since antiquity, as they are found in their native form and are relatively simple to mine with primitive tools.[4] Five more elements were known in the age of alchemy: zinc, arsenic, antimony, and bismuth.[citation needed] Platinum was known to pre-Columbian South Americans, but knowledge of it did not reach Europe until the 16th century</p>
-    <h2>First classification</h2>
-    <p>The history of the periodic table is also a history of the discovery of the chemical elements. In 1661, Boyle defined elements as "those primitive and simple Bodies of which the mixt ones are said to be composed, and into which they are ultimately resolved."[5]
-
-The first person in recorded history to discover a new element was Hennig Brand, a bankrupt German merchant. Brand tried to discover the philosopher's stone—a mythical object that was supposed to turn inexpensive base metals into gold. In 1669, or later, his experiments with distilled human urine resulted in the production of a glowing white substance, which he called "cold fire" (kaltes Feuer).[6] He kept his discovery secret until 1680, when Anglo-Irish[7] chemist Robert Boyle rediscovered phosphorus and published his findings.
-
-The discovery of phosphorus helped to raise the question of what it meant for a substance (any given variety of matter) to be an element, in a world where versions of atomic theory were only speculative and later understandings of the nature of substances were only beginning to become possible.
-
-In 1718, Étienne François Geoffroy's Affinity Table made use of several aspects — (1) tabular grouping and (2) correlation with chemical affinity — that would later be reprised.
-
-
-Geoffroy's 1718 Affinity Table: at the head of each column is a chemical species with which all the species below can combine. Some historians have defined this table as being the start of the chemical revolution.[8]
-In 1789, French chemist Antoine Lavoisier wrote Traité Élémentaire de Chimie (Elementary Treatise of Chemistry), which is considered to be the first modern textbook about chemistry. Lavoisier defined an element as a substance whose smallest units cannot be broken down into a simpler substance.[9] Lavoisier's book contained a list of "simple substances" that Lavoisier believed could not be broken down further, which included oxygen, nitrogen, hydrogen, phosphorus, mercury, zinc and sulfur, which formed the basis for the modern list of elements. Lavoisier's list also included "light" and "caloric", which at the time were believed to be material substances. He classified these substances into metals and nonmetals. While many leading chemists refused to believe Lavoisier's new revelations, the Elementary Treatise was written well enough to convince the younger generation. However, Lavoisier's descriptions of his elements lack completeness, as he only classified them as metals and non-metals.
-
-
-Dalton's 1806 list of known elements by atomic weight
-In 1808–10, British natural philosopher John Dalton published a method by which to arrive at provisional atomic weights for the elements known in his day, from stoichiometric measurements and reasonable inferences. Dalton's atomic theory was adopted by many chemists during the 1810s and 1820s.
-
-In 1815, British physician and chemist William Prout noticed that atomic weights seemed to be multiples of that of hydrogen.[10][11]
-
-In 1817, German physicist Johann Wolfgang Döbereiner began to formulate one of the earliest attempts to classify the elements.[12] In 1829, he found that he could form some of the elements into groups of three, with the members of each group having related properties. He termed these groups triads.[13] In 1843, building on work done by Döbereiner, Leopold Gmelin developed a forerunner of the modern periodic table that listed 55 chemical elements grouped by common characteristics.[14]
-
-Definition of Triad law
-
-"Chemically analogous elements arranged in increasing order of their atomic weights formed well marked groups of three called Triads in which the atomic weight of the middle element was found to be generally the arithmetic mean of the atomic weight of the other two elements in the triad.
-
-chlorine, bromine, and iodine
-calcium, strontium, and barium
-sulfur, selenium, and tellurium
-lithium, sodium, and potassium"
-All those attempts to sort elements by atomic weights were inhibited by the inaccurate determination of weights, and not just slightly: carbon, oxygen and many other elements were believed to be half their actual masses (cf. the illustration by Dalton above), because only monatomic gases were believed to exist.[15] Even though Amedeo Avogadro and, independently of him, André-Marie Ampère, proposed the solution in the form of diatomic molecules and Avogadro's law already in the 1810s, it was not until after Stanislao Cannizzaro's publications in late 1850s when the theory began to be widely considered.
-
-In 1860, the modern scientific consensus emerged at the first international chemical conference, the Karlsruhe Congress, and a revised list of elements and atomic masses was adopted. It helped spur creation of more extensive systems. The first such system emerged in two years.[</p>
-<p>Source: <a href="https://en.wikipedia.org/wiki/History_of_the_periodic_table" target="_blank">Wikipedia</a></p>
-</section>
-
-<hr>
   <footer><p>&copy; 2025 Chemistry World</p></footer>
 
   <script>1
