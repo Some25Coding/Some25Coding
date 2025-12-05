@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eFootball Style Website</title>
+    <link rel="icon" type="image/png" href="/EFootball_colored_logo.svg.png">
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+}
+
+body {
+    background: #111;
+    color: white;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background: #000;
+    position: sticky;
+    top: 0;
+}
+
+header nav a {
+    margin-left: 20px;
+    color: yellow;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* HERO SECTION */
+.hero {
+    height: 80vh;
+    background: url("eFootball.jpg");
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 40px;
+}
+
+.hero h1 {
+    font-size: 50px;
+}
+
+.hero button {
+    margin-top: 20px;
+    padding: 10px 30px;
+    background: yellow;
+    color: #000;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* NEWS SECTION */
+.news {
+    padding: 40px;
+}
+
+.news-box {
+    display: flex;
+    gap: 20px;
+}
+
+.card {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    width: 45%;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #000;
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">eFootball Clone</div>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">News</a>
+            <a href="#">Download</a>
+            <a href="#">Players</a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1>Welcome to eFootball Experience</h1>
+        <p>The Ultimate Football Game</p>
+        <button>Play Now</button>
+    </section>
+
+    <!-- NEWS SECTION -->
+    <section class="news">
+        <h2>Latest Updates</h2>
+        <div class="news-box">
+            <div class="card">
+                <h3>Season Update 2025</h3>
+                <p>New players, new teams & gameplay upgrades.</p>
+            </div>
+            <div class="card">
+                <h3>Event: Matchday</h3>
+                <p>Play, earn points, and win rewards.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 eFootball Clone Website</p>
+    </footer>
+
+</body>
+</html>
