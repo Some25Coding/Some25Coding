@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,13 +46,22 @@
       font-family: 'eFootballStencil', Century, sans-serif;
       font-weight: normal;
     }
-    .section {
+  h2 {
+      font-family: 'eFootballStencil', Century, sans-serif;
+      font-weight: normal;
+      display: block;
+  } 
+
+  .section {
         background-color: #fff000;
         color: #000096;
         padding: 20px;
         margin-top: 20px;
         border-radius: 10px;
         font-size: 20px;
+    }
+    div.information {
+      position: relative;
     }
     .btn {
         background-color: #fff000;
@@ -79,7 +87,7 @@
   </style>
 </head>
 <body>
-   <header class="site-header"><img src="https://www.konami.com/ci/logo/konami_logo_normal.png" alt="Avatar Logo" style="width: 100px;" class="rounded-pill"></header>
+   <header class="site-header"><img src="https://www.konami.com/ci/logo/konami_logo_normal.png" alt="KONAMI Logo" style="width: 100px;"></header>
   <img src="/eFoot.png" style="display:block; margin: 0 auto;">
    <h1>Welcome to eFootball™</h1>
 
@@ -100,14 +108,14 @@
     <div class="carousel-item active" data-bs-interval="10000">
       <img src="https://img.konami.com/efootball/s/img/promotion/agent/1092/promo_agent.png" class="d-block" alt="">
       <div class="carousel-caption d-none d-md-block">
-        <h4>SPECIAL PLAYERS LIST</h4>
+        <h4>SPECIAL PLAYER LIST</h4>
       </div>
     </div>
 
     <div class="carousel-item" data-bs-interval="2000">
       <img src="https://img.konami.com/efootball/s/img/promotion/agent/1088/promo_agent.png" class="d-block" alt="...">
       <div class="carousel-caption d-none d-md-block">
-        <h4>SPECIAL PLAYERS LIST</h4>
+        <h4>SPECIAL PLAYER LIST</h4>
       </div>
     </div>
 
@@ -132,48 +140,14 @@
   </button>
 
 </div>
+</div>
+
+
+
 
 
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
-<!-- Code injected by live-server -->
-<script>
-	// <![CDATA[  <-- For SVG support
-	if ('WebSocket' in window) {
-		(function () {
-			function refreshCSS() {
-				var sheets = [].slice.call(document.getElementsByTagName("link"));
-				var head = document.getElementsByTagName("head")[0];
-				for (var i = 0; i < sheets.length; ++i) {
-					var elem = sheets[i];
-					var parent = elem.parentElement || head;
-					parent.removeChild(elem);
-					var rel = elem.rel;
-					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
-						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
-						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
-					}
-					parent.appendChild(elem);
-				}
-			}
-			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
-			var address = protocol + window.location.host + window.location.pathname + '/ws';
-			var socket = new WebSocket(address);
-			socket.onmessage = function (msg) {
-				if (msg.data == 'reload') window.location.reload();
-				else if (msg.data == 'refreshcss') refreshCSS();
-			};
-			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
-				console.log('Live reload enabled.');
-				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
-			}
-		})();
-	}
-	else {
-		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
-	}
-	// ]]>
-</script>
 </body>
 </html>
