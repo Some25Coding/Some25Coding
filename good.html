@@ -3,6 +3,8 @@
 <html lang="en">
 <head>
   <link rel="icon" type="image/png" href="/eFootball.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>eFootball Style Website</title>
@@ -35,15 +37,19 @@
         font-weight: normal;
         border-radius: 10px;
     }
-    h1.img {
-      background-color: #000096;
+    h3 {
+      font-family: 'eFootballStencil', Century, sans-serif;
+      font-weight: normal;
+      text-align: center;
     }
-    div.p {
-     font-family: 'eFootballStencil', Century, sans-serif; 
+    h4 {
+      color: #fff000;
+      font-family: 'eFootballStencil', Century, sans-serif;
+      font-weight: normal;
     }
     .section {
-        background-color: #000096;
-        color: #fff000;
+        background-color: #fff000;
+        color: #000096;
         padding: 20px;
         margin-top: 20px;
         border-radius: 10px;
@@ -63,6 +69,13 @@
     .btn:hover {
         background-color: #fff000;
     }
+    .carousel-item img {
+    width: 40%;       /* adjust size (40%–80%) */
+    margin: 0 auto;   /* center the image */
+    display: block;
+    border-radius: 10px; /* optional: smoother edges */
+}
+
   </style>
 </head>
 <body>
@@ -71,19 +84,59 @@
    <h1>Welcome to eFootball™</h1>
 
   <div class="section">
-    <p class="head">Latest News</p>
-    <ul>
-      <li>Matchday events updated weekly.</li>
-      <li>Player packs now available!</li>
-      <li>Season kick-off rewards increased.</li>
-    </ul>
+    <h3>Latest Event</h3>
+<div id="carouselMerged" class="carousel carousel-dark slide" data-bs-ride="carousel">
+
+  <!-- Indicators -->
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="0" class="active" aria-current="true"></button>
+    <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="2"></button>
   </div>
 
-  <div class="section">
-    <p>Play Now</p>
-    <button class="btn">Start Match</button>
+  <!-- Slides -->
+  <div class="carousel-inner">
+
+    <div class="carousel-item active" data-bs-interval="10000">
+      <img src="https://img.konami.com/efootball/s/img/promotion/agent/1092/promo_agent.png" class="d-block" alt="">
+      <div class="carousel-caption d-none d-md-block">
+        <h4>SPECIAL PLAYERS LIST</h4>
+      </div>
+    </div>
+
+    <div class="carousel-item" data-bs-interval="2000">
+      <img src="https://img.konami.com/efootball/s/img/promotion/agent/1088/promo_agent.png" class="d-block" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+        <h4>SPECIAL PLAYERS LIST</h4>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+      <img src="https://img.konami.com/efootball/s/img/promotion/campaign/744/promo_campaign.png" class="d-block" alt="...">
+      <div class="carousel-caption d-none d-md-block">
+         <h4>CAMPAIGN</h4>
+      </div>
+    </div>
+
   </div>
 
+  <!-- Controls -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselMerged" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselMerged" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
 <!-- Code injected by live-server -->
 <script>
 	// <![CDATA[  <-- For SVG support
