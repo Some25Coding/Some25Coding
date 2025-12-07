@@ -1,128 +1,126 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>eFootball Style Website</title>
-    <link rel="icon" type="image/png" href="/EFootball_colored_logo.svg.png">
-    <style>
-        * {
-    margin: 0;
-    padding: 0;
-    font-family: Arial;
-}
-
-body {
-    background: #111;
-    color: white;
-}
-
-/* HEADER */
-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-    background: #000;
-    position: sticky;
-    top: 0;
-}
-
-header nav a {
-    margin-left: 20px;
-    color: yellow;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-/* HERO SECTION */
-.hero {
-    height: 80vh;
-    background: url("eFootball.jpg");
-    background-size: cover;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-left: 40px;
-}
-
-.hero h1 {
-    font-size: 50px;
-}
-
-.hero button {
-    margin-top: 20px;
-    padding: 10px 30px;
-    background: yellow;
-    color: #000;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-/* NEWS SECTION */
-.news {
-    padding: 40px;
-}
-
-.news-box {
-    display: flex;
-    gap: 20px;
-}
-
-.card {
-    background: #222;
-    padding: 20px;
-    border-radius: 10px;
-    width: 45%;
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    background: #000;
-}
-
-    </style>
+  <link rel="icon" type="image/png" href="/eFootball.png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>eFootball Style Website</title>
+  <style>
+     @font-face {
+      font-family: 'eFootballStencil';
+      src: url('fonts/efootball-stencil-regular.ttf') format('truetype');
+    }
+    @font-face {
+      font-family: 'eFootballSans';
+      src: url('fonts/efootball-sans-regular.ttf') format('truetype');
+    }
+    body {
+        background-color: #000096;
+        color: #fff000;
+        font-family: 'eFootballSans', Century, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+    header {
+      background-color: black;
+    }
+    h1 {
+        background-color: #000096;
+        color: #fff000;
+        padding: 15px;
+        font-family: 'eFootballStencil', Century, sans-serif;
+        font-size: 28px;
+        text-align: center;
+        font-weight: normal;
+        border-radius: 10px;
+    }
+    h1.img {
+      background-color: #000096;
+    }
+    div.p {
+     font-family: 'eFootballStencil', Century, sans-serif; 
+    }
+    .section {
+        background-color: #000096;
+        color: #fff000;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 10px;
+        font-size: 20px;
+    }
+    .btn {
+        background-color: #fff000;
+        color: #ff0000bb;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-family: 'eFootballSans', Century, sans-serif;
+        font-size: 18px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .btn:hover {
+        background-color: #fff000;
+    }
+  </style>
 </head>
 <body>
+   <header class="site-header"><img src="https://www.konami.com/ci/logo/konami_logo_normal.png" alt="Avatar Logo" style="width: 100px;" class="rounded-pill"></header>
+  <img src="/eFoot.png" style="display:block; margin: 0 auto;">
+   <h1>Welcome to eFootball™</h1>
 
-    <!-- HEADER -->
-    <header>
-        <div class="logo">eFootball Clone</div>
-        <nav>
-            <a href="#">Home</a>
-            <a href="#">News</a>
-            <a href="#">Download</a>
-            <a href="#">Players</a>
-        </nav>
-    </header>
+  <div class="section">
+    <p class="head">Latest News</p>
+    <ul>
+      <li>Matchday events updated weekly.</li>
+      <li>Player packs now available!</li>
+      <li>Season kick-off rewards increased.</li>
+    </ul>
+  </div>
 
-    <!-- HERO SECTION -->
-    <section class="hero">
-        <h1>Welcome to eFootball Experience</h1>
-        <p>The Ultimate Football Game</p>
-        <button>Play Now</button>
-    </section>
+  <div class="section">
+    <p>Play Now</p>
+    <button class="btn">Start Match</button>
+  </div>
 
-    <!-- NEWS SECTION -->
-    <section class="news">
-        <h2>Latest Updates</h2>
-        <div class="news-box">
-            <div class="card">
-                <h3>Season Update 2025</h3>
-                <p>New players, new teams & gameplay upgrades.</p>
-            </div>
-            <div class="card">
-                <h3>Event: Matchday</h3>
-                <p>Play, earn points, and win rewards.</p>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <p>© 2025 eFootball Clone Website</p>
-    </footer>
-
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
 </html>
