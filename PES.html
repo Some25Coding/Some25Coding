@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>eFootball Navigation</title>
+
+<!-- OPTIONAL: eFootball fonts -->
+<link rel="preload" href="/efootball/s/font/eFootballSans-Regular.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="/efootball/s/font/eFootballSans-Bold.woff" as="font" type="font/woff" crossorigin>
+
+<style>
+/* GLOBAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* NAV WRAPPER */
+.nav-wrap {
+  width: 100%;
+  background: #000000;
+  border-bottom: 1px solid #222;
+  font-family: "eFootball Sans", Arial, sans-serif;
+  position: relative;
+  z-index: 999;
+}
+
+.nav-container {
+  max-width: 1380px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+}
+
+/* LEFT MENU GROUP */
+.menu-group {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+.menu-list span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 18px;
+  border-radius: 1000px;
+  color: #ffffff;
+  font-size: 14px;
+  letter-spacing: 0.6px;
+  border: 1px solid transparent;
+  transition: 0.25s;
+  white-space: nowrap;
+}
+
+.menu-list.current span {
+  border-color: #ffe600;
+  color: #ffe600;
+}
+
+.menu-list:hover span {
+  border-color: #ffe600;
+  color: #ffe600;
+}
+
+/* DOWNLOAD BUTTON */
+.download_btn {
+  background: #ffe600;
+  color: #000;
+  padding: 10px 24px;
+  border-radius: 1000px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  border: 2px solid #ffe600;
+  text-decoration: none;
+  transition: 0.3s;
+  white-space: nowrap;
+}
+
+.download_btn:hover {
+  background: transparent;
+  color: #ffe600;
+  border-color: #ffe600;
+}
+
+/* HAMBURGER MENU (mobile) */
+.hamburger {
+  display: none;
+  width: 32px;
+  height: 22px;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.hamburger div {
+  background: #ffffff;
+  height: 3px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+/* MOBILE DRAWER */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: -260px;
+  width: 260px;
+  height: 100%;
+  background: #000000;
+  padding: 30px 20px;
+  transition: 0.35s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 1000;
+}
+
+.mobile-drawer.open {
+  left: 0;
+}
+
+.mobile-drawer a span {
+  font-size: 16px;
+  padding: 10px 18px;
+}
+
+/* OVERLAY */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 900;
+}
+
+.mobile-overlay.show {
+  display: block;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .menu-group,
+  .download_btn {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- OVERLAY -->
+<div class="mobile-overlay" id="overlay"></div>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="drawer">
+  <a><span>HOME</span></a>
+  <a><span>Overview</span></a>
+  <a><span>eSports</span></a>
+  <a><span>Licenses</span></a>
+  <a><span>Online Support</span></a>
+  <a class="download_btn" href="/efootball/en/page/download_edition_list">DOWNLOAD</a>
+</div>
+
+<!-- NAVIGATION -->
+<section class="nav-wrap">
+  <div class="nav-container">
+
+    <!-- LEFT MENU -->
+    <ul class="menu-group">
+      <li class="menu-list current"><a><span>HOME</span></a></li>
+      <li class="menu-list"><a><span>Overview</span></a></li>
+      <li class="menu-list"><a><span>eSports</span></a></li>
+      <li class="menu-list"><a><span>Licenses</span></a></li>
+      <li class="menu-list"><a><span>Online Support</span></a></li>
+    </ul>
+
+    <!-- DOWNLOAD BUTTON -->
+    <a class="download_btn" href="/efootball/en/page/download_edition_list">DOWNLOAD</a>
+
+    <!-- HAMBURGER -->
+    <div class="hamburger" id="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+const drawer = document.getElementById("drawer");
+const hamburger = document.getElementById("hamburger");
+const overlay = document.getElementById("overlay");
+
+hamburger.onclick = () => {
+  drawer.classList.add("open");
+  overlay.classList.add("show");
+};
+
+overlay.onclick = () => {
+  drawer.classList.remove("open");
+  overlay.classList.remove("show");
+};
+</script>
+
+</body>
+</html>
