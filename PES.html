@@ -2,32 +2,42 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOP | eFootball™ Unofficial Site</title>
 
-<title>eFootball Navigation</title>
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq7lhC8TcsOLuIh3FQ3pqs692g0zWTwIH8Kg&s">
 
-<!-- OPTIONAL: eFootball fonts -->
-<link rel="preload" href="/efootball/s/font/eFootballSans-Regular.woff" as="font" type="font/woff" crossorigin>
-<link rel="preload" href="/efootball/s/font/eFootballSans-Bold.woff" as="font" type="font/woff" crossorigin>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
 <style>
-/* GLOBAL RESET */
-* {
+/* Official eFootball font stack */
+body {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
-/* NAV WRAPPER */
+/* HEADER */
+header.site-header {
+  background-color: black;
+  padding: 10px 20px;
+}
+header.site-header img {
+  width: 100px;
+}
+
+/* NAVIGATION */
 .nav-wrap {
   width: 100%;
   background: #000000;
   border-bottom: 1px solid #222;
-  font-family: "eFootball Sans", Arial, sans-serif;
   position: relative;
   z-index: 999;
 }
-
 .nav-container {
   max-width: 1380px;
   margin: 0 auto;
@@ -37,13 +47,14 @@
   padding: 14px 24px;
 }
 
-/* LEFT MENU GROUP */
+/* MENU GROUP */
 .menu-group {
   display: flex;
   list-style: none;
   gap: 30px;
+  margin: 0;
+  padding: 0;
 }
-
 .menu-list span {
   display: inline-flex;
   align-items: center;
@@ -57,31 +68,25 @@
   transition: 0.25s;
   white-space: nowrap;
 }
-
-.menu-list.current span {
-  border-color: #ffe600;
-  color: #ffe600;
-}
-
+.menu-list.current span,
 .menu-list:hover span {
-  border-color: #ffe600;
   color: #ffe600;
+  border-color: #ffe600;
 }
 
 /* DOWNLOAD BUTTON */
 .download_btn {
   background: #ffe600;
-  color: #000;
+  color: #000000;
   padding: 10px 24px;
   border-radius: 1000px;
   font-weight: bold;
   letter-spacing: 0.5px;
   border: 2px solid #ffe600;
   text-decoration: none;
-  transition: 0.3s;
   white-space: nowrap;
+  transition: 0.25s;
 }
-
 .download_btn:hover {
   background: transparent;
   color: #ffe600;
@@ -97,7 +102,6 @@
   justify-content: space-between;
   cursor: pointer;
 }
-
 .hamburger div {
   background: #ffffff;
   height: 3px;
@@ -120,11 +124,9 @@
   gap: 12px;
   z-index: 1000;
 }
-
 .mobile-drawer.open {
   left: 0;
 }
-
 .mobile-drawer a span {
   font-size: 16px;
   padding: 10px 18px;
@@ -138,7 +140,6 @@
   background: rgba(0,0,0,0.6);
   z-index: 900;
 }
-
 .mobile-overlay.show {
   display: block;
 }
@@ -149,10 +150,33 @@
   .download_btn {
     display: none;
   }
-
   .hamburger {
     display: flex;
   }
+}
+
+/* OTHER STYLES (carousel, headings, sections) */
+h1, h2, h3, h4 {
+  font-weight: normal;
+  text-align: center;
+}
+h1 {
+  font-size: 28px;
+  margin: 20px 0;
+}
+.section {
+  background-color: #222;
+  color: #ffffff;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  font-size: 20px;
+}
+.carousel-item img {
+  width: 40%;
+  margin: 0 auto;
+  display: block;
+  border-radius: 10px;
 }
 </style>
 </head>
@@ -172,11 +196,14 @@
   <a class="download_btn" href="/efootball/en/page/download_edition_list">DOWNLOAD</a>
 </div>
 
+<!-- HEADER -->
+<header class="site-header">
+  <img src="https://www.konami.com/ci/logo/konami_logo_normal.png" alt="KONAMI Logo">
+</header>
+
 <!-- NAVIGATION -->
 <section class="nav-wrap">
   <div class="nav-container">
-
-    <!-- LEFT MENU -->
     <ul class="menu-group">
       <li class="menu-list current"><a><span>HOME</span></a></li>
       <li class="menu-list"><a><span>Overview</span></a></li>
@@ -185,19 +212,72 @@
       <li class="menu-list"><a><span>Online Support</span></a></li>
     </ul>
 
-    <!-- DOWNLOAD BUTTON -->
     <a class="download_btn" href="/efootball/en/page/download_edition_list">DOWNLOAD</a>
 
-    <!-- HAMBURGER -->
     <div class="hamburger" id="hamburger">
       <div></div>
       <div></div>
       <div></div>
     </div>
-
   </div>
 </section>
 
+<!-- PAGE CONTENT -->
+<h1>Welcome to eFootball™</h1>
+<img src="https://img.konami.com/efootball/s/img/main_page_1.png?v=875" class="d-block w-100" alt="Main Banner">
+
+<div class="section">
+  <h3>Latest Event</h3>
+  <div id="carouselMerged" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    <!-- Indicators -->
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="0" class="active" aria-current="true"></button>
+      <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="1"></button>
+      <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="2"></button>
+      <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="3"></button>
+      <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="4"></button>
+    </div>
+
+    <!-- Slides -->
+    <div class="carousel-inner">
+      <div class="carousel-item active" data-bs-interval="10000">
+        <img src="https://img.konami.com/efootball/s/img/promotion/agent/1092/promo_agent.png" class="d-block" alt="">
+        <div class="carousel-caption d-none d-md-block"><h4>SPECIAL PLAYER LIST</h4></div>
+      </div>
+      <div class="carousel-item" data-bs-interval="2000">
+        <img src="https://img.konami.com/efootball/s/img/promotion/agent/1088/promo_agent.png" class="d-block" alt="">
+        <div class="carousel-caption d-none d-md-block"><h4>SPECIAL PLAYER LIST</h4></div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://img.konami.com/efootball/s/img/promotion/campaign/744/promo_campaign.png" class="d-block" alt="">
+        <div class="carousel-caption d-none d-md-block"><h4>CAMPAIGN</h4></div>
+      </div>
+      <div class="carousel-item" data-bs-interval="2000">
+        <img src="https://img.konami.com/efootball/s/img/promotion/campaign/743/promo_campaign.png" class="d-block" alt="">
+        <div class="carousel-caption d-none d-md-block"><h4>CAMPAIGN</h4></div>
+      </div>
+      <div class="carousel-item" data-bs-interval="2000">
+        <img src="https://img.konami.com/efootball/s/img/promotion/agent/1099/promo_agent.png" class="d-block" alt="">
+        <div class="carousel-caption d-none d-md-block"><h4>SPECIAL PLAYER LIST</h4></div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselMerged" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselMerged" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+<!-- Hamburger Drawer Script -->
 <script>
 const drawer = document.getElementById("drawer");
 const hamburger = document.getElementById("hamburger");
@@ -207,7 +287,6 @@ hamburger.onclick = () => {
   drawer.classList.add("open");
   overlay.classList.add("show");
 };
-
 overlay.onclick = () => {
   drawer.classList.remove("open");
   overlay.classList.remove("show");
