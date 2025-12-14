@@ -1,15 +1,14 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Music Player + Lyrics Viewer</title>
+  <title>Music Player + Lyrics Editor</title>
   <style>
     /* Animated gradient background */
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: Century;
       display: flex;
       height: 100vh;
       transition: background 0.5s, color 0.5s;
@@ -44,19 +43,83 @@
       border: none;
       font-size: 14px;
     }
+    .sidebar button {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        border: none;
+        background: #28a745;
+        color: white;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .sidebar button:hover {
+        background: #218838;
+    }
     .sidebar ul {
       list-style: none;
       padding: 0;
       margin: 0;
     }
-    .sidebar li {
-      padding: 8px;
-      border-bottom: 1px solid #ccc;
+    
+    /* --- Accordion/Playlist Styles --- */
+    .accordion-container {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-top: 10px;
+    }
+    .artist-header {
+        background-color: #f1f1f1;
+        color: #333;
+        cursor: pointer;
+        padding: 10px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        transition: background-color 0.4s;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+    }
+    .artist-header:hover { background-color: #ddd; }
+    .artist-header.active .toggle-icon { transform: rotate(180deg); }
+    .artist-content {
+        padding: 0 5px;
+        background-color: white;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out;
+    }
+    .album-group h4 {
+        font-size: 0.9em;
+        margin: 5px 0 5px 0;
+        padding-left: 5px;
+        color: #666;
+        border-bottom: 1px dotted #eee;
+    }
+    .song-list {
+        padding-bottom: 5px !important;
+    }
+    .song-list li {
+      padding: 6px 8px;
+      border-bottom: none; /* Override default sidebar li */
       cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 0.9em;
     }
-    .sidebar li:hover {
-      background: #ddd;
-    }
+    .song-list li:hover { background: #e0f0ff; }
+    .song-list li.playing { background: #007bff; color: white; font-weight: bold; }
+    .song-list li.playing:hover { background: #0056b3; }
+    /* --- END Accordion/Playlist Styles --- */
+
 
     /* Main content */
     .main-content {
@@ -73,22 +136,73 @@
       text-align: center;
       margin: 10px 0;
     }
+    
+    /* Player container adjustments for flex layout */
     .player {
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+
+    /* New row for cover and details */
+    .song-info-row {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        max-width: 600px;
+        width: 100%;
+        padding: 10px; 
+        box-sizing: border-box;
+    }
+
+    /* Cover image */
     .cover {
       width: 200px;
       height: 200px;
       object-fit: cover;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      margin-bottom: 10px;
-      transition: opacity 0.5s ease;
+      margin-right: 20px;
+      flex-shrink: 0;
     }
-    .song-title {
-      font-size: 1.2em;
-      margin-bottom: 10px;
+    
+    /* Song Details container */
+    .song-details-info {
+        text-align: left;
+        padding: 10px 0;
+        max-width: 300px;
+        flex-grow: 1;
     }
+    .song-details-info h2 {
+        margin-top: 0;
+        font-size: 1.5em;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 5px;
+        color: #333;
+    }
+    .song-details-info ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 1.1em;
+    }
+    .song-details-info li {
+        margin-bottom: 8px;
+        border-bottom: none; 
+        padding: 0; 
+    }
+    .song-details-info strong {
+        display: inline-block;
+        width: 90px;
+        font-weight: bold;
+    }
+    
+    .song-title { display: none; }
+
+
     .controls button {
       margin: 5px;
       padding: 8px 12px;
@@ -113,9 +227,13 @@
     }
     .lyrics-container {
       margin-top: 20px;
+      max-width: 500px;
+      width: 100%;
     }
+    /* Lyrics Box */
     #lyrics {
-      max-height: 150px;
+      min-height: 100px;
+      max-height: 250px;
       overflow-y: auto;
       padding: 15px;
       background: #fff;
@@ -123,7 +241,32 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       white-space: pre-wrap;
       transition: background 0.3s, color 0.3s;
+      margin-top: 5px;
+      /* Style for editing mode */
+      border: 1px solid transparent;
+      outline: none;
     }
+    /* Specific styles when editing is active */
+    #lyrics.editing {
+        background: #fff;
+        border: 1px solid #007bff;
+        padding: 15px;
+        white-space: pre; /* Allows proper indentation/formatting in textarea mode */
+        font-family: monospace;
+        text-align: left;
+        color: #333;
+    }
+    .lyrics-controls button {
+        margin-right: 5px;
+        padding: 8px 12px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+    }
+    #lyricsEditBtn { background: #ffc107; color: #333; }
+    #lyricsSaveBtn { background: #28a745; color: white; display: none;}
+    #fileInputBtn { background: #17a2b8; color: white; }
+
     .line {
       margin: 8px 0;
       padding: 6px 12px;
@@ -135,87 +278,60 @@
       background: #f1f1f1;
     }
     .line.active {
-      background: #d1ecf1;
+      background: rgb(0, 0, 0);
+      color: rgb(255, 255, 255);
       transform: scale(1.02);
       font-weight: bold;
     }
     .timestamp {
       font-family: monospace;
       margin-right: 10px;
-      color: #888;
+      color: rgb(255, 0, 0);
       font-size: 0.85em;
     }
 
     /* Dark mode overrides */
-    body.dark-mode .sidebar { background: #333; color: #ccc; }
+    body.dark-mode .sidebar { background: #000000; color: #ccc; }
     body.dark-mode input, body.dark-mode select { background: #555; color: #eee; }
-    body.dark-mode li:hover { background: #444; }
+    body.dark-mode .sidebar button { background: #1e7e34; }
+    body.dark-mode .sidebar button:hover { background: #1c6628; }
+    body.dark-mode .artist-header { background-color: #333; color: #eee; border-bottom: 1px solid #444; }
+    body.dark-mode .artist-header:hover { background-color: #444; }
+    body.dark-mode .artist-content { background-color: #111; }
+    body.dark-mode .album-group h4 { color: #aaa; border-bottom: 1px dotted #333; }
+    body.dark-mode .song-list li { color: #ccc; }
+    body.dark-mode .song-list li:hover { background: #1d3557; }
+    body.dark-mode .song-list li.playing { background: #00ffff; color: #000; font-weight: bold; }
+    body.dark-mode .song-list li.playing:hover { background: #00bfff; }
     body.dark-mode .main-content { color: #e0e0e0; }
     body.dark-mode #lyrics { background: #222; box-shadow: 0 4px 10px rgba(255,255,255,0.1); color: #ccc; }
+    body.dark-mode #lyrics.editing { background: #1a1a1a; color: #00ffff; border-color: #00ffff; }
     body.dark-mode .line:hover { background: #333; }
-    body.dark-mode .line.active { background: #0056b3; color: #fff; }
+    body.dark-mode .line.active { background: #dc143c; color: #fff; }
+    body.dark-mode .timestamp { color: yellow; }
+    body.dark-mode .song-details-info h2 {
+      border-bottom: 1px solid #555;
+      color: #00ffff;
+    }
+    body.dark-mode .song-details-info li {
+        color: #e0e0e0;
+    }
+    body.dark-mode #lyricsEditBtn { background: #e0a800; }
+    body.dark-mode #lyricsSaveBtn { background: #1e7e34; }
+    body.dark-mode #fileInputBtn { background: #138496; }
+
 
     @media (max-width: 600px) {
-      .sidebar { display: none; }
+      .sidebar { width: 100%; height: auto; border-right: none; }
+      body { flex-direction: column; overflow-y: auto; }
+      .main-content { padding: 10px; }
+      .song-info-row { flex-direction: column; align-items: center; }
+      .cover { margin-right: 0; margin-bottom: 15px; }
+      .song-details-info { text-align: center; }
+      .song-details-info strong { width: auto; display: inline; margin-right: 5px;}
+      .song-details-info ul { padding-top: 10px; }
     }
     
- /* Fade-in overlay */
-#popup {
-  display: none; /* Hidden by default */
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(3px);
-  animation: fadeIn 0.3s ease forwards;
-}
-
-/* Scale-in content box */
-#popup-content {
-  background-color: #fff;
-  margin: 10% auto;
-  padding: 30px 20px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  font-family: "Segoe UI", sans-serif;
-  position: relative;
-  text-align: center;
-  transform: scale(0.7);
-  opacity: 0;
-  animation: popupSlide 0.4s ease forwards;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes popupSlide {
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-/* Close button (×) */
-#close-button {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 24px;
-  color: #333;
-  cursor: pointer;
-}
-
-#close-button:hover {
-  color: red;
-}
   </style>
 </head>
 <body>
@@ -223,13 +339,29 @@
     <input type="text" id="searchInput" placeholder="Search songs...">
     <select id="artistFilter"><option value="">All Artists</option></select>
     <select id="albumFilter"><option value="">All Albums</option></select>
-    <ul id="playlist"></ul>
+    
+    <button onclick="document.getElementById('mp3Input').click()">Upload MP3 Files 📂</button>
+    <input type="file" id="mp3Input" accept=".mp3" multiple style="display:none;">
+
+    <div id="playlist" class="accordion-container"></div>
   </div>
   <div class="main-content">
-    <h1>🎶 Music Player + Lyrics</h1>
+    <h1>🎶 ♪ ♫ Music Player + Lyrics</h1>
     <div class="player">
-      <img id="cover" src="" alt="Cover" class="cover">
-      <div class="song-title" id="songTitle">No song loaded</div>
+      <div class="song-info-row">
+        <img id="cover" src="covers/default.jpg" alt="Cover" class="cover">
+        
+        <div class="song-details-info">
+            <h2>Current Song Details</h2>
+            <ul>
+                <li><strong>Title:</strong> <span id="detailTitle">No song loaded</span></li>
+                <li><strong>Artist:</strong> <span id="detailArtist">N/A</span></li>
+                <li><strong>Album:</strong> <span id="detailAlbum">N/A</span></li>
+                <li><strong>Genre:</strong> <span id="detailGenre">N/A</span></li>
+                <li><strong>Duration:</strong> <span id="detailDuration">0:00</span></li>
+            </ul>
+        </div>
+      </div>
       <audio id="audio"></audio>
       <div class="controls">
         <button onclick="prevSong()">⏮️</button>
@@ -244,20 +376,18 @@
         <input type="range" id="seek" min="0" step="1" value="0"><br>
         Volume: <input type="range" id="vol" min="0" max="1" step="0.01" value="1">
       </div>
-
-  
-    <div id="popup">
-  <div id="popup-content">
-    <span id="close-button">&times;</span>
-    <p id="lyricsData"></p>
-  </div>
-</div>
-<div class="lyrics-container">
-     <button onclick="parseLyrics()"> <input type="file" id="fileInput" accept=".lrc"> </button>
-      <div id="lyrics"></div>
+    
+    <div class="lyrics-container">
+        <div class="lyrics-controls">
+            <button id="fileInputBtn" onclick="document.getElementById('fileInput').click()">Load .lrc File</button>
+            <button id="lyricsEditBtn" onclick="toggleLyricsEditMode()">Edit Lyrics</button>
+            <button id="lyricsSaveBtn" onclick="saveLyrics()">Save Lyrics</button>
+            <input type="file" id="fileInput" accept=".lrc" style="display:none;">
+        </div>
+        <div id="lyrics" contenteditable="false">No song loaded.</div>
     </div>
-  </div>
-      <div class="dark-toggle">
+    
+    <div class="dark-toggle">
       <label>
         🌙 Dark Mode
         <input type="checkbox" id="darkModeToggle">
@@ -267,18 +397,10 @@
     
 
   <script>
-    // Sample playlist (trimmed for brevity)
-        const playlist = [
-      { title: "Justin Bieber - DAISIES", mp3: "songs/Justin Bieber - DAISIES.mp3", cover: "covers/Swag.jpg" },
-      { title: "Justin Bieber - YUKON", mp3: "songs/Justin Bieber - YUKON.mp3", cover: "covers/Swag.jpg" },
-      { title: "Justin Bieber - GO BABY", mp3: "songs/Justin Bieber - GO BABY.mp3", cover: "covers/Swag.jpg" },
-      { title: "01 Justin Bieber - Heartbreaker", mp3: "songs/01 Justin Bieber - Heartbreaker.mp3", cover: "covers/journals.jpg" },
-      { title: "02 Justin Bieber - All That Matters", mp3: "songs/02 Justin Bieber - All That Matters.mp3", cover: "covers/journals.jpg" },
-      { title: "03 Justin Bieber - Hold Tight", mp3: "songs/03 Justin Bieber - Hold Tight.mp3", cover: "covers/journals.jpg" },
-      { title: "10 Justin Bieber - Confident", mp3: "songs/10 Justin Bieber - Confident.mp3", cover: "covers/journals.jpg" },
-      { title: "02 Justin Bieber - Boyfriend", mp3: "songs/02 Justin Bieber - Boyfriend.mp3", cover: "covers/believe.jpg" },
-      { title: "03 Justin Bieber - As Long As You Love Me", mp3: "songs/03 Justin Bieber - As Long As You Love Me.mp3", cover: "covers/believe.jpg" },
-      { title: "10 Justin Bieber - Beauty And A Beat", mp3: "songs/10 Justin Bieber - Beauty And A Beat.mp3", cover: "covers/believe.jpg" },
+    // Sample playlist (Used if localStorage is empty)
+    const initialPlaylist = [
+      { title: "17 Michael Jackson - You Rock My World", mp3: "songs/17 Michael Jackson - You Rock My World.mp3", cover: "covers/Michael Jackson Essentials.jpg"},
+      { title: "05 Michael Jackson - Remember the Time", mp3: "songs/05 Michael Jackson - Remember the Time.mp3", cover: "covers/Michael Jackson Essentials.jpg"},
       { title: "02 Justin Bieber - Favorite Girl (Album Version)", mp3: "songs/02 Justin Bieber - Favorite Girl (Album Version).mp3", cover: "covers/my world.jpg" },
       { title: "01 Justin Bieber - One Time (Album Version)", mp3: "songs/01 Justin Bieber - One Time (Album Version).mp3", cover: "covers/my world.jpg" },
       { title: "05 Justin Bieber - One Less Lonely Girl (Album Version)", mp3: "songs/05 Justin Bieber - One Less Lonely Girl (Album Version).mp3", cover: "covers/my world.jpg" },
@@ -291,21 +413,32 @@
       { title: "09 Justin Bieber - Up (Album Version)", mp3: "songs/09 Justin Bieber - Up (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
       { title: "10 Justin Bieber - That Should Be Me (Album Version)", mp3: "songs/10 Justin Bieber - That Should Be Me (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
       { title: "01 Justin Bieber - Never Say Never", mp3: "songs/01 Justin Bieber - Never Say Never.mp3", cover: "covers/never say never.jpg" },
+      { title: "02 Justin Bieber - Under The Mistletoe", mp3: "songs/02 Justin Bieber - Under The Mistletoe.mp3", cover: "covers/under the mistletoe.jpg" },
+      { title: "12 Justin Bieber - Christmas Love", mp3: "songs/12 Justin Bieber - Christmas Love.mp3", cover: "covers/under the mistletoe.jpg" },
+      { title: "01 Tyga - Wait For A Minute", mp3: "songs/01 Tyga - Wait For A Minute.mp3", cover: "covers/Wait For A Minute.jpg"    },
+      { title: "02 Justin Bieber - Boyfriend", mp3: "songs/02 Justin Bieber - Boyfriend.mp3", cover: "covers/believe.jpg" },
+      { title: "03 Justin Bieber - As Long As You Love Me", mp3: "songs/03 Justin Bieber - As Long As You Love Me.mp3", cover: "covers/believe.jpg" },
+      { title: "10 Justin Bieber - Beauty And A Beat", mp3: "songs/10 Justin Bieber - Beauty And A Beat.mp3", cover: "covers/believe.jpg" },
+      { title: "01 Justin Bieber - Heartbreaker", mp3: "songs/01 Justin Bieber - Heartbreaker.mp3", cover: "covers/journals.jpg" },
+      { title: "02 Justin Bieber - All That Matters", mp3: "songs/02 Justin Bieber - All That Matters.mp3", cover: "covers/journals.jpg" },
+      { title: "03 Justin Bieber - Hold Tight", mp3: "songs/03 Justin Bieber - Hold Tight.mp3", cover: "covers/journals.jpg" },
+      { title: "10 Justin Bieber - Confident", mp3: "songs/10 Justin Bieber - Confident.mp3", cover: "covers/journals.jpg" },
+      { title: "Justin Bieber - Flatline", mp3: "songs/Justin Bieber - Flatline.mp3", cover: "covers/flatline.jpg" },
       { title: "01 Justin Bieber - Friends", mp3: "songs/01 Justin Bieber - Friends.mp3", cover: "covers/Friends.jpg" },
       { title: "02 Justin Bieber - I'll Show You", mp3: "songs/02 Justin Bieber - I'll Show You.mp3", cover: "covers/purpose.jpg" },
       { title: "03 Justin Bieber - What Do You Mean", mp3: "songs/03 Justin Bieber - What Do You Mean.mp3", cover: "covers/purpose.jpg" },
       { title: "04 Justin Bieber - Sorry", mp3: "songs/04 Justin Bieber - Sorry.mp3", cover: "covers/purpose.jpg" },
       { title: "06 Justin Bieber - Company", mp3: "songs/06 Justin Bieber - Company.mp3", cover: "covers/purpose.jpg" },
       { title: "09 Justin Bieber - Where Are U Now", mp3: "songs/09 Justin Bieber - Where Are U Now.mp3", cover: "covers/where are you now.jpg" },
-      { title: "Justin Bieber - Peaches", mp3: "songs/Justin Bieber - Peaches.mp3", cover: "covers/justice.jpg" },
-      { title: "Justin Bieber - Somebody", mp3: "songs/Justin Bieber - Somebody.mp3", cover: "covers/justice.jpg" },
-      { title: "Justin Bieber - Honest", mp3: "songs/Justin Bieber - Honest.mp3", cover: "covers/honest.jpg" },
       { title: "Justin Bieber - Available", mp3: "songs/Justin Bieber - Available.mp3", cover: "covers/changes.jpg" },
       { title: "Justin Bieber - Intentions", mp3: "songs/Justin Bieber - Intentions.mp3", cover: "covers/changes.jpg" },
       { title: "Justin Bieber - Come Around Me", mp3: "songs/Justin Bieber - Come Around Me.mp3", cover: "covers/changes.jpg" },
-      { title: "02 Justin Bieber - Under The Mistletoe", mp3: "songs/02 Justin Bieber - Under The Mistletoe.mp3", cover: "covers/under the mistletoe.jpg" },
-      { title: "12 Justin Bieber - Christmas Love", mp3: "songs/12 Justin Bieber - Christmas Love.mp3", cover: "covers/under the mistletoe.jpg" },
-      { title: "01 Tyga - Wait For A Minute", mp3: "songs/01 Tyga - Wait For A Minute.mp3", cover: "covers/ait For A Minute.jpg"    },
+      { title: "Justin Bieber - Peaches", mp3: "songs/Justin Bieber - Peaches.mp3", cover: "covers/justice.jpg" },
+      { title: "Justin Bieber - Somebody", mp3: "songs/Justin Bieber - Somebody.mp3", cover: "covers/justice.jpg" },
+      { title: "Justin Bieber - Honest", mp3: "songs/Justin Bieber - Honest.mp3", cover: "covers/honest.jpg" },
+      { title: "Justin Bieber - DAISIES", mp3: "songs/Justin Bieber - DAISIES.mp3", cover: "covers/Swag.jpg" },
+      { title: "Justin Bieber - YUKON", mp3: "songs/Justin Bieber - YUKON.mp3", cover: "covers/Swag.jpg" },
+      { title: "Justin Bieber - GO BABY", mp3: "songs/Justin Bieber - GO BABY.mp3", cover: "covers/Swag.jpg" },
       { title: "01 One Direction - What Makes You Beautiful", mp3: "songs/01 One Direction - What Makes You Beautiful.mp3", cover: "covers/up all night.jpg" },
       { title: "02 One Direction - Gotta Be You", mp3: "songs/02 One Direction - Gotta Be You.mp3", cover: "covers/up all night.jpg" },
       { title: "03 One Direction - One Thing", mp3: "songs/03 One Direction - One Thing.mp3", cover: "covers/up all night.jpg" },
@@ -332,10 +465,13 @@
       { title: "ZEDD - Get Low", mp3: "songs/ZEDD - Get Low.mp3", cover: "covers/LP1.jpg" },
       { title: "Liam Payne - Bedroom Floor", mp3: "songs/Liam Payne - Bedroom Floor.mp3", cover: "covers/LP1.jpg" },
       { title: "Liam Payne - Naughty List", mp3: "songs/Liam Payne - Naughty List.mp3", cover: "covers/Naughty List.jpg" }, 
+      {title: "ZAYN - Let Me", mp3: "songs/ZAYN - Let Me.mp3", cover: "covers/Icarus Falls.jpg" },
       { title: "Austin Mahone - Mmm Yeah (feat. Pitbull)", mp3: "songs/Austin Mahone - Mmm Yeah (feat. Pitbull).mp3", cover: "covers/The Secret.jpg" }, 
       { title: "06 Austin Mahone - All I Ever Need", mp3: "songs/06 Austin Mahone - All I Ever Need.mp3", cover: "covers/The Secret.jpg" },
-      { title: "01 Austin Mahone - Say You re Just a Friend (feat. Flo Rida)", mp3: "songs/01 Austin Mahone - Say You re Just a Friend (feat. Flo Rida).mp3", cover: "covers/Say You're Just A Friend.jpg" },
+      { title: "01 Austin Mahone - Say You're Just a Friend (feat. Flo Rida)", mp3: "songs/01 Austin Mahone - Say You're Just a Friend (feat. Flo Rida).mp3", cover: "covers/Say You're Just A Friend.jpg" },
       { title: "02 Omarion - Post to Be (feat. Chris Brown & Jhene Aiko)", mp3: "songs/02 Omarion - Post to Be (feat. Chris Brown & Jhene Aiko).mp3", cover: "covers/Sex Playlist.jpg"  },
+      { title: "Powfu - death bed (coffee for your head)", mp3: "songs/Powfu - death bed (coffee for your head).mp3", cover: "covers/death bed.jpg"  },
+      { title: "Ndotz - Embrace It", mp3: "songs/Ndotz - Embrace It.mp3", cover: "covers/Embrace It.jpg"},
       { title: "09 Luis Fonsi - Despacito", mp3: "songs/09 Luis Fonsi - Despacito.mp3", cover: "covers/despacito.jpg" },
       { title: "13 Luis Fonsi - Despacito (Remix)", mp3: "songs/13 Luis Fonsi - Despacito (Remix).mp3", cover: "covers/despacito.jpg" },
       { title: "The Weeknd - Timeless", mp3: "songs/The Weeknd - Timeless.mp3", cover: "covers/timeless.jpg" },
@@ -346,19 +482,30 @@
       { title: "The Weeknd - False Alarm", mp3: "songs/The Weeknd - False Alarm.mp3", cover: "covers/Starboy.jpg" },
       { title: "The Weeknd - Reminder", mp3: "songs/The Weeknd - Reminder.mp3", cover: "covers/Starboy.jpg" },
       { title: "The Weeknd - I Feel It Coming", mp3: "songs/The Weeknd - I Feel It Coming.mp3", cover: "covers/Starboy.jpg"},
+      { title: "01 The Weeknd - Call Out My Name", mp3: "songs/01 The Weeknd - Call Out My Name.mp3", cover: "covers/My Dear Melancholy.jpg"},
       { title: "The Weeknd - Take My Breath", mp3: "songs/The Weeknd - Take My Breath.mp3", cover: "covers/Dawn FM.jpg"},
       { title: "The Weeknd - Out of Time", mp3: "songs/The Weeknd - Out of Time.mp3", cover: "covers/Dawn FM.jpg"},
       { title: "The Weeknd - Is There Someone Else", mp3: "songs/The Weeknd - Is There Someone Else.mp3", cover: "covers/Dawn FM.jpg"},
+      { title: "The Weeknd - Popular", mp3: "songs/The Weeknd - Popular.mp3", cover: "covers/The Idol, Vol. 1.jpg" },
+      { title: "NCT 127 - Walk", mp3: "songs/NCT 127 - Walk.mp3", cover: "covers/Walk.jpg" },
+      { title: "RIIZE - Boom Boom Bass", mp3: "songs/RIIZE - Boom Boom Bass.mp3", cover: "covers/RIIZING.jpg" },
+      { title: "Seun Kuti - Dey (Gaudi   Don Letts Remix)", mp3: "songs/Seun Kuti - Dey (Gaudi   Don Letts Remix).mp3", cover: "covers/Dey.jpg" },
+      { title: "Pôngo - Celebrate", mp3: "songs/Pôngo - Celebrate.mp3", cover: "covers/Celebrate.jpg" },
+      { title: "Nao - Wildflowers", mp3: "songs/Nao - Wildflowers.mp3", cover: "covers/Wildflowers.jpg" },
       { title: "02 Ariana Grande - Problem", mp3: "songs/02 Ariana Grande - Problem.mp3", cover: "covers/My Everything.jpg"},
       { title: "03 Ariana Grande - One Last Time", mp3: "songs/03 Ariana Grande - One Last Time.mp3", cover: "covers/My Everything.jpg"},
       { title: "05 Ariana Grande - Break Free", mp3: "songs/05 Ariana Grande - Break Free.mp3", cover: "covers/My Everything.jpg"},
       { title: "09 Ariana Grande - Love Me Harder", mp3: "songs/09 Ariana Grande - Love Me Harder.mp3", cover: "covers/My Everything.jpg"},
+      { title: "02 Zara Larsson - Lush Life", mp3: "songs/02 Zara Larsson - Lush Life.mp3", cover: "covers/So Good.jpg" },
+      { title: "04 Zara Larsson - So Good", mp3: "songs/04 Zara Larsson - So Good.mp3", cover: "covers/So Good.jpg" },
+      { title: "11 Zara Larsson - Ain't My Fault", mp3: "songs/11 Zara Larsson - Ain't My Fault.mp3", cover: "covers/So Good.jpg" },
+      { title: "15 Clean Bandit - Symphony", mp3: "songs/15 Clean Bandit - Symphony.mp3", cover: "covers/So Good.jpg" },
       { title: "Kendrick Lamar - luther", mp3: "songs/Kendrick Lamar - luther.mp3", cover: "covers/gnx.jpg" },
       { title: "Kendrick Lamar - tv off", mp3: "songs/Kendrick Lamar - tv off.mp3", cover: "covers/gnx.jpg" },
       { title: "Kendrick Lamar - peekaboo", mp3: "songs/Kendrick Lamar - peekaboo.mp3", cover: "covers/gnx.jpg" },
       { title: "Kendrick Lamar - Not Like Us", mp3: "songs/Kendrick Lamar - Not Like Us.mp3", cover: "covers/not like us.jpg" },
       { title: "2Pac - Hit  Em Up (Single Version)", mp3: "songs/2Pac - Hit  Em Up (Single Version).mp3", cover: "covers/Hit 'Em Up.jpg" },
-      { title: "The Notorious B.I.G. - Big Poppa", mp3: "songs/02 The Notorious B.I.G. - Big Poppa.mp3", cover: "covers/Big Poppa.jpg" },
+      { title: "02 The Notorious B.I.G. - Big Poppa", mp3: "songs/02 The Notorious B.I.G. - Big Poppa.mp3", cover: "covers/Big Poppa.jpg" },
       { title: "Eminem - Godzilla", mp3: "songs/Eminem - Godzilla.mp3", cover: "covers/Music To Be Remebered.jpg" },
       { title: "13 Eminem - Venom (Music From The Motion Picture)", mp3: "songs/13 Eminem - Venom (Music From The Motion Picture).mp3", cover: "covers/Kamikaze.jpg" },
       { title: "11 Justin Timberlake - Not a Bad Thing", mp3: "songs/11 Justin Timberlake - Not a Bad Thing.mp3", cover: "covers/the2020experience.jpg" },
@@ -378,39 +525,379 @@
       { title: "12 Lil Wayne - How To Love", mp3: "songs/12 Lil Wayne - How To Love.mp3", cover: "covers/the carter iv.jpg" },
       { title: "Lil Wayne - Mirror", mp3: "songs/Lil Wayne - Mirror.mp3", cover: "covers/the carter iv.jpg" },
     ];
+    let playlist = []; // Global variable to hold the live, current playlist data
+
 
     const audio = document.getElementById("audio");
     const cover = document.getElementById("cover");
-    const songTitle = document.getElementById("songTitle");
     const seek = document.getElementById("seek");
     const curTime = document.getElementById("curTime");
     const durTime = document.getElementById("durTime");
     const vol = document.getElementById("vol");
-    const playlistEl = document.getElementById("playlist");
-    const sidebar = document.getElementById("playlistSidebar");
     const searchInput = document.getElementById("searchInput");
     const artistFilter = document.getElementById("artistFilter");
     const albumFilter = document.getElementById("albumFilter");
-    const lyricsDiv = document.getElementById("lyrics");
     const darkToggle = document.getElementById("darkModeToggle");
     const fileInput = document.getElementById("fileInput");
+
+    // NEW elements
+    const mp3Input = document.getElementById("mp3Input");
+    const playlistContainer = document.getElementById("playlist"); // Renamed to container for accordion
+    const lyricsDiv = document.getElementById("lyrics");
+    const lyricsSaveBtn = document.getElementById("lyricsSaveBtn");
+    const lyricsEditBtn = document.getElementById("lyricsEditBtn");
+
+    // Song Details Mappings
+    const detailTitle = document.getElementById("detailTitle");
+    const detailArtist = document.getElementById("detailArtist");
+    const detailAlbum = document.getElementById("detailAlbum");
+    const detailGenre = document.getElementById("detailGenre");
+    const detailDuration = document.getElementById("detailDuration");
 
     let current = 0, isShuffle=false, isLoop=false, isMuted=false;
     let parsedLyrics = [], lyricEls = [];
 
+    // --- Data Persistence & Cleanup ---
+
+    // Helper to remove track numbers
+    function stripTrackNumber(text) {
+        return text.replace(/^\d+\s*/, '').trim();
+    }
+
+    // Saves the current playlist data to localStorage
+    function savePlaylistToStorage(data) {
+        // Only save essential data + custom lyrics content (lrcContent)
+        const serializableData = data.map(s => ({
+            title: s.title,
+            artist: s.artist,
+            mp3: s.mp3,
+            cover: s.cover,
+            album: s.album,
+            genre: s.genre,
+            lrcContent: s.lrcContent || null,
+            isProcessed: true,
+            isUploaded: s.isUploaded || false // Keep flag for warning
+        }));
+        localStorage.setItem('musicPlaylist', JSON.stringify(serializableData));
+    }
+
+    // Loads data from localStorage or uses the initial hardcoded list
+    function initDataAndCleanup() {
+        let storedPlaylist = JSON.parse(localStorage.getItem('musicPlaylist'));
+        
+        let currentPlaylist = storedPlaylist && storedPlaylist.length > 0 ? storedPlaylist : initialPlaylist;
+
+        // Clean up hardcoded songs (removes track numbers, extracts info)
+        currentPlaylist.forEach(s => {
+            // Only run cleaning on songs that haven't been processed
+            if (!s.isProcessed) {
+                // 1. Clean mp3 path (remove "XX " after "songs/")
+                s.mp3 = s.mp3.replace(/songs\/(\d+)\s*/, 'songs/');
+
+                // 2. Extract Artist and Title from the original 'title' field
+                const cleanedTitleSource = stripTrackNumber(s.title);
+                const parts = cleanedTitleSource.split(' - ').map(p => p.trim());
+                s.artist = parts.length > 1 ? parts[0] : 'Unknown Artist';
+                s.title = parts.length > 1 ? parts.slice(1).join(' - ') : cleanedTitleSource;
+                
+                // 3. Infer Album from cover path
+                s.album = s.cover.split('/').pop().replace(/\.(jpg|webp)$/i, '').trim().replace(/_/g, ' ') || 'Unknown Album';
+                
+                // 4. Add placeholder genre
+                s.genre = s.genre || 'Pop/R&B'; 
+
+                s.isProcessed = true; // Mark as processed
+                s.isUploaded = false;
+            }
+        });
+
+        savePlaylistToStorage(currentPlaylist);
+        return currentPlaylist;
+    }
+
+
+    // --- MP3 File Upload Logic ---
+    mp3Input.onchange = async () => {
+        const files = mp3Input.files;
+        if (files.length === 0) return;
+
+        let currentPlaylist = playlist; // Use the currently active playlist
+
+        for (const file of files) {
+            // NOTE: Temporary URL that breaks on refresh!
+            const tempUrl = URL.createObjectURL(file);
+            
+            const filename = file.name.replace(/\.mp3$/i, '').trim();
+
+            let titleSource = stripTrackNumber(filename);
+            let artist = 'Unknown Artist';
+            let title = titleSource;
+
+            const parts = titleSource.split(' - ').map(p => p.trim());
+            if (parts.length > 1) {
+                artist = parts[0];
+                title = parts.slice(1).join(' - ');
+            }
+            
+            const newSong = {
+                title: title,
+                artist: artist,
+                mp3: tempUrl,
+                cover: "covers/default.jpg", 
+                album: 'Uploaded Files', // Group all uploaded songs here
+                genre: 'Local',
+                isUploaded: true, 
+                isProcessed: true
+            };
+
+            currentPlaylist.push(newSong);
+        }
+
+        savePlaylistToStorage(currentPlaylist);
+        playlist = currentPlaylist; 
+        populatePlaylist(); 
+        
+        mp3Input.value = ""; 
+        alert(`Successfully added ${files.length} song(s). WARNING: Locally uploaded songs use temporary URLs and will be lost if you fully refresh the page (F5/Ctrl+R)!`);
+    };
+
+    // --- Accordion Playlist Rendering (Replaces original populatePlaylist) ---
+    function populatePlaylist() {
+        // 1. Sort the playlist: Artist A-Z, then Title A-Z
+        playlist.sort((a, b) => 
+            a.artist.localeCompare(b.artist) || a.title.localeCompare(b.title)
+        );
+        
+        playlistContainer.innerHTML = "";
+        
+        // 2. Group by Artist
+        const songsByArtist = playlist.reduce((acc, song, index) => {
+            const artistKey = song.artist || 'Unknown Artist';
+            if (!acc[artistKey]) acc[artistKey] = { songs: [], indexMap: [] };
+            acc[artistKey].songs.push(song);
+            acc[artistKey].indexMap.push(index); 
+            return acc;
+        }, {});
+
+        // 3. Render Accordions
+        Object.keys(songsByArtist).forEach(artistName => {
+            const artistData = songsByArtist[artistName];
+            
+            // Artist Accordion Header
+            const artistHeader = document.createElement('div');
+            artistHeader.className = 'artist-header';
+            artistHeader.innerHTML = `<span>${artistName} (${artistData.songs.length})</span><span class="toggle-icon">▼</span>`;
+            artistHeader.onclick = function() {
+                this.classList.toggle('active');
+                const content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    // Set max-height large enough to contain content
+                    content.style.maxHeight = content.scrollHeight + 100 + "px";
+                }
+            };
+            playlistContainer.appendChild(artistHeader);
+            
+            // Artist Accordion Content (Collapsible)
+            const artistContent = document.createElement('div');
+            artistContent.className = 'artist-content';
+            
+            // Group songs by Album within the artist
+            const songsByAlbum = artistData.songs.reduce((acc, song, i) => {
+                const albumKey = song.album || 'Unknown Album';
+                if (!acc[albumKey]) acc[albumKey] = { songs: [], indices: [] };
+                acc[albumKey].songs.push(song);
+                acc[albumKey].indices.push(artistData.indexMap[i]); 
+                return acc;
+            }, {});
+            
+            Object.keys(songsByAlbum).forEach(albumName => {
+                const albumGroup = document.createElement('div');
+                albumGroup.className = 'album-group';
+                albumGroup.innerHTML = `<h4>${albumName}</h4><ul class="song-list"></ul>`;
+                
+                const songListEl = albumGroup.querySelector('.song-list');
+                
+                songsByAlbum[albumName].songs.forEach((song, i) => {
+                    const li = document.createElement("li");
+                    const globalIndex = songsByAlbum[albumName].indices[i]; 
+                    
+                    li.textContent = song.title;
+                    if (globalIndex === current) {
+                        li.classList.add('playing');
+                    }
+                    
+                    li.onclick = () => { current = globalIndex; loadSong(current); audio.play(); };
+                    songListEl.appendChild(li);
+                });
+                artistContent.appendChild(albumGroup);
+            });
+            
+            playlistContainer.appendChild(artistContent);
+        });
+
+        // Ensure the currently playing song's accordion is open
+        const playingLi = playlistContainer.querySelector('.playing');
+        if (playingLi) {
+            const artistContent = playingLi.closest('.artist-content');
+            const artistHeader = artistContent ? artistContent.previousElementSibling : null;
+            if (artistHeader && artistContent) {
+                 artistHeader.classList.add('active');
+                 // Ensure max-height is set when active
+                 artistContent.style.maxHeight = artistContent.scrollHeight + 100 + "px"; 
+            }
+        }
+    }
+
+
+    // --- Lyrics Management Functions (FIXED logic) ---
+
+    function toggleLyricsEditMode() {
+        const isEditing = lyricsDiv.contentEditable === 'true';
+        const currentSong = playlist[current];
+        
+        // Toggle contentEditable state
+        lyricsDiv.contentEditable = !isEditing;
+        lyricsDiv.classList.toggle('editing', !isEditing);
+        
+        // Toggle button visibility
+        lyricsEditBtn.style.display = isEditing ? 'block' : 'none'; 
+        lyricsSaveBtn.style.display = isEditing ? 'none' : 'block';
+
+        if (!isEditing) {
+            // ENTERING EDIT MODE
+            // 1. Check if we have the raw file content saved (Prioritize this!)
+            if (currentSong && currentSong.lrcContent) {
+                lyricsDiv.innerText = currentSong.lrcContent; 
+            } 
+            // 2. If no raw content, reconstruct from the parsed lines
+            else if (parsedLyrics.length > 0) {
+                let lrcText = '';
+                parsedLyrics.forEach(line => {
+                    lrcText += formatTimeMs(line.time) + line.text + '\n';
+                });
+                lyricsDiv.innerText = lrcText.trim();
+            } 
+            // 3. Empty state
+            else {
+                 lyricsDiv.innerText = "[00:00.00]Start typing your LRC lyrics here...";
+            }
+            lyricsDiv.focus();
+        } else {
+            // EXITING EDIT MODE (Cancel)
+            // Just re-render what we currently have in memory
+            if (currentSong && currentSong.lrcContent) {
+                 parseLyrics(parseLRC(currentSong.lrcContent));
+            } else {
+                 parseLyrics(parsedLyrics); 
+            }
+        }
+    }
+
+    function saveLyrics() {
+        if (lyricsDiv.contentEditable !== 'true') return;
+
+        const currentSong = playlist[current];
+        if (!currentSong) return;
+
+        // Use innerText to preserve newlines correctly
+        const editedLRC = lyricsDiv.innerText; 
+        
+        // 1. Re-parse the text to check validity
+        const newParsedLyrics = parseLRC(editedLRC);
+
+        if (editedLRC.trim().length > 0 && newParsedLyrics.length === 0) {
+            alert("Invalid LRC format. Please ensure timestamps are formatted like [mm:ss.xx]");
+            return;
+        }
+
+        // 2. Store the raw LRC content on the song object
+        currentSong.lrcContent = editedLRC;
+        
+        // 3. Persist the updated playlist
+        savePlaylistToStorage(playlist);
+        
+        // 4. Update the display
+        parseLyrics(newParsedLyrics); 
+        
+        // 5. Exit edit mode manually to update UI buttons
+        lyricsDiv.contentEditable = 'false';
+        lyricsDiv.classList.remove('editing');
+        lyricsEditBtn.style.display = 'block';
+        lyricsSaveBtn.style.display = 'none';
+        
+        alert(`Lyrics saved for "${currentSong.title}"`);
+    }
+    
+    // Override file input to just load lyrics and save them
+    fileInput.onchange = () => {
+        const f = fileInput.files[0];
+        if (!f) return;
+        const rdr = new FileReader();
+        rdr.onload = () => {
+            const currentSong = playlist[current];
+            
+            // Store the raw content in the song object and save it
+            currentSong.lrcContent = rdr.result;
+            savePlaylistToStorage(playlist);
+            
+            parseLyrics(parseLRC(rdr.result));
+        };
+        rdr.readAsText(f);
+        fileInput.value = ""; // Clear the file input
+    };
+
+
+    // Load song
+    function loadSong(i) {
+      if (i < 0 || i >= playlist.length) return;
+      current = i;
+      const s = playlist[i];
+      audio.src = s.mp3;
+      cover.src = s.cover;
+      
+      // Update the new song details area
+      detailTitle.textContent = s.title;
+      detailArtist.textContent = s.artist;
+      detailAlbum.textContent = s.album;
+      detailGenre.textContent = s.genre;
+      detailDuration.textContent = 'Loading...'; 
+
+      // Check for saved lyrics first
+      if (s.lrcContent) {
+          parseLyrics(parseLRC(s.lrcContent));
+      } else {
+          parseLyrics([]); // Clear any existing lyrics
+      }
+
+      audio.load();
+      
+      // Reset lyrics editing state
+      lyricsDiv.contentEditable = false;
+      lyricsDiv.classList.remove('editing');
+      lyricsEditBtn.style.display = 'block';
+      lyricsSaveBtn.style.display = 'none';
+      
+      // Update playing highlight
+      populatePlaylist();
+    }
+    
+    // --- Existing & Updated Player Logic ---
+
     // Initialize
     window.onload = () => {
+      playlist = initDataAndCleanup(); 
       populatePlaylist();
-      loadSong(0);
+      if (playlist.length > 0) {
+        loadSong(0);
+      } else {
+         lyricsDiv.textContent = "No songs found. Upload MP3s to begin.";
+      }
       vol.value = audio.volume;
     };
-// Dark mode toggle with blur to prevent spacebar hijack
-darkToggle.onchange = () => {
-  document.body.classList.toggle("dark-mode", darkToggle.checked);
-  darkToggle.blur(); // Remove focus so it doesn't hijack spacebar
-};
-
-    // Playback controls
+    
+    // Playback controls (remains the same)
     function playPause() { audio.paused? audio.play(): audio.pause(); }
     function nextSong() {
       current = isShuffle ? Math.floor(Math.random()*playlist.length)
@@ -425,13 +912,14 @@ darkToggle.onchange = () => {
     function toggleLoop() { isLoop = !isLoop; audio.loop = isLoop; }
     function toggleShuffle() { isShuffle = !isShuffle; }
     
-    // Seek & volume
+    // Seek & volume (remains the same)
     seek.oninput = () => audio.currentTime = seek.value;
     vol.oninput = () => audio.volume = vol.value;
 
     audio.onloadedmetadata = () => {
       seek.max = Math.floor(audio.duration);
       durTime.textContent = formatTime(audio.duration);
+      detailDuration.textContent = formatTime(audio.duration); 
     };
     audio.ontimeupdate = () => {
       seek.value = Math.floor(audio.currentTime);
@@ -440,42 +928,16 @@ darkToggle.onchange = () => {
     };
     audio.onended = () => { if(!isLoop) nextSong(); };
 
-    // Playlist rendering
-    function populatePlaylist() {
-      playlistEl.innerHTML = "";
-      playlist.forEach((s, i) => {
-        const li = document.createElement("li");
-        li.textContent = s.title;
-        li.onclick = () => { current=i; loadSong(i); audio.play(); };
-        playlistEl.appendChild(li);
-      });
-    }
 
- // Load song
-    function loadSong(i) {
-      const s = playlist[i];
-      audio.src = s.mp3;
-      cover.src = s.cover;
-      songTitle.textContent = s.title;
-      parseLyrics([]); // Clear any existing lyrics
-      audio.load();
-    }
-
-
-    // Lyrics parsing & display
-    fileInput.onchange = () => {
-      const f = fileInput.files[0];
-      if (!f) return;
-      const rdr = new FileReader();
-      rdr.onload = () => parseLyrics(parseLRC(rdr.result));
-      rdr.readAsText(f);
-    };
+    // Lyrics parsing & display (remains similar, adjusted for contenteditable)
     function parseLRC(txt) {
       const lines = txt.split(/\r?\n/);
       const arr = [];
-      const re = /\[(\d{2}):(\d{2})\.(\d{2,3})\]/g;
+      // Regex updated to optionally handle the "time tag" [mm:ss.xx] as a whole line content
+      const re = /\[(\d{2}):(\d{2})\.(\d{2,3})\]/g; 
       for (const L of lines) {
-        let m; let text = L;
+        re.lastIndex = 0; 
+        let m; 
         while ((m = re.exec(L)) !== null) {
           const time = +m[1]*60 + +m[2] + +m[3]/1000;
           const t = L.slice(re.lastIndex).trim();
@@ -484,30 +946,49 @@ darkToggle.onchange = () => {
       }
       return arr.sort((a,b)=>a.time-b.time);
     }
+    
     function parseLyrics(arr) {
       parsedLyrics = arr;
       lyricEls = [];
       lyricsDiv.innerHTML = "";
+      if (arr.length === 0) {
+          lyricsDiv.textContent = "No lyrics loaded. Click 'Load .lrc File' or 'Edit Lyrics'.";
+      }
+      
+      // If we are in editing mode, don't try to render the structured lyrics
+      if (lyricsDiv.contentEditable === 'true') return; 
+
       arr.forEach((o,i)=>{
         const d = document.createElement("div");
         d.className = "line";
-        d.innerHTML = `<span class="timestamp">${formatTimeMs(o.time)}</span>${o.text}`;
+        const content = o.text.trim() ? `<span class="timestamp">${formatTimeMs(o.time)}</span>${o.text}` : `<span class="timestamp">${formatTimeMs(o.time)}</span>`;
+        d.innerHTML = content;
         lyricsDiv.appendChild(d);
         lyricEls.push({time:o.time, el:d});
       });
     }
+
     function updateLyrics(ct) {
+      if(lyricEls.length === 0 || lyricsDiv.contentEditable === 'true') return; // Do not update in edit mode
+      
+      let activeFound = false;
       lyricEls.forEach(({time, el}, i) => {
-        if (ct>=time && (i===lyricEls.length-1 || ct<lyricEls[i+1].time)) {
-          document.querySelectorAll(".line").forEach(x=>x.classList.remove("active"));
-          el.classList.add("active");
-          el.scrollIntoView({behavior:"smooth", block:"center"});
+        const nextTime = (i === lyricEls.length - 1) ? Infinity : lyricEls[i+1].time;
+        if (ct>=time && ct<nextTime) {
+          if (!el.classList.contains("active")) {
+            document.querySelectorAll(".line.active").forEach(x=>x.classList.remove("active"));
+            el.classList.add("active");
+            el.scrollIntoView({behavior:"smooth", block:"center"});
+          }
+          activeFound = true;
+        } else {
+             el.classList.remove("active");
         }
       });
     }
 
 
-    // Helpers
+    // Helpers (remains the same)
     function formatTime(s) {
       const m = Math.floor(s/60), sec = Math.floor(s%60);
       return `${m}:${sec<10?'0':''}${sec}`;
@@ -518,54 +999,65 @@ darkToggle.onchange = () => {
       return `[${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}.${String(ms).padStart(3,'0')}]`;
     }
   
-document.addEventListener("keydown", (e) => {
-  const active = document.activeElement;
-  const isFormElement = ["INPUT", "TEXTAREA", "SELECT"].includes(active.tagName) || active.isContentEditable;
+    // Dark mode toggle
+    darkToggle.onchange = () => {
+      document.body.classList.toggle("dark-mode", darkToggle.checked);
+      darkToggle.blur(); 
+    };
 
-  if (isFormElement) return; // Don't trigger shortcuts when typing
+    // Keyboard shortcuts (remains the same)
+    document.addEventListener("keydown", (e) => {
+      const active = document.activeElement;
+      const isFormElement = ["INPUT", "TEXTAREA", "SELECT", "DIV"].includes(active.tagName) || active.isContentEditable;
 
-  switch (e.key.toLowerCase()) {
-    case " ": // Spacebar: Play/Pause
-      e.preventDefault();
-      playPause();
-      break;
-    case "arrowright":
-      e.preventDefault();
-      audio.currentTime = Math.min(audio.currentTime + 5, audio.duration);
-      break;
-    case "arrowleft":
-      e.preventDefault();
-      audio.currentTime = Math.max(audio.currentTime - 5, 0);
-      break;
-    case "arrowup":
-      e.preventDefault();
-      audio.volume = Math.min(audio.volume + 0.1, 1);
-      vol.value = audio.volume;
-      break;
-    case "arrowdown":
-      e.preventDefault();
-      audio.volume = Math.max(audio.volume - 0.1, 0);
-      vol.value = audio.volume;
-      break;
-    case "n":
-      nextSong();
-      break;
-    case "p":
-      prevSong();
-      break;
-    case "s":
-      toggleShuffle();
-      break;
-    case "l":
-      toggleLoop();
-      break;
-    case "m":
-      toggleMute();
-      break;
-    case "y":
-      parseLyrics();
-  }
-});
+      if (isFormElement && active.id !== 'lyrics') return; 
+      
+      if (active.id === 'lyrics' && (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'ArrowDown')) return; // Allow normal typing/scrolling in lyrics box
+
+      switch (e.key.toLowerCase()) {
+        case " ": // Spacebar: Play/Pause
+          e.preventDefault();
+          playPause();
+          break;
+        case "arrowright":
+          e.preventDefault();
+          audio.currentTime = Math.min(audio.currentTime + 5, audio.duration);
+          break;
+        case "arrowleft":
+          e.preventDefault();
+          audio.currentTime = Math.max(audio.currentTime - 5, 0);
+          break;
+        case "arrowup":
+          e.preventDefault();
+          audio.volume = Math.min(audio.volume + 0.1, 1);
+          vol.value = audio.volume;
+          break;
+        case "arrowdown":
+          e.preventDefault();
+          audio.volume = Math.max(audio.volume - 0.1, 0);
+          vol.value = audio.volume;
+          break;
+        case "n":
+          nextSong();
+          break;
+        case "p":
+          prevSong();
+          break;
+        case "s":
+          toggleShuffle();
+          break;
+        case "l":
+          toggleLoop();
+          break;
+        case "m":
+          toggleMute();
+          break;
+        case "y":
+          // Re-map the 'y' shortcut to trigger the hidden file input
+          fileInput.click();
+          break;
+      }
+    });
 
 
   </script>
