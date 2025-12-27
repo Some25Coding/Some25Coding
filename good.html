@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,6 +54,95 @@
       font-weight: normal;
       display: block;
   } 
+.pagetop a
+  {
+    position: relative;
+    display: block;
+    width: 44px;
+    height: 44px;
+    transition: all 0.2s;
+    text-decoration: none;
+    color: #ffffff;
+    margin-left: auto;
+    margin-right: 10px;
+    background: #3132fe;
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+    z-index: 1;
+    box-shadow: 0 0 6px #000096;
+}
+/* NAV WRAPPER */
+.nav-wrap nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* menu left / download right */
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 10px 20px;
+}
+
+/* MENU GROUP (horizontal) */
+.menu-group {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* MENU ITEM SPANS (align horizontally) */
+.menu-list span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  padding: 6px 18px;
+  font-size: 14px;
+  color: #fff;
+  border-radius: 1000px;
+  border: 1px solid transparent;
+  transition: 0.25s;
+}
+
+/* ACTIVE & HOVER */
+.menu-list.current span,
+.menu-list:hover span {
+  color: #ffe600;
+  border-color: #ffe600;
+}
+
+/* DOWNLOAD BUTTON (horizontal and aligned) */
+.download {
+  display: flex;
+  align-items: center;        /* vertical alignment */
+}
+
+.download_btn, .epoints {
+  background: #ff0082;
+  color: #fff;
+  padding: 10px 24px;
+  border-radius: 1000px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  border: 2px solid #ffe600;
+  text-decoration: none;
+  white-space: nowrap;         /* ensure it stays in one line */
+  transition: 0.25s;
+  justify-content: center;
+}
+.epoints {
+  background-color: #ff0082;
+  color: #ff0082;
+  justify-content: end;
+}
+/* Hover (same as eFootball style) */
+.download_btn:hover {
+  background: transparent;
+  color: #fff000;
+  border-color: #fff000;
+}
+
 
   .section {
         background-color: #fff000;
@@ -66,10 +156,10 @@
       position: relative;
     }
     .btn {
-        background-color: #fff000;
-        color: #ff0000bb;
+        background-color: #000096;
+        color: #fff000;
         padding: 10px 20px;
-        border: none;
+        border-color: #000096;
         border-radius: 5px;
         font-family: 'eFootballSans', Century, sans-serif;
         font-size: 18px;
@@ -89,9 +179,27 @@
   </style>
 </head>
 <body>
+  
    <header class="site-header"><img src="https://www.konami.com/ci/logo/konami_logo_normal.png" alt="KONAMI Logo" style="width: 100px;"></header>
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhCq5rDiiyU6dfYjGPC5dtsWOdWirvbeNBxA&s" style="display:block; margin: 0 auto;">
-   <h1>Welcome to eFootball™</h1>
+    <img class="img-fluid" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/EFootball_logo_-_alternative_colored_version.svg/1024px-EFootball_logo_-_alternative_colored_version.svg.png?20210724173024" style="display:block; margin: 0 auto;">
+  </div>
+  <section class="nav-wrap" id="global menu">
+      <nav>
+  <div class="global-nav" id="global-menu-top">
+    <div class="btn-group" role="group" aria-label="Basic outlined example">
+  <button type="button" class="btn btn-outline-warning rounded-pill">Home</button>
+  <button type="button" class="btn btn-outline-primary rounded-pill">Overview</button>
+  <button type="button" class="btn btn-outline-primary rounded-pill">Version info</button>
+  <button type="button" class="btn btn-outline-primary rounded-pill">eSports</button>
+  <button type="button" class="btn btn-outline-primary rounded-pill">Licences</button>
+  <button type="button" class="btn btn-outline-primary rounded-pill">Online support</button>
+  <button type="button" class="download_btn btn-outline-primary rounded-pill">DOWNLOAD</button>
+  <button type="button" class="epoints btn btn-outline-primary rounded-pill justify-content-end"><img class="epoints border rounded-pill" style="background-color: #ff0082;"e src="https://efootball-point-cdn.konami.net/front/images/logo_ePoint.png"></button>
+ </div>
+  </nav>
+  </section>
+
+  <h1>Welcome to eFootball™</h1>
  <img src="https://img.konami.com/efootball/s/img/main_page_1.png?v=875" class="d-block w-100" alt="...">
   <div class="section">
     <h3>Latest Event</h3>
@@ -103,7 +211,6 @@
     <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="1"></button>
     <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="2"></button>
     <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="3"></button>
-    <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="4"></button>
     
   </div>
 
@@ -111,37 +218,30 @@
   <div class="carousel-inner">
 
     <div class="carousel-item active" data-bs-interval="10000">
-      <img src="https://img.konami.com/efootball/s/img/promotion/agent/1092/promo_agent.png" class="d-block" alt="">
+      <img src="https://img.konami.com/efootball/s/img/promotion/agent/1120/promo_agent.png" class="d-block" alt="">
       <div class="carousel-caption d-none d-md-block">
         <h4>SPECIAL PLAYER LIST</h4>
       </div>
     </div>
 
     <div class="carousel-item" data-bs-interval="2000">
-      <img src="https://img.konami.com/efootball/s/img/promotion/agent/1088/promo_agent.png" class="d-block" alt="...">
+      <img src="https://img.konami.com/efootball/s/img/promotion/agent/1121/promo_agent.png" class="d-block" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <h4>SPECIAL PLAYER LIST</h4>
       </div>
     </div>
 
     <div class="carousel-item">
-      <img src="https://img.konami.com/efootball/s/img/promotion/campaign/744/promo_campaign.png" class="d-block" alt="...">
+      <img src="https://img.konami.com/efootball/s/img/promotion/campaign/750/promo_campaign.png" class="d-block" alt="...">
       <div class="carousel-caption d-none d-md-block">
          <h4>CAMPAIGN</h4>
       </div>
     </div>
    
     <div class="carousel-item" data-bs-interval="2000">
-      <img src="https://img.konami.com/efootball/s/img/promotion/campaign/743/promo_campaign.png" class="d-block" alt="...">
+      <img src="https://img.konami.com/efootball/s/img/promotion/campaign/746/promo_campaign.png" class="d-block" alt="...">
       <div class="carousel-caption d-none d-md-block">
         <h4>CAMPAIGN</h4>
-      </div>
-    </div>
-
-     <div class="carousel-item" data-bs-interval="2000">
-      <img src="https://img.konami.com/efootball/s/img/promotion/agent/1099/promo_agent.png" class="d-block" alt="...">
-      <div class="carousel-caption d-none d-md-block">
-        <h4>SPECIAL PLAYER LIST</h4>
       </div>
     </div>
 
@@ -168,7 +268,44 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
 </html>
-
 
