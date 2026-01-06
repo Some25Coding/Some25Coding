@@ -1,417 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="/music.ico" type="image/x-icon" />
-  <title>Music Player Playlist</title>
-  <style>
-    body {
-      font-family: Century;
-      background: #121212;
-      color: white;
-      margin: 0;
-      display: flex;
-      height: 100vh;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Discography | Student Project</title>
 
-    .sidebar {
-      width: 300px;
-      background: #1e1e1e;
-      padding: 20px;
-      overflow-y: auto;
-      border-right: 2px solid #333;
-    }
-
-    .sidebar input,
-    .sidebar select {
-      width: 100%;
-      margin-bottom: 10px;
-      padding: 8px;
-      border: none;
-      border-radius: 5px;
-      font-size: 14px;
-    }
-
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .sidebar ul li {
-      padding: 8px;
-      cursor: pointer;
-      border-bottom: 1px solid #333;
-    }
-
-    .sidebar ul li:hover {
-      background-color: #333;
-      color: #1db954;
-    }
-
-    .main-content {
-      flex: 1;
-      padding: 40px;
-      text-align: center;
-      overflow-y: auto;
-    }
-
-    img.cover {
-      width: 250px;
-      height: 250px;
-      object-fit: cover;
-      border-radius: 15px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.6);
-    }
-
-    .song-title {
-      font-size: 20px;
-      margin: 10px 0;
-    }
-
-    .controls button {
-      background: #1db954;
-      color: white;
-      border: none;
-      padding: 10px 18px;
-      margin: 10px;
-      cursor: pointer;
-      border-radius: 20px;
-      font-size: 16px;
-    }
-
-    .controls button:hover {
-      background: #1ed760;
-    }
-
-    .sliders {
-      margin-top: 20px;
-    }
-
-    .lyrics-wrapper {
-      margin-top: 30px;
-      position: relative;
-      height: 4em;
-    }
-
-    .lyric {
-      position: absolute;
-      width: 100%;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 1s ease;
-      font-size: 1.5em;
-    }
-
-    .highlight {
-      color: #1db954;
-      font-weight: bold;
-      opacity: 1 !important;
-      transform: translateY(0) !important;
-    }
-
-    .next {
-      color: #888;
-      font-size: 1em;
-      transform: translateY(40px);
-      opacity: 0.6;
-    }
-
-    @media (max-width: 600px) {
-      .lyric {
-        font-size: 1.2em;
-      }
-      .sidebar {
-        display: none;
-      }
-    }
-  </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Century', serif;
+        }
+        /* Custom class for consistent artist images */
+        .artist-img {
+            height: 300px;
+            object-fit: cover;
+        }
+        /* Style for the 'Watch' and 'Listen' buttons */
+        .btn-youtube { background-color: #FF0000; color: white; }
+        .btn-spotify { background-color: #1DB954; color: white; }
+        .btn-youtube:hover, .btn-spotify:hover { color: white; opacity: 0.9; }
+    </style>
 </head>
 <body>
 
-  <div class="sidebar">
-    <input type="text" id="searchInput" placeholder="Search songs...">
-    <select id="artistFilter">
-      <option value="">All Artists</option>
-    </select>
-    <select id="albumFilter">
-      <option value="">All Albums</option>
-    </select>
-    <ul id="playlistSidebar"></ul>
-  </div>
-
-  <div class="main-content">
-    <h1>🎶 Playlist Music Player</h1>
-
-    <div class="player">
-      <img src="" alt="Album Cover" class="cover" id="coverImage">
-      <div class="song-title" id="songTitle">No song loaded</div>
-      <audio id="audioPlayer"></audio>
-      <div class="controls">
-        <button onclick="prevSong()">⏮️ Previous</button>
-        <button onclick="playPause()">▶️ Play / ⏸️ Pause</button>
-        <button onclick="nextSong()">⏭️ Next</button>
-        <button onclick="toggleMute()">🔇 Mute</button>
-        <button onclick="toggleLoop()">🔁 Loop</button>
-        <button onclick="toggleShuffle()">🔀 Shuffle</button>
-      </div>
-      <div class="sliders">
-        <div class="time-display">
-          <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top border-bottom border-success">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-success" href="#">🎵 MEDIA ARCHIVE</a>
+            <div class="ms-auto w-50">
+                <div class="input-group">
+                    <input type="text" class="form-control bg-black text-white border-secondary" placeholder="Search for artists...">
+                    <button class="btn btn-success" type="button">Search</button>
+                </div>
+            </div>
         </div>
-        <input type="range" id="seekBar" value="0" min="0" step="1">
-        <br>
-        Volume:
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
-      </div>
-    </div>
-  </div>
-  <iframe style="border-radius:12px"
-src="https://open.spotify.com/embed/track/2d8JP84HNLKhmd6IYOoupQ"
-width="100%" height="152"
-frameborder="0"
-allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-loading="lazy"></iframe>
+    </nav>
 
+    <header class="container text-center py-5">
+        <h1 class="display-4 fw-bold">Global Artist Discography</h1>
+        <p class="lead text-muted">A Bootstrap 5 Responsive School Project</p>
+    </header>
 
-  <script>
-    const playlist = [
-      { title: "01 Justin Bieber - Heartbreaker", mp3: "songs/01 Justin Bieber - Heartbreaker.mp3", cover: "covers/journals.jpg" },
-      { title: "02 Justin Bieber - All That Matters", mp3: "songs/02 Justin Bieber - All That Matters.mp3", cover: "covers/journals.jpg" },
-      { title: "03 Justin Bieber - Hold Tight", mp3: "songs/03 Justin Bieber - Hold Tight.mp3", cover: "covers/journals.jpg" },
-      { title: "10 Justin Bieber - Confident", mp3: "songs/10 Justin Bieber - Confident.mp3", cover: "covers/journals.jpg" },
-      { title: "02 Justin Bieber - Boyfriend", mp3: "songs/02 Justin Bieber - Boyfriend.mp3", cover: "covers/believe.jpg" },
-      { title: "03 Justin Bieber - As Long As You Love Me", mp3: "songs/03 Justin Bieber - As Long As You Love Me.mp3", cover: "covers/believe.jpg" },
-      { title: "10 Justin Bieber - Beauty And A Beat", mp3: "songs/10 Justin Bieber - Beauty And A Beat.mp3", cover: "covers/believe.jpg" },
-      { title: "02 Justin Bieber - Favorite Girl (Album Version)", mp3: "songs/02 Justin Bieber - Favorite Girl (Album Version).mp3", cover: "covers/my world.jpg" },
-      { title: "01 Justin Bieber - One Time (Album Version)", mp3: "songs/01 Justin Bieber - One Time (Album Version).mp3", cover: "covers/my world.jpg" },
-      { title: "05 Justin Bieber - One Less Lonely Girl (Album Version)", mp3: "songs/05 Justin Bieber - One Less Lonely Girl (Album Version).mp3", cover: "covers/my world.jpg" },
-      { title: "07 Justin Bieber - Love Me (Album Version)", mp3: "songs/07 Justin Bieber - Love Me (Album Version).mp3", cover: "covers/my world.jpg" },
-      { title: "02 Justin Bieber - Somebody To Love", mp3: "songs/02 Justin Bieber - Somebody To Love.mp3", cover: "covers/my world 2.0.jpg" },
-      { title: "01 Justin Bieber - Baby", mp3: "songs/01 Justin Bieber - Baby.mp3", cover: "covers/my world 2.0.jpg" },
-      { title: "04 Justin Bieber - U Smile (Album Version)", mp3: "songs/04 Justin Bieber - U Smile (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
-      { title: "06 Justin Bieber - Never Let You Go (Album Version)", mp3: "songs/06 Justin Bieber - Never Let You Go (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
-      { title: "09 Justin Bieber - Up (Album Version)", mp3: "songs/09 Justin Bieber - Up (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
-      { title: "10 Justin Bieber - That Should Be Me (Album Version)", mp3: "songs/10 Justin Bieber - That Should Be Me (Album Version).mp3", cover: "covers/my world 2.0.jpg" },
-      { title: "01 Justin Bieber - Never Say Never", mp3: "songs/01 Justin Bieber - Never Say Never.mp3", cover: "covers/never say never.jpg" },
-      { title: "01 Justin Bieber - Friends", mp3: "songs/01 Justin Bieber - Friends.mp3", cover: "covers/Friends.jpg" },
-      { title: "02 Justin Bieber - I'll Show You", mp3: "songs/02 Justin Bieber - I'll Show You.mp3", cover: "covers/purpose.jpg" },
-      { title: "03 Justin Bieber - What Do You Mean", mp3: "songs/03 Justin Bieber - What Do You Mean.mp3", cover: "covers/purpose.jpg" },
-      { title: "04 Justin Bieber - Sorry", mp3: "songs/04 Justin Bieber - Sorry.mp3", cover: "covers/purpose.jpg" },
-      { title: "06 Justin Bieber - Company", mp3: "songs/06 Justin Bieber - Company.mp3", cover: "covers/purpose.jpg" },
-      { title: "09 Justin Bieber - Where Are U Now", mp3: "songs/09 Justin Bieber - Where Are U Now.mp3", cover: "covers/where are you now.jpg" },
-      { title: "Justin Bieber - Peaches", mp3: "songs/Justin Bieber - Peaches.mp3", cover: "covers/justice.jpg" },
-      { title: "Justin Bieber - Somebody", mp3: "songs/Justin Bieber - Somebody.mp3", cover: "covers/justice.jpg" },
-      { title: "Justin Bieber - Honest", mp3: "songs/Justin Bieber - Honest.mp3", cover: "covers/honest.jpg" },
-      { title: "Justin Bieber - Intentions", mp3: "songs/Justin Bieber - Intentions.mp3", cover: "covers/changes.jpg" },
-      { title: "Justin Bieber - Come Around Me", mp3: "songs/Justin Bieber - Come Around Me.mp3", cover: "covers/changes.jpg" },
-      { title: "02 Justin Bieber - Under The Mistletoe", mp3: "songs/02 Justin Bieber - Under The Mistletoe.mp3", cover: "covers/under the mistletoe.jpg" },
-      { title: "12 Justin Bieber - Christmas Love", mp3: "songs/12 Justin Bieber - Christmas Love.mp3", cover: "covers/under the mistletoe.jpg" },
-      { title: "01 One Direction - What Makes You Beautiful", mp3: "songs/01 One Direction - What Makes You Beautiful.mp3", cover: "covers/up all night.jpg" },
-      { title: "02 One Direction - Gotta Be You", mp3: "songs/02 One Direction - Gotta Be You.mp3", cover: "covers/up all night.jpg" },
-      { title: "03 One Direction - One Thing", mp3: "songs/03 One Direction - One Thing.mp3", cover: "covers/up all night.jpg" },
-      { title: "04 One Direction - More Than This", mp3: "songs/04 One Direction - More Than This.mp3", cover: "covers/up all night.jpg" },
-      { title: "05 One Direction - Up All Night", mp3: "songs/05 One Direction - Up All Night.mp3", cover: "covers/up all night.jpg" },
-      { title: "01 One Direction - Live While We re Young", mp3: "songs/01 One Direction - Live While We re Young.mp3", cover: "covers/take me home.jpg" },
-      { title: "02 One Direction - Kiss You", mp3: "songs/02 One Direction - Kiss You.mp3", cover: "covers/take me home.jpg" },
-      { title: "One Direction - Best Song Ever", mp3: "songs/One Direction - Best Song Ever.mp3", cover: "covers/midnight memories.jpg" },
-      { title: "One Direction - Story of My Life", mp3: "songs/One Direction - Story of My Life.mp3", cover: "covers/midnight memories.jpg" },
-      { title: "04 One Direction - Midnight Memories", mp3: "songs/04 One Direction - Midnight Memories.mp3", cover: "covers/midnight memories.jpg" },
-      { title: "One Direction - You   I", mp3: "songs/One Direction - You   I.mp3", cover: "covers/midnight memories.jpg" },
-      { title: "01 One Direction - Steal My Girl", mp3: "songs/01 One Direction - Steal My Girl.mp3", cover: "covers/four.jpg" },
-      { title: "07 One Direction - Night Changes", mp3: "songs/07 One Direction - Night Changes.mp3", cover: "covers/four.jpg" },
-      { title: "02 One Direction - Drag Me Down", mp3: "songs/02 One Direction - Drag Me Down.mp3", cover: "covers/Made In The A.M..jpg" },
-      { title: "03 One Direction - Perfect", mp3: "songs03 One Direction - Perfect.mp3", cover: "covers/Made In The A.M..jpg" },
-      { title: "08 One Direction - Never Enough", mp3: "songs/08 One Direction - Never Enough.mp3", cover: "covers/Made In The A.M..jpg" },
-      { title: "13 One Direction - History", mp3: "songs/13 One Direction - History.mp3", cover: "covers/Made In The A.M..jpg" },,
-      { title: "01 Justin Bieber - Eenie Meenie", mp3: "songs/01 Justin Bieber - Eenie Meenie.mp3", cover: "covers/my world 2.0.jpg" },
-      { title: "09 Luis Fonsi - Despacito", mp3: "songs/09 Luis Fonsi - Despacito.mp3", cover: "covers/despacito.jpg" },
-      { title: "13 Luis Fonsi - Despacito (Remix)", mp3: "songs/13 Luis Fonsi - Despacito (Remix).mp3", cover: "covers/despacito.jpg" },
-      { title: "The Weeknd - Timeless", mp3: "songs/The Weeknd - Timeless.mp3", cover: "covers/timeless.jpg" },
-      { title: "Kendrick Lamar - luther", mp3: "songs/Kendrick Lamar - luther.mp3", cover: "covers/gnx.jpg" },
-      { title: "Kendrick Lamar - tv off", mp3: "songs/Kendrick Lamar - tv off.mp3", cover: "covers/gnx.jpg" },
-      { title: "Kendrick Lamar - peekaboo", mp3: "songs/Kendrick Lamar - peekaboo.mp3", cover: "covers/gnx.jpg" },
-      { title: "Kendrick Lamar - Not Like Us", mp3: "songs/Kendrick Lamar - Not Like Us.mp3", cover: "covers/not like us.jpg" },
-      { title: "11 Justin Timberlake - Not a Bad Thing", mp3: "songs/11 Justin Timberlake - Not a Bad Thing.mp3", cover: "covers/the2020experience.jpg" },
-      { title: "Justin Timberlake - Mirrors", mp3: "songs/Justin Timberlake - Mirrors.mp3", cover: "covers/the2020experience(deluxe version).jpg" },
-      { title: "01 Justin Timberlake - Can't Stop The Feeling", mp3: "songs/01 Justin Timberlake - Can't Stop The Feeling.mp3", cover: "covers/cant_stop_the_feeling.jpg" },
-      { title: "05 Nicki Minaj - Fly", mp3: "songs/05 Nicki Minaj - Fly.mp3", cover: "covers/pink friday.jpg" },
-      { title: "Nicki Minaj - Super Bass", mp3: "songs/Nicki Minaj - Super Bass.mp3", cover: "covers/pink friday.jpg" },
-      { title: "Nicki Minaj - Did It On em", mp3: "songs/Nicki Minaj - Did It On em.mp3", cover: "covers/pink friday.jpg" },
-      { title: "J. Cole - She Knows", mp3: "songs/J. Cole - She Knows.mp3", cover: "covers/Born Sinner.webp" },
-      { title: "01 Trey Songz - Animal", mp3: "songs/01 Trey Songz - Animal.mp3", cover: "covers/tremaine.jpg" },
-      { title: "04 Trey Songz - Heart Attack", mp3: "songs/04 Trey Songz - Heart Attack.mp3", cover: "covers/chapter v.jpg" },
-      { title: "12 Lil Wayne - How To Love", mp3: "songs/12 Lil Wayne - How To Love.mp3", cover: "covers/the carter iv.jpg" },
-      { title: "Lil Wayne - Mirror", mp3: "songs/Lil Wayne - Mirror.mp3", cover: "covers/the carter iv.jpg" },
-    ];
+    
 
-    let currentIndex = 0;
-    const audioPlayer = document.getElementById('audioPlayer');
-    const coverImage = document.getElementById('coverImage');
-    const songTitle = document.getElementById('songTitle');
-    const volumeSlider = document.getElementById('volumeSlider');
-    const seekBar = document.getElementById('seekBar');
-    const currentTimeDisplay = document.getElementById('currentTime');
-    const totalTimeDisplay = document.getElementById('totalTime');
-    const sidebar = document.getElementById("playlistSidebar");
-    const searchInput = document.getElementById("searchInput");
-    const artistFilter = document.getElementById("artistFilter");
-    const albumFilter = document.getElementById("albumFilter");
+    <main class="container">
+        <ul class="nav nav-pills justify-content-center mb-5" id="pills-tab" role="tablist">
+            <li class="nav-item"><button class="nav-link active me-2" data-bs-toggle="pill" data-bs-target="#jb">Justin Bieber</button></li>
+            <li class="nav-item"><button class="nav-link me-2" data-bs-toggle="pill" data-bs-target="#tw">The Weeknd</button></li>
+            <li class="nav-item"><button class="nav-link me-2" data-bs-toggle="pill" data-bs-target="#ts">Taylor Swift</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#dr">Drake</button></li>
+        </ul>
 
-    function loadSong(index) {
-      const song = playlist[index];
-      audioPlayer.src = song.mp3;
-      coverImage.src = song.cover;
-      songTitle.textContent = song.title;
-      audioPlayer.load();
-    }
+        <div class="tab-content" id="pills-tabContent">
+            
+            <div class="tab-pane fade show active" id="jb">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card bg-dark border-secondary">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Justin_Bieber_in_2015.jpg" class="card-img-top artist-img" alt="Justin Bieber">
+                            <div class="card-body">
+                                <h3>Justin Bieber</h3>
+                                <p class="small text-secondary">Pop & R&B</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card bg-dark border-secondary p-3">
+                            <h4 class="text-success">Purpose (2015)</h4>
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center">
+                                    <span>Sorry</span>
+                                    <div class="btn-group">
+                                        <a href="https://www.youtube.com/watch?v=fRh_vgS2dFE" target="_blank" class="btn btn-sm btn-youtube">YouTube</a>
+                                        <a href="https://open.spotify.com/track/09mEucvHqYIu0QmsC1O3bd" target="_blank" class="btn btn-sm btn-spotify">Spotify</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    function playPause() {
-      if (audioPlayer.paused) {
-        audioPlayer.play();
-      } else {
-        audioPlayer.pause();
-        audioPlayer.currentTime = 0;
-      }
-    }
+            <div class="tab-pane fade" id="tw">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card bg-dark border-secondary">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/The-Weeknd-2022.jpg" class="card-img-top artist-img" alt="The Weeknd">
+                            <div class="card-body">
+                                <h3>The Weeknd</h3>
+                                <p class="small text-secondary">R&B / Soul</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card bg-dark border-secondary p-3">
+                            <h4 class="text-success">After Hours (2020)</h4>
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center">
+                                    <span>Blinding Lights</span>
+                                    <div class="btn-group">
+                                        <a href="https://www.youtube.com/watch?v=4NRXx6U8ABQ" target="_blank" class="btn btn-sm btn-youtube">YouTube</a>
+                                        <a href="https://open.spotify.com/track/0VjIj9HpC36I6pDXSqYvYI" target="_blank" class="btn btn-sm btn-spotify">Spotify</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    function nextSong() {
-      currentIndex = (currentIndex + 1) % playlist.length;
-      loadSong(currentIndex);
-      audioPlayer.play();
-    }
+            <div class="tab-pane fade" id="ts">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card bg-dark border-secondary">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Taylor_Swift_at_the_2023_MTV_Video_Music_Awards_4.jpg" class="card-img-top artist-img" alt="Taylor Swift">
+                            <div class="card-body">
+                                <h3>Taylor Swift</h3>
+                                <p class="small text-secondary">Pop / Folk</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card bg-dark border-secondary p-3">
+                            <h4 class="text-success">Midnights (2022)</h4>
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center">
+                                    <span>Anti-Hero</span>
+                                    <div class="btn-group">
+                                        <a href="https://www.youtube.com/watch?v=b1kbLwvqugk" target="_blank" class="btn btn-sm btn-youtube">YouTube</a>
+                                        <a href="https://open.spotify.com/track/0V3w0mHkS3vxuYmDNpCUEp" target="_blank" class="btn btn-sm btn-spotify">Spotify</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    function prevSong() {
-      currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-      loadSong(currentIndex);
-      audioPlayer.play();
-    }
+            <div class="tab-pane fade" id="dr">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="card bg-dark border-secondary">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/28/Drake_July_2016.jpg" class="card-img-top artist-img" alt="Drake">
+                            <div class="card-body">
+                                <h3>Drake</h3>
+                                <p class="small text-secondary">Hip Hop / Rap</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card bg-dark border-secondary p-3">
+                            <h4 class="text-success">Scorpion (2018)</h4>
+                            <div class="list-group list-group-flush">
+                                <div class="list-group-item bg-transparent text-white d-flex justify-content-between align-items-center">
+                                    <span>God's Plan</span>
+                                    <div class="btn-group">
+                                        <a href="https://www.youtube.com/watch?v=xpVfcZ0ZcFM" target="_blank" class="btn btn-sm btn-youtube">YouTube</a>
+                                        <a href="https://open.spotify.com/track/6DCZ7mjtNi6m6AKvB0p6zb" target="_blank" class="btn btn-sm btn-spotify">Spotify</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    audioPlayer.addEventListener('ended', () => {
-      if (isShuffle) {
-        currentIndex = Math.floor(Math.random() * playlist.length);
-      } else if (!audioPlayer.loop) {
-        currentIndex = (currentIndex + 1) % playlist.length;
-      }
-      loadSong(currentIndex);
-      audioPlayer.play();
-    });
+        <section class="row mt-5 justify-content-center">
+            <div class="col-md-6">
+                <div class="bg-dark p-4 rounded border border-secondary shadow">
+                    <h3 class="text-center mb-4">Request an Update</h3>
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label text-success">Your Name</label>
+                            <input type="text" class="form-control bg-black text-white border-secondary">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-success">Artist Link (Spotify/YouTube)</label>
+                            <input type="url" class="form-control bg-black text-white border-secondary">
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Submit Request</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
 
-    volumeSlider.addEventListener('input', () => {
-      audioPlayer.volume = volumeSlider.value;
-    });
+    <footer class="text-center py-5 text-secondary">
+        <p>© 2024 School Project | Created by [Your Name]</p>
+    </footer>
 
-    audioPlayer.addEventListener('timeupdate', () => {
-      seekBar.value = Math.floor(audioPlayer.currentTime);
-      currentTimeDisplay.textContent = formatTime(audioPlayer.currentTime);
-    });
-
-    seekBar.addEventListener('input', () => {
-      audioPlayer.currentTime = seekBar.value;
-    });
-
-    audioPlayer.addEventListener('loadedmetadata', () => {
-      seekBar.max = Math.floor(audioPlayer.duration);
-      totalTimeDisplay.textContent = formatTime(audioPlayer.duration);
-    });
-
-    function formatTime(seconds) {
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60);
-      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-    }
-
-    let isMuted = false;
-    let isLooping = false;
-    let isShuffle = false;
-
-    function toggleMute() {
-      isMuted = !isMuted;
-      audioPlayer.muted = isMuted;
-    }
-
-    function toggleLoop() {
-      isLooping = !isLooping;
-      audioPlayer.loop = isLooping;
-    }
-
-    function toggleShuffle() {
-      isShuffle = !isShuffle;
-    }
-
-    function parseArtist(title) {
-      const match = title.match(/^\d{0,2}?\s*([^-–]+)\s*[-–]/);
-      return match ? match[1].trim() : 'Unknown';
-    }
-
-    function parseAlbum(cover) {
-      return cover.split('/').pop().replace(/\.(jpg|jpeg|png|webp)/, '').replace(/[_-]/g, ' ');
-    }
-
-    function renderSidebar() {
-      sidebar.innerHTML = "";
-      const searchTerm = searchInput.value.toLowerCase();
-      const artistValue = artistFilter.value;
-      const albumValue = albumFilter.value;
-
-      playlist.forEach((song, index) => {
-        const artist = parseArtist(song.title);
-        const album = parseAlbum(song.cover);
-
-        const matchesSearch = song.title.toLowerCase().includes(searchTerm);
-        const matchesArtist = !artistValue || artist === artistValue;
-        const matchesAlbum = !albumValue || album === albumValue;
-
-        if (matchesSearch && matchesArtist && matchesAlbum) {
-          const li = document.createElement("li");
-          li.textContent = song.title;
-          li.onclick = () => {
-            currentIndex = index;
-            loadSong(currentIndex);
-            audioPlayer.play();
-          };
-          sidebar.appendChild(li);
-        }
-      });
-    }
-
-    function populateFilters() {
-      const artists = new Set();
-      const albums = new Set();
-
-      playlist.forEach(song => {
-        artists.add(parseArtist(song.title));
-        albums.add(parseAlbum(song.cover));
-      });
-
-      [...artists].sort().forEach(artist => {
-        const option = document.createElement("option");
-        option.value = artist;
-        option.textContent = artist;
-        artistFilter.appendChild(option);
-      });
-
-      [...albums].sort().forEach(album => {
-        const option = document.createElement("option");
-        option.value = album;
-        option.textContent = album;
-        albumFilter.appendChild(option);
-      });
-    }
-
-    searchInput.addEventListener("input", renderSidebar);
-    artistFilter.addEventListener("change", renderSidebar);
-    albumFilter.addEventListener("change", renderSidebar);
-
-    window.onload = () => {
-      loadSong(currentIndex);
-      populateFilters();
-      renderSidebar();
-    };
-  </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
