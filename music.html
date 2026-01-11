@@ -3,303 +3,454 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Music Archive | Student Project</title>
-
+    <title>Global Music Archive | Master Edition</title>
+     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
     <style>
-        body { background-color: #0f0f0f; color: white; font-family: 'Century', serif; }
+        body { background-color: #0c0c0c; color: #ffffff; font-family: 'Segoe UI', sans-serif; }
         
-        /* FIX: Full image visibility */
-        .artist-container {
-            background-color: #000;
-            height: 250px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border-bottom: 2px solid #1DB954;
-        }
-        h6 {
-            color: white;
-        }
-        .artist-img { width: 100%; height: 100%; object-fit: contain; }
+        /* Image Handling */
+        .artist-container { background-color: #1a1a1a; height: 250px; display: flex; align-items: center; justify-content: center; overflow: hidden; border-bottom: 3px solid #1DB954; }
+        .artist-img { width: 100%; height: 100%; object-fit: cover; }
+        .album-cover { height: 220px; object-fit: cover; width: 100%; border-bottom: 1px solid #333; }
 
-        /* Navigation Styling */
-        .nav-pills .nav-link { color: #fff; border: 1px solid #333; margin: 5px; border-radius: 50px; }
-        .nav-pills .nav-link.active { background-color: #1DB954; color: black; font-weight: bold; }
+        /* Navigation */
+        .nav-pills .nav-link { color: #ffffff; border: 1px solid #333; margin: 5px; border-radius: 50px; transition: 0.3s; font-weight: 600; }
+        .nav-pills .nav-link.active { background-color: #1DB954; color: #000; }
+        .nav-pills .nav-link:hover:not(.active) { border-color: #1DB954; color: #1DB954; }
 
-        .card { transition: all 0.3s ease; border: 1px solid #333; }
+        /* Cards */
+        .card { background-color: #161616 !important; border: 1px solid #282828; transition: 0.3s; cursor: pointer; }
         .card:hover { border-color: #1DB954; transform: translateY(-5px); }
+        .card h6, .card p { color: #ffffff !important; margin-bottom: 5px; }
+        
+        .text-green { color: #1DB954 !important; }
+        .sub-text { color: #b3b3b3 !important; font-size: 0.85rem; }
+
+        /* Genre Card Styles */
+        .genre-card { height: 120px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; border-radius: 12px; border: none; text-transform: uppercase; letter-spacing: 1px; }
+        .bg-pop { background: linear-gradient(45deg, #e8115b, #bc13fe); }
+        .bg-rnb { background: linear-gradient(45deg, #2d46b9, #1e3264); }
+        .bg-hiphop { background: linear-gradient(45deg, #ba5d07, #dc148c); }
+        .bg-rock { background: linear-gradient(45deg, #7d1414, #1a1a1a); }
+        .bg-country { background: linear-gradient(45deg, #5c3c10, #2e5c10); }
+        .bg-alt { background: linear-gradient(45deg, #105c5c, #051a1a); }
+
+        /* Song Row */
+        .song-row { background: #161616; border: 1px solid #282828; padding: 15px; margin-bottom: 10px; border-radius: 10px; display: flex; align-items: center; }
+        .song-row:hover { background: #222; border-color: #1DB954; }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-dark bg-black border-bottom border-success sticky-top mb-4">
+    <nav class="navbar navbar-dark bg-black border-bottom border-success sticky-top mb-4 py-3">
         <div class="container">
-            <a class="navbar-brand fw-bold text-success" href="#" onclick="resetAll()">🎵 MUSIC ARCHIVE</a>
-            <input type="text" id="searchBar" class="form-control w-25 bg-dark text-white border-secondary" placeholder="Search artist..." onkeyup="searchArtists()">
+            <a class="navbar-brand fw-bold text-green fs-3" href="#" onclick="resetAll()">🎵 MUSIC ARCHIVE</a>
+            <input type="text" id="searchBar" class="form-control w-25 bg-dark text-white border-secondary" placeholder="Search artists, albums..." onkeyup="search()">
         </div>
     </nav>
 
-    <main class="container">
+    <main class="container pb-5">
         <ul class="nav nav-pills justify-content-center mb-5" id="pills-tab">
-            <li class="nav-item"><button class="nav-link active" id="tab-artists" data-bs-toggle="pill" data-bs-target="#cat-artists">Artists</button></li>
-            <li class="nav-item"><button class="nav-link" id="tab-albums" data-bs-toggle="pill" data-bs-target="#cat-albums">Albums</button></li>
-            <li class="nav-item"><button class="nav-link" id="tab-songs" data-bs-toggle="pill" data-bs-target="#cat-songs">Songs</button></li>
-            <li class="nav-item"><button class="nav-link" id="tab-genres" data-bs-toggle="pill" data-bs-target="#cat-genres">Genres</button></li>
+            <li class="nav-item"><button class="nav-link active" id="tab-artists" data-bs-toggle="pill" data-bs-target="#pane-artists">ARTISTS</button></li>
+            <li class="nav-item"><button class="nav-link" id="tab-albums" data-bs-toggle="pill" data-bs-target="#pane-albums">ALBUMS</button></li>
+            <li class="nav-item"><button class="nav-link" id="tab-songs" data-bs-toggle="pill" data-bs-target="#pane-songs">SONGS</button></li>
+            <li class="nav-item"><button class="nav-link" id="tab-genres" data-bs-toggle="pill" data-bs-target="#pane-genres">GENRES</button></li>
         </ul>
 
-        <div id="filter-status" class="alert alert-dark border-success d-none d-flex justify-content-between align-items-center mb-4">
-            <span>Viewing: <strong id="filter-name" class="text-success"></strong></span>
-            <button class="btn btn-sm btn-success" onclick="resetAll()">Clear Filter</button>
+        <div id="filter-status" class="alert alert-dark border-success hidden d-flex justify-content-between align-items-center mb-4">
+            <span>Filtering: <strong id="filter-name" class="text-green"></strong></span>
+            <button class="btn btn-sm btn-success" onclick="resetAll()">Show Everything</button>
         </div>
 
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="cat-artists">
+            
+            <div class="tab-pane fade show active" id="pane-artists">
                 <div class="row g-4" id="artistGrid">
-                    
-                    <div class="col-6 col-md-4 col-lg-3 filter-item tag-pop">
-                        <div class="card bg-dark h-100">
-                            <div class="artist-container">
-                                <img src="https://i.pinimg.com/736x/e4/15/7a/e4157aa8bdbc2bdc1c4cdc9b086c1aa2.jpg" class="artist-img">
-                            </div>
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold">Michael Jackson</h6>
-                                <span class="badge bg-warning text-dark mb-2">King of Pop</span>
-                                <button class="btn btn-sm btn-outline-success w-100" onclick="jumpTo('tab-albums', 'tag-mj', 'Michael Jackson')">View Discography</button>
-                            </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-mj tag-pop">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/e4/15/7a/e4157aa8bdbc2bdc1c4cdc9b086c1aa2.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Michael Jackson</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('mj', 'Michael Jackson')">Discography</button></div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-miley tag-pop tag-rock">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/46/ed/8f/46ed8f6e2362ea372515e4f006cd6eb5.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Miley Cyrus</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('miley', 'Miley Cyrus')">Discography</button></div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-swift tag-pop tag-country">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/f5/40/5d/f5405df74924e9677dd376dee9de23c1.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Taylor Swift</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('swift', 'Taylor Swift')">Discography</button></div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-billie tag-alt">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/3f/9c/75/3f9c753048c07d05a780b7ada0a55880.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Billie Eilish</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('billie', 'Billie Eilish')">Discography</button></div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-bruno tag-rnb tag-pop">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/18/ef/24/18ef24a5ac08d80408022348acc60e29.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Bruno Mars</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('bruno', 'Bruno Mars')">Discography</button></div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-wayne tag-hiphop">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Lil_Wayne.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Lil Wayne</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('wayne', 'Lil Wayne')">Discography</button></div>
                         </div>
                     </div>
 
-                    <div class="col-6 col-md-4 col-lg-3 filter-item tag-pop tag-rnb">
-                        <div class="card bg-dark h-100">
-                            <div class="artist-container">
-                                <img src="https://i.pinimg.com/736x/18/ef/24/18ef24a5ac08d80408022348acc60e29.jpg" class="artist-img">
-                            </div>
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold">Bruno Mars</h6>
-                                <span class="badge bg-danger mb-2">R&B / Pop</span>
-                                <button class="btn btn-sm btn-outline-success w-100" onclick="jumpTo('tab-albums', 'tag-bruno', 'Bruno Mars')">View Discography</button>
-                            </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake tag-hiphop">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/9f/ab/2f/9fab2f062d84b7ff6564942e3636fdce.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Drake</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('drake', 'Drake')">Discography</button></div>
                         </div>
                     </div>
 
-                    <div class="col-6 col-md-4 col-lg-3 filter-item tag-pop">
-                        <div class="card bg-dark h-100">
-                            <div class="artist-container">
-                                <img src="https://i.pinimg.com/736x/f5/40/5d/f5405df74924e9677dd376dee9de23c1.jpg">
-                            </div>
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold">Taylor Swift</h6>
-                                <span class="badge bg-success mb-2">Pop</span>
-                                <button class="btn btn-sm btn-outline-success w-100">View Discography</button>
-                            </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce tag-rnb tag-pop">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/77/88/34/778834445aa5d8cf72e16dd09ce1a20f.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Beyoncé</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('beyonce', 'Beyoncé')">Discography</button></div>
                         </div>
                     </div>
 
-                    <div class="col-6 col-md-4 col-lg-3 filter-item tag-rnb">
-                        <div class="card bg-dark h-100">
-                            <div class="artist-container">
-                                <img src="https://i.pinimg.com/736x/70/18/34/701834c0053664f4b6b98993c1113861.jpg" class="artist-img">
-                            </div>
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold">Tyla</h6>
-                                <span class="badge bg-info text-dark mb-2">Afrobeats/Pop</span>
-                                <button class="btn btn-sm btn-outline-success w-100">View Discography</button>
-                            </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran tag-pop">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/28/eb/f0/28ebf08c9c87080cf070704d58461d05.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Ed Sheeran</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('edsheeran', 'Ed Sheeran')">Discography</button></div>
                         </div>
                     </div>
 
-                    <div class="col-6 col-md-4 col-lg-3 filter-item tag-pop">
-                        <div class="card bg-dark h-100">
-                            <div class="artist-container">
-                                <img src="https://i.pinimg.com/736x/7a/bd/9d/7abd9d2fb829d6fa0ad74a4fc0fc0d2c.jpg" class="artist-img">
-                            </div>
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold">Sabrina Carpenter</h6>
-                                <span class="badge bg-success mb-2">Pop</span>
-                                <button class="btn btn-sm btn-outline-success w-100">View Discography</button>
-                            </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele tag-pop">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/eb/d9/40/ebd9402b68cb053a8d3a64129f7d733f.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Adele</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('adele', 'Adele')">Discography</button></div>
                         </div>
                     </div>
 
-                    <div class="col-6 col-md-4 col-lg-3 filter-item tag-rnb">
-                        <div class="card bg-dark h-100">
-                            <div class="artist-container">
-                                <img src="https://i.pinimg.com/1200x/f4/1e/52/f41e5231fe76dccc20a78694356d4a5e.jpg" class="artist-img">
-                            </div>
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold">Ne-Yo</h6>
-                                <span class="badge bg-danger mb-2">R&B</span>
-                                <button class="btn btn-sm btn-outline-success w-100">View Discography</button>
-                            </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay tag-rock">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/d5/50/96/d5509643541c5c56d99c40dd1e54ad55.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Coldplay</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('coldplay', 'Coldplay')">Discography</button></div>
                         </div>
                     </div>
 
-                    <div class="col-6 col-md-4 col-lg-3 filter-item tag-pop">
-                        <div class="card bg-dark h-100">
-                            <div class="artist-container">
-                                <img src="https://i.pinimg.com/736x/db/d6/eb/dbd6ebce67ba5c84103b524fdee0a620.jpg" class="artist-img">
-                            </div>
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold">Pitbull</h6>
-                                <span class="badge bg-primary mb-2">Pop / Latin</span>
-                                <button class="btn btn-sm btn-outline-success w-100">View Discography</button>
-                            </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna tag-pop">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/8b/e7/1b/8be71bcf262253e27abe24c3d530c0ac.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Rihanna</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('rihanna', 'Rihanna')">Discography</button></div>
                         </div>
                     </div>
 
-                    <div class="col-6 col-md-4 col-lg-3 filter-item tag-rnb">
-                        <div class="card bg-dark h-100">
-                            <div class="artist-container">
-                                <img src="https://i.pinimg.com/1200x/04/c8/08/04c808a2f5436f9474debd2c4c05475f.jpg" class="artist-img">
-                            </div>
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold">Kehlani</h6>
-                                <span class="badge bg-danger mb-2">R&B</span>
-                                <button class="btn btn-sm btn-outline-success w-100">View Discography</button>
-                            </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles tag-rock">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/28/86/8c/28868c341191d8a699db3b2ff3957381.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>The Beatles</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('beatles', 'The Beatles')">Discography</button></div>
                         </div>
                     </div>
 
-                    <div class="col-6 col-md-4 col-lg-3 filter-item tag-hiphop">
-                        <div class="card bg-dark h-100">
-                            <div class="artist-container">
-                                <img src="https://i.pinimg.com/736x/53/5c/6d/535c6d6e55515f2850088156ae4bdb3f.jpg" class="artist-img">
-                            </div>
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold">Cardi B</h6>
-                                <span class="badge bg-secondary mb-2">Hip Hop</span>
-                                <button class="btn btn-sm btn-outline-success w-100">View Discography</button>
-                            </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia tag-pop">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/ee/8c/83/ee8c83d7b1a5041c9efb2ad41d184a4d.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Sia</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('sia', 'Sia')">Discography</button></div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin tag-pop">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/12/34/56/123456justin.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Justin Bieber</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('justin', 'Justin Bieber')">Discography</button></div>
                         </div>
                     </div>
 
-                    <div class="col-6 col-md-4 col-lg-3 filter-item tag-pop">
-                        <div class="card bg-dark h-100">
-                            <div class="artist-container">
-                                <img src="https://i.pinimg.com/736x/3f/9c/75/3f9c753048c07d05a780b7ada0a55880.jpg" class="artist-img">
-                            </div>
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold">Billie Eilish</h6>
-                                <span class="badge bg-success mb-2">Alternative Pop</span>
-                                <button class="btn btn-sm btn-outline-success w-100">View Discography</button>
-                            </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown tag-rnb">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/65/43/21/654321chris.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Chris Brown</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('chrisbrown', 'Chris Brown')">Discography</button></div>
                         </div>
                     </div>
 
-                    <div class="col-6 col-md-4 col-lg-3 filter-item tag-rnb">
-                        <div class="card bg-dark h-100">
-                            <div class="artist-container">
-                                <img src="https://i.pinimg.com/1200x/f9/e5/33/f9e533ee07910b77eebd4ccf4c271277.jpg" class="artist-img">
-                            </div>
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold">The Weeknd</h6>
-                                <span class="badge bg-danger mb-2">R&B</span>
-                                <button class="btn btn-sm btn-outline-success w-100">View Discography</button>
-                            </div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection tag-pop">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/ab/cd/ef/abcdefonedir.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>One Direction</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('onedirection', 'One Direction')">Discography</button></div>
                         </div>
-                    </div>
-
-                    <div class="col-6 col-md-4 col-lg-3 filter-item tag-pop">
-                        <div class="card bg-dark h-100">
-                            <div class="artist-container">
-                                <img src="https://i.pinimg.com/736x/54/a7/aa/54a7aaa647b036ad83daa985d68b5df4.jpg" class="artist-img">
-                            </div>
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold">Ariana Grande</h6>
-                                <span class="badge bg-success mb-2">Pop / R&B</span>
-                                <button class="btn btn-sm btn-outline-success w-100">View Discography</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-6 col-md-4 col-lg-3 filter-item tag-pop">
-                        <div class="card bg-dark h-100">
-                            <div class="artist-container">
-                                <img src="https://i.pinimg.com/736x/46/ed/8f/46ed8f6e2362ea372515e4f006cd6eb5.jpg" class="artist-img">
-                            </div>
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold">Miley Cyrus</h6>
-                                <span class="badge bg-success mb-2">Pop / Rock</span>
-                                <button class="btn btn-sm btn-outline-success w-100">View Discography</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-6 col-md-4 col-lg-3 filter-item tag-pop">
-                        <div class="card bg-dark h-100">
-                            <div class="artist-container">
-                                <img src="https://i.pinimg.com/736x/28/eb/f0/28ebf08c9c87080cf070704d58461d05.jpg" class="artist-img">
-                            </div>
-                            <div class="card-body text-center">
-                                <h6 class="fw-bold">Ed Sheeran</h6>
-                                <span class="badge bg-success mb-2">Pop / Folk</span>
-                                <button class="btn btn-sm btn-outline-success w-100">View Discography</button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                    </div>                    </div>
             </div>
 
-            <div class="tab-pane fade" id="cat-albums">
+            <div class="tab-pane fade" id="pane-albums">
                 <div class="row g-4">
-                    <div class="col-md-6 filter-item tag-mj">
-                        <div class="card bg-dark p-3">
-                            <h5>Thriller (1982)</h5>
-                            <p class="text-success small">Michael Jackson</p>
-                        </div>
-                    </div>
+                    <!-- Michael Jackson -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-mj"><div class="card h-100"><img src="https://i.pinimg.com/736x/05/0b/1f/050b1f8e14fc6c10a237213fde3c83cf.jpg" class="album-cover"><div class="card-body"><h6>Thriller</h6><p class="sub-text">1982</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-mj"><div class="card h-100"><img src="https://i.pinimg.com/1200x/c9/b8/bf/c9b8bf91069b6f860380e155b99cd0ef.jpg" class="album-cover"><div class="card-body"><h6>Bad</h6><p class="sub-text">1987</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-mj"><div class="card h-100"><img src="https://i.pinimg.com/736x/61/46/91/614691a5c6bba536698249705121b382.jpg" class="album-cover"><div class="card-body"><h6>Off the Wall</h6><p class="sub-text">1979</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-mj"><div class="card h-100"><img src="https://i.pinimg.com/1200x/30/0f/cb/300fcb29c422206982e538c9f15f4651.jpg" class="album-cover"><div class="card-body"><h6>Dangerous</h6><p class="sub-text">1991</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-mj"><div class="card h-100"><img src="https://i.pinimg.com/736x/9c/b9/ef/9cb9efe8cb47f43f4c21e5abbf8f7e28.jpg" class="album-cover"><div class="card-body"><h6>HIStory</h6><p class="sub-text">1995</p></div></div></div>
+
+                    <!-- Miley Cyrus -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-miley"><div class="card h-100"><img src="https://i.pinimg.com/736x/46/3a/c6/463ac65fee12764d5d927e9e6ecb4c02.jpg" class="album-cover"><div class="card-body"><h6>Bangerz</h6><p class="sub-text">2013</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-miley"><div class="card h-100"><img src="https://i.pinimg.com/1200x/6e/07/9d/6e079d10da2b5e9b317f934d4c01d486.jpg" class="album-cover"><div class="card-body"><h6>Can't Be Tamed</h6><p class="sub-text">2010</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-miley"><div class="card h-100"><img src="https://i.pinimg.com/736x/87/89/56/87895634dddfe7391ec3bf2b24d950b4.jpg" class="album-cover"><div class="card-body"><h6>Younger Now</h6><p class="sub-text">2017</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-miley"><div class="card h-100"><img src="https://i.pinimg.com/736x/f4/ea/c6/f4eac67e1dd8b853c5639deffb76132c.jpg" class="album-cover"><div class="card-body"><h6>Plastic Hearts</h6><p class="sub-text">2020</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-miley"><div class="card h-100"><img src="https://i.pinimg.com/1200x/7b/de/43/7bde435295862741b4061609737d086c.jpg" class="album-cover"><div class="card-body"><h6>SHE IS COMING</h6><p class="sub-text">2019</p></div></div></div>
+
+                    <!-- Taylor Swift -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-swift"><div class="card h-100"><img src="https://i.pinimg.com/1200x/74/43/70/74437054076cc656219c5e13f5ab9368.jpg" class="album-cover"><div class="card-body"><h6>Midnights</h6><p class="sub-text">2022</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-swift"><div class="card h-100"><img src="https://i.pinimg.com/736x/c0/33/49/c0334988f88df93ba766a17e9a31f86f.jpg" class="album-cover"><div class="card-body"><h6>1989 (TV)</h6><p class="sub-text">2023</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-swift"><div class="card h-100"><img src="https://i.pinimg.com/736x/29/d5/a0/29d5a05e3e9e85cd7a72db94eb3aebb1.jpg" class="album-cover"><div class="card-body"><h6>Red (TV)</h6><p class="sub-text">2021</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-swift"><div class="card h-100"><img src="https://i.pinimg.com/736x/ca/eb/a2/caeba291ecb1f7ee3cfcebe2b9cbf8af.jpg" class="album-cover"><div class="card-body"><h6>Fearless (TV)</h6><p class="sub-text">2021</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-swift"><div class="card h-100"><img src="https://i.pinimg.com/1200x/a0/89/72/a08972f11ad0daed9a74d7058c730c26.jpg" class="album-cover"><div class="card-body"><h6>Lover</h6><p class="sub-text">2019</p></div></div></div>
+
+                    <!-- Billie Eilish -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-billie"><div class="card h-100"><img src="https://i.pinimg.com/736x/6e/ea/2b/6eea2be81072237bff70bf61b46832be.jpg" class="album-cover"><div class="card-body"><h6>WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?</h6><p class="sub-text">2019</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-billie"><div class="card h-100"><img src="https://i.pinimg.com/1200x/83/27/88/83278815d2d8bc350328da5ca995dba3.jpg" class="album-cover"><div class="card-body"><h6>Happier Than Ever</h6><p class="sub-text">2021</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-billie"><div class="card h-100"><img src="https://i.pinimg.com/736x/87/47/a9/8747a975e83c1fc0e430a87ec52b379a.jpg" class="album-cover"><div class="card-body"><h6>Don't Smile at Me</h6><p class="sub-text">2017</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-billie"><div class="card h-100"><img src="https://i.pinimg.com/736x/48/13/32/4813326a8cde2a617020be81243fde4b.jpg" class="album-cover"><div class="card-body"><h6>HIT ME HARD AND SOFT</h6><p class="sub-text">2024</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-billie"><div class="card h-100"><img src="https://i.pinimg.com/736x/97/86/e2/9786e2c70ee1a3ca2d3f57e9993c07f2.jpg" class="album-cover"><div class="card-body"><h6>Ocean Eyes</h6><p class="sub-text">2017</p></div></div></div>
+
+                    <!-- Bruno Mars -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-bruno"><div class="card h-100"><img src="https://is1-ssl.mzstatic.com/image/thumb/Video125/v4/0b/21/7e/0b217efb-52ae-1e50-a1d4-08810f804bd1/Jobc15a5e45-1b74-4443-bf65-31d0987616a8-112738722-PreviewImage_preview_image_nonvideo_sdr-Time1620077954243.png/592x592bb.webp" class="album-cover"><div class="card-body"><h6>Doo-Wops & Hooligans</h6><p class="sub-text">2010</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-bruno"><div class="card h-100"><img src="https://i.pinimg.com/736x/42/90/31/4290312b134dddb01b6678110ad7ddc5.jpg" class="album-cover"><div class="card-body"><h6>Unorthodox Jukebox</h6><p class="sub-text">2012</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-bruno"><div class="card h-100"><img src="https://i.pinimg.com/736x/b7/a4/50/b7a450d5bb7404f119cd40de59bbb27c.jpg" class="album-cover"><div class="card-body"><h6>24K Magic</h6><p class="sub-text">2016</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-bruno"><div class="card h-100"><img src="https://upload.wikimedia.org/wikipedia/en/b/b8/Bruno_Mars_-_The_Romantic.png" class="album-cover"><div class="card-body"><h6>The Romantic</h6><p class="sub-text">2026</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-bruno"><div class="card h-100"><img src="https://i.pinimg.com/736x/d2/04/ec/d204ecad2aa42a6276b949bfdd15b218.jpg" class="album-cover"><div class="card-body"><h6>An Evening with Silk Sonic</h6><p class="sub-text">2021</p></div></div></div>
+
+                    <!-- Lil Wayne -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-wayne"><div class="card h-100"><img src="https://i.pinimg.com/736x/1e/e3/90/1ee3900b4e7838b04075479da60142ca.jpg" class="album-cover"><div class="card-body"><h6>Tha Carter III</h6><p class="sub-text">2008</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-wayne"><div class="card h-100"><img src="https://i.pinimg.com/1200x/cf/92/05/cf92052c7f0d27a8cb5e0faac65b9bd0.jpg" class="album-cover"><div class="card-body"><h6>Tha Carter IV</h6><p class="sub-text">2011</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-wayne"><div class="card h-100"><img src="https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/8c/94/59/8c94598e-b6b4-bb30-d464-c3e9baf2cd47/20UMGIM07263.rgb.jpg/592x592bb.webp" class="album-cover"><div class="card-body"><h6>Funeral</h6><p class="sub-text">2020</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-wayne"><div class="card h-100"><img src="https://i.pinimg.com/1200x/c0/55/57/c055579108861d8a2a91215248430655.jpg" class="album-cover"><div class="card-body"><h6>Rebirth</h6><p class="sub-text">2010</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-wayne"><div class="card h-100"><img src="https://i.pinimg.com/1200x/02/58/52/025852747d34bfec09080ad4c10b07b6.jpg" class="album-cover"><div class="card-body"><h6>I Am Not a Human Being II</h6><p class="sub-text">2013</p></div></div></div>
+
+                    <!-- Drake -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/736x/bb/44/cc/bb44ccexample.jpg" class="album-cover"><div class="card-body"><h6>Scorpion</h6><p class="sub-text">2018</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/736x/cc/55/dd/cc55ddexample.jpg" class="album-cover"><div class="card-body"><h6>Views</h6><p class="sub-text">2016</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/736x/dd/66/ee/dd66eeexample.jpg" class="album-cover"><div class="card-body"><h6>Take Care</h6><p class="sub-text">2011</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/736x/ee/77/ff/ee77ffexample.jpg" class="album-cover"><div class="card-body"><h6>If You’re Reading This It’s Too Late</h6><p class="sub-text">2015</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/736x/ff/88/00/ff8800example.jpg" class="album-cover"><div class="card-body"><h6>Nothing Was the Same</h6><p class="sub-text">2013</p></div></div></div>
+
+                    <!-- Beyoncé -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/736x/00/11/22/001122example.jpg" class="album-cover"><div class="card-body"><h6>Lemonade</h6><p class="sub-text">2016</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/736x/11/22/33/112233bexample.jpg" class="album-cover"><div class="card-body"><h6>Dangerously in Love</h6><p class="sub-text">2003</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/736x/22/33/44/223344bexample.jpg" class="album-cover"><div class="card-body"><h6>B'Day</h6><p class="sub-text">2006</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/736x/33/44/55/334455bexample.jpg" class="album-cover"><div class="card-body"><h6>I Am... Sasha Fierce</h6><p class="sub-text">2008</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/736x/44/55/66/445566bexample.jpg" class="album-cover"><div class="card-body"><h6>Renaissance</h6><p class="sub-text">2022</p></div></div></div>
+
+                    <!-- Ed Sheeran -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/736x/55/aa/55/55aa55example.jpg" class="album-cover"><div class="card-body"><h6>+</h6><p class="sub-text">2011</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/736x/66/bb/66/66bb66example.jpg" class="album-cover"><div class="card-body"><h6>x</h6><p class="sub-text">2014</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/736x/77/cc/77/77cc77example.jpg" class="album-cover"><div class="card-body"><h6>÷ (Divide)</h6><p class="sub-text">2017</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/736x/88/dd/88/88dd88example.jpg" class="album-cover"><div class="card-body"><h6>=</h6><p class="sub-text">2021</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/736x/99/ee/99/99ee99example.jpg" class="album-cover"><div class="card-body"><h6>No.6 Collaborations Project</h6><p class="sub-text">2019</p></div></div></div>
+
+                    <!-- Adele -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/736x/aa/11/aa/aa11aaexample.jpg" class="album-cover"><div class="card-body"><h6>19</h6><p class="sub-text">2008</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/736x/bb/22/bb/bb22bbexample.jpg" class="album-cover"><div class="card-body"><h6>21</h6><p class="sub-text">2011</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/736x/cc/33/cc/cc33ccexample.jpg" class="album-cover"><div class="card-body"><h6>25</h6><p class="sub-text">2015</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/736x/dd/44/dd/dd44ddexample.jpg" class="album-cover"><div class="card-body"><h6>30</h6><p class="sub-text">2021</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/736x/ee/55/ee/ee55eeexample.jpg" class="album-cover"><div class="card-body"><h6>Adele Live</h6><p class="sub-text">Live</p></div></div></div>
+
+                    <!-- Coldplay -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/736x/11/22/44/112244example.jpg" class="album-cover"><div class="card-body"><h6>Parachutes</h6><p class="sub-text">2000</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/736x/22/33/55/223355example.jpg" class="album-cover"><div class="card-body"><h6>A Rush of Blood to the Head</h6><p class="sub-text">2002</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/736x/33/44/66/334466example.jpg" class="album-cover"><div class="card-body"><h6>X&Y</h6><p class="sub-text">2005</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/736x/44/55/77/445577example.jpg" class="album-cover"><div class="card-body"><h6>Viva la Vida</h6><p class="sub-text">2008</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/736x/55/66/88/556688example.jpg" class="album-cover"><div class="card-body"><h6>Ghost Stories</h6><p class="sub-text">2014</p></div></div></div>
+
+                    <!-- Rihanna -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/736x/66/77/11/667711example.jpg" class="album-cover"><div class="card-body"><h6>ANTI</h6><p class="sub-text">2016</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/736x/77/88/22/778822example.jpg" class="album-cover"><div class="card-body"><h6>Good Girl Gone Bad</h6><p class="sub-text">2007</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/736x/88/99/33/889933example.jpg" class="album-cover"><div class="card-body"><h6>Loud</h6><p class="sub-text">2010</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/736x/99/00/44/990044example.jpg" class="album-cover"><div class="card-body"><h6>Talk That Talk</h6><p class="sub-text">2011</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/736x/aa/11/55/aa1155example.jpg" class="album-cover"><div class="card-body"><h6>Rated R</h6><p class="sub-text">2009</p></div></div></div>
+
+                    <!-- The Beatles -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/736x/bb/22/66/bb2266example.jpg" class="album-cover"><div class="card-body"><h6>Abbey Road</h6><p class="sub-text">1969</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/736x/cc/33/77/cc3377example.jpg" class="album-cover"><div class="card-body"><h6>Sgt. Pepper's Lonely Hearts Club Band</h6><p class="sub-text">1967</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/736x/dd/44/88/dd4488example.jpg" class="album-cover"><div class="card-body"><h6>Revolver</h6><p class="sub-text">1966</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/736x/ee/55/99/ee5599example.jpg" class="album-cover"><div class="card-body"><h6>Rubber Soul</h6><p class="sub-text">1965</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/736x/ff/66/aa/ff66aaexample.jpg" class="album-cover"><div class="card-body"><h6>Let It Be</h6><p class="sub-text">1970</p></div></div></div>
+
+                    <!-- Sia -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/736x/00/aa/11/00aa11example.jpg" class="album-cover"><div class="card-body"><h6>1000 Forms of Fear</h6><p class="sub-text">2014</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/736x/11/bb/22/11bb22example.jpg" class="album-cover"><div class="card-body"><h6>This Is Acting</h6><p class="sub-text">2016</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/736x/22/cc/33/22cc33example.jpg" class="album-cover"><div class="card-body"><h6>Everyday Is Christmas</h6><p class="sub-text">2017</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/736x/33/dd/44/33dd44example.jpg" class="album-cover"><div class="card-body"><h6>We Are Born</h6><p class="sub-text">2010</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/736x/44/ee/55/44ee55example.jpg" class="album-cover"><div class="card-body"><h6>Colours</h6><p class="sub-text">2016</p></div></div></div>
+
+                    <!-- Justin Bieber -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/736x/aa/bb/cc/aabbccjustin1.jpg" class="album-cover"><div class="card-body"><h6>My World 2.0</h6><p class="sub-text">2009</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/736x/bb/cc/dd/bbccddjustin2.jpg" class="album-cover"><div class="card-body"><h6>Believe</h6><p class="sub-text">2012</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/736x/cc/dd/ee/ccddeejustin3.jpg" class="album-cover"><div class="card-body"><h6>Purpose</h6><p class="sub-text">2015</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/736x/dd/ee/ff/ddeeffjustin4.jpg" class="album-cover"><div class="card-body"><h6>Changes</h6><p class="sub-text">2020</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/736x/ee/ff/11/eeff11justin5.jpg" class="album-cover"><div class="card-body"><h6>Justice</h6><p class="sub-text">2021</p></div></div></div>
+
+                    <!-- Chris Brown -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/736x/11/22/33/112233chris1.jpg" class="album-cover"><div class="card-body"><h6>Exclusive</h6><p class="sub-text">2007</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/736x/22/33/44/223344chris2.jpg" class="album-cover"><div class="card-body"><h6>F.A.M.E.</h6><p class="sub-text">2011</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/736x/33/44/55/334455chris3.jpg" class="album-cover"><div class="card-body"><h6>Fortune</h6><p class="sub-text">2012</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/736x/44/55/66/445566chris4.jpg" class="album-cover"><div class="card-body"><h6>X</h6><p class="sub-text">2014</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/736x/55/66/77/556677chris5.jpg" class="album-cover"><div class="card-body"><h6>Indigo</h6><p class="sub-text">2019</p></div></div></div>
+
+                    <!-- One Direction -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/736x/66/77/88/667788onedir1.jpg" class="album-cover"><div class="card-body"><h6>Up All Night</h6><p class="sub-text">2011</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/736x/77/88/99/778899onedir2.jpg" class="album-cover"><div class="card-body"><h6>Take Me Home</h6><p class="sub-text">2012</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/736x/88/99/00/889900onedir3.jpg" class="album-cover"><div class="card-body"><h6>Midnight Memories</h6><p class="sub-text">2013</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/736x/99/00/11/990011onedir4.jpg" class="album-cover"><div class="card-body"><h6>Four</h6><p class="sub-text">2014</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/736x/00/11/22/001122onedir5.jpg" class="album-cover"><div class="card-body"><h6>Made in the A.M.</h6><p class="sub-text">2015</p></div></div></div>
                 </div>
             </div>
 
-            <div class="tab-pane fade" id="cat-genres">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <div class="card bg-success text-black p-4 text-center fw-bold" onclick="jumpTo('tab-artists', 'tag-pop', 'Pop Artists')">POP</div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card bg-danger text-white p-4 text-center fw-bold" onclick="jumpTo('tab-artists', 'tag-rnb', 'R&B Artists')">R&B</div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card bg-secondary text-white p-4 text-center fw-bold" onclick="jumpTo('tab-artists', 'tag-hiphop', 'Hip Hop Artists')">HIP HOP</div>
-                    </div>
+            <div class="tab-pane fade" id="pane-songs">
+                <div class="row">
+                    <div class="col-12 item-card tag-mj"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Billie Jean</h6><small class="sub-text">Michael Jackson - Thriller</small></div><div class="ms-auto">
+                        <a class="btn btn-sm btn-success" href="https://open.spotify.com/track/7J1uxwnxfQLu4APicE5Rnj?si=94f109f7c62247e7" target="_blank" rel="noopener noreferrer">Listen on Spotify</a>
+                        <a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Billie+Jean+Michael+Jackson" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                    </div></div></div>
+
+                    <div class="col-12 item-card tag-swift"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Anti-Hero</h6><small class="sub-text">Taylor Swift - Midnights</small></div><div class="ms-auto">
+                        <a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Anti-Hero%20Taylor%20Swift" target="_blank" rel="noopener noreferrer">Listen on Spotify</a>
+                        <a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Anti-Hero+Taylor+Swift" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                    </div></div></div>
+
+                    <div class="col-12 item-card tag-wayne"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>A Milli</h6><small class="sub-text">Lil Wayne - Tha Carter III</small></div><div class="ms-auto">
+                        <a class="btn btn-sm btn-success" href="https://open.spotify.com/search/A%20Milli%20Lil%20Wayne" target="_blank" rel="noopener noreferrer">Listen on Spotify</a>
+                        <a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=A+Milli+Lil+Wayne" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                    </div></div></div>
+
+                    <div class="col-12 item-card tag-drake"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>God's Plan</h6><small class="sub-text">Drake - Scorpion</small></div><div class="ms-auto">
+                        <a class="btn btn-sm btn-success" href="https://open.spotify.com/search/God%27s%20Plan%20Drake" target="_blank" rel="noopener noreferrer">Listen on Spotify</a>
+                        <a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=God%27s+Plan+Drake" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                    </div></div></div>
+
+                    <div class="col-12 item-card tag-beyonce"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Halo</h6><small class="sub-text">Beyoncé - I Am... Sasha Fierce</small></div><div class="ms-auto">
+                        <a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Halo%20Beyonce" target="_blank" rel="noopener noreferrer">Listen on Spotify</a>
+                        <a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Halo+Beyonce" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                    </div></div></div>
+
+                    <div class="col-12 item-card tag-edsheeran"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Shape of You</h6><small class="sub-text">Ed Sheeran - ÷</small></div><div class="ms-auto">
+                        <a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Shape%20of%20You%20Ed%20Sheeran" target="_blank" rel="noopener noreferrer">Listen on Spotify</a>
+                        <a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Shape+of+You+Ed+Sheeran" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                    </div></div></div>
+
+                    <div class="col-12 item-card tag-adele"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Hello</h6><small class="sub-text">Adele - 25</small></div><div class="ms-auto">
+                        <a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Hello%20Adele" target="_blank" rel="noopener noreferrer">Listen on Spotify</a>
+                        <a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Hello+Adele" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                    </div></div></div>
+
+                    <div class="col-12 item-card tag-rihanna"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Work</h6><small class="sub-text">Rihanna - ANTI</small></div><div class="ms-auto">
+                        <a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Work%20Rihanna" target="_blank" rel="noopener noreferrer">Listen on Spotify</a>
+                        <a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Work+Rihanna" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                    </div></div></div>
+
+                    <div class="col-12 item-card tag-coldplay"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Yellow</h6><small class="sub-text">Coldplay - Parachutes</small></div><div class="ms-auto">
+                        <a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Yellow%20Coldplay" target="_blank" rel="noopener noreferrer">Listen on Spotify</a>
+                        <a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Yellow+Coldplay" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                    </div></div></div>
+
+                    <div class="col-12 item-card tag-beatles"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Hey Jude</h6><small class="sub-text">The Beatles - Single</small></div><div class="ms-auto">
+                        <a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Hey%20Jude%20The%20Beatles" target="_blank" rel="noopener noreferrer">Listen on Spotify</a>
+                        <a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Hey+Jude+The+Beatles" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                    </div></div></div>
+
+                    <div class="col-12 item-card tag-sia"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Chandelier</h6><small class="sub-text">Sia - 1000 Forms of Fear</small></div><div class="ms-auto">
+                        <a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Chandelier%20Sia" target="_blank" rel="noopener noreferrer">Listen on Spotify</a>
+                        <a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Chandelier+Sia" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                    </div></div></div>
+
+                    <!-- Justin Bieber songs -->
+                    <div class="col-12 item-card tag-justin"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Baby</h6><small class="sub-text">Justin Bieber - My World 2.0</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Baby%20Justin%20Bieber" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Baby+Justin+Bieber" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-justin"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>One Time</h6><small class="sub-text">Justin Bieber - My World 2.0</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/One%20Time%20Justin%20Bieber" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=One+Time+Justin+Bieber" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-justin"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Boyfriend</h6><small class="sub-text">Justin Bieber - Believe</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Boyfriend%20Justin%20Bieber" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Boyfriend+Justin+Bieber" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-justin"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>As Long As You Love Me</h6><small class="sub-text">Justin Bieber - Believe</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/As%20Long%20As%20You%20Love%20Me%20Justin%20Bieber" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=As+Long+As+You+Love+Me+Justin+Bieber" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-justin"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Sorry</h6><small class="sub-text">Justin Bieber - Purpose</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Sorry%20Justin%20Bieber" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Sorry+Justin+Bieber" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-justin"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Love Yourself</h6><small class="sub-text">Justin Bieber - Purpose</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Love%20Yourself%20Justin%20Bieber" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Love+Yourself+Justin+Bieber" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-justin"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Yummy</h6><small class="sub-text">Justin Bieber - Changes</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Yummy%20Justin%20Bieber" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Yummy+Justin+Bieber" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-justin"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Intentions</h6><small class="sub-text">Justin Bieber - Changes</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Intentions%20Justin%20Bieber" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Intentions+Justin+Bieber" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-justin"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Peaches</h6><small class="sub-text">Justin Bieber - Justice</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Peaches%20Justin%20Bieber" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Peaches+Justin+Bieber" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-justin"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Anyone</h6><small class="sub-text">Justin Bieber - Justice</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Anyone%20Justin%20Bieber" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Anyone+Justin+Bieber" target="_blank">Watch on YouTube</a></div></div></div>
+
+                    <!-- Chris Brown songs -->
+                    <div class="col-12 item-card tag-chrisbrown"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Kiss Kiss</h6><small class="sub-text">Chris Brown - Exclusive</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Kiss%20Kiss%20Chris%20Brown" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Kiss+Kiss+Chris+Brown" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-chrisbrown"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>With You</h6><small class="sub-text">Chris Brown - Exclusive</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/With%20You%20Chris%20Brown" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=With+You+Chris+Brown" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-chrisbrown"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Beautiful People</h6><small class="sub-text">Chris Brown - F.A.M.E.</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Beautiful%20People%20Chris%20Brown" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Beautiful+People+Chris+Brown" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-chrisbrown"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Look at Me Now</h6><small class="sub-text">Chris Brown - F.A.M.E.</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Look%20at%20Me%20Now%20Chris%20Brown" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Look+at+Me+Now+Chris+Brown" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-chrisbrown"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Turn Up the Music</h6><small class="sub-text">Chris Brown - Fortune</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Turn%20Up%20the%20Music%20Chris%20Brown" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Turn+Up+the+Music+Chris+Brown" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-chrisbrown"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Don't Wake Me Up</h6><small class="sub-text">Chris Brown - Fortune</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Don%27t%20Wake%20Me%20Up%20Chris%20Brown" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Don%27t+Wake+Me+Up+Chris+Brown" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-chrisbrown"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Loyal</h6><small class="sub-text">Chris Brown - X</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Loyal%20Chris%20Brown" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Loyal+Chris+Brown" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-chrisbrown"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>New Flame</h6><small class="sub-text">Chris Brown - X</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/New%20Flame%20Chris%20Brown" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=New+Flame+Chris+Brown" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-chrisbrown"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>No Guidance</h6><small class="sub-text">Chris Brown - Indigo</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/No%20Guidance%20Chris%20Brown" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=No+Guidance+Chris+Brown" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-chrisbrown"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Undecided</h6><small class="sub-text">Chris Brown - Indigo</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Undecided%20Chris%20Brown" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Undecided+Chris+Brown" target="_blank">Watch on YouTube</a></div></div></div>
+
+                    <!-- One Direction songs -->
+                    <div class="col-12 item-card tag-onedirection"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>What Makes You Beautiful</h6><small class="sub-text">One Direction - Up All Night</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/What%20Makes%20You%20Beautiful%20One%20Direction" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=What+Makes+You+Beautiful+One+Direction" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-onedirection"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Gotta Be You</h6><small class="sub-text">One Direction - Up All Night</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Gotta%20Be%20You%20One%20Direction" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Gotta+Be+You+One+Direction" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-onedirection"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Live While We're Young</h6><small class="sub-text">One Direction - Take Me Home</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Live%20While%20We%27re%20Young%20One%20Direction" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Live+While+We%27re+Young+One+Direction" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-onedirection"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Kiss You</h6><small class="sub-text">One Direction - Take Me Home</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Kiss%20You%20One%20Direction" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Kiss+You+One+Direction" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-onedirection"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Best Song Ever</h6><small class="sub-text">One Direction - Midnight Memories</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Best%20Song%20Ever%20One%20Direction" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Best+Song+Ever+One+Direction" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-onedirection"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Story of My Life</h6><small class="sub-text">One Direction - Midnight Memories</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Story%20of%20My%20Life%20One%20Direction" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Story+of+My+Life+One+Direction" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-onedirection"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Steal My Girl</h6><small class="sub-text">One Direction - Four</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Steal%20My%20Girl%20One%20Direction" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Steal+My+Girl+One+Direction" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-onedirection"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Night Changes</h6><small class="sub-text">One Direction - Four</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Night%20Changes%20One%20Direction" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Night+Changes+One+Direction" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-onedirection"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>Perfect</h6><small class="sub-text">One Direction - Made in the A.M.</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/Perfect%20One%20Direction" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=Perfect+One+Direction" target="_blank">Watch on YouTube</a></div></div></div>
+                    <div class="col-12 item-card tag-onedirection"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>History</h6><small class="sub-text">One Direction - Made in the A.M.</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/History%20One%20Direction" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=History+One+Direction" target="_blank">Watch on YouTube</a></div></div></div>
                 </div>
             </div>
+
+            <div class="tab-pane fade" id="pane-genres">
+                <div class="row g-4">
+                    <div class="col-6 col-md-4"><div class="card genre-card bg-pop" onclick="filterGenre('pop', 'Pop')">Pop</div></div>
+                    <div class="col-6 col-md-4"><div class="card genre-card bg-rnb" onclick="filterGenre('rnb', 'R&B')">R&B</div></div>
+                    <div class="col-6 col-md-4"><div class="card genre-card bg-hiphop" onclick="filterGenre('hiphop', 'Hip Hop')">Hip Hop</div></div>
+                    <div class="col-6 col-md-4"><div class="card genre-card bg-rock" onclick="filterGenre('rock', 'Rock')">Rock</div></div>
+                    <div class="col-6 col-md-4"><div class="card genre-card bg-country" onclick="filterGenre('country', 'Country')">Country</div></div>
+                    <div class="col-6 col-md-4"><div class="card genre-card bg-alt" onclick="filterGenre('alt', 'Alternative')">Alternative</div></div>
+                </div>
+            </div>
+
         </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
-        function jumpTo(tabId, filterClass, filterName) {
-            const triggerEl = document.getElementById(tabId);
-            const tab = new bootstrap.Tab(triggerEl);
-            tab.show();
-
-            document.querySelectorAll('.filter-item').forEach(item => {
-                item.classList.toggle('d-none', !item.classList.contains(filterClass));
+        // Filter by Artist (Shows their specific Albums/Songs)
+        function filterBy(tag, name) {
+            document.getElementById('filter-status').classList.remove('hidden');
+            document.getElementById('filter-name').innerText = name;
+            document.querySelectorAll('.item-card').forEach(item => {
+                item.classList.toggle('hidden', !item.classList.contains('tag-' + tag));
             });
+            new bootstrap.Tab(document.getElementById('tab-albums')).show();
+            window.scrollTo(0,0);
+        }
 
-            document.getElementById('filter-status').classList.remove('d-none');
-            document.getElementById('filter-name').innerText = filterName;
+        // Filter by Genre (Shows all Artists in that category)
+        function filterGenre(genreTag, name) {
+            document.getElementById('filter-status').classList.remove('hidden');
+            document.getElementById('filter-name').innerText = name;
+            document.querySelectorAll('.item-card').forEach(item => {
+                item.classList.toggle('hidden', !item.classList.contains('tag-' + genreTag));
+            });
+            new bootstrap.Tab(document.getElementById('tab-artists')).show();
             window.scrollTo(0,0);
         }
 
         function resetAll() {
-            document.querySelectorAll('.filter-item').forEach(item => item.classList.remove('d-none'));
-            document.getElementById('filter-status').classList.add('d-none');
+            document.getElementById('filter-status').classList.add('hidden');
+            document.querySelectorAll('.item-card').forEach(item => item.classList.remove('hidden'));
+            new bootstrap.Tab(document.getElementById('tab-artists')).show();
         }
 
-        function searchArtists() {
-            let input = document.getElementById('searchBar').value.toLowerCase();
-            let cards = document.querySelectorAll('#artistGrid .filter-item');
-            cards.forEach(card => {
-                let name = card.querySelector('h6').innerText.toLowerCase();
-                card.style.display = name.includes(input) ? "block" : "none";
+        function search() {
+            let q = document.getElementById('searchBar').value.toLowerCase();
+            document.querySelectorAll('.item-card').forEach(card => {
+                card.classList.toggle('hidden', !card.innerText.toLowerCase().includes(q));
             });
         }
     </script>
