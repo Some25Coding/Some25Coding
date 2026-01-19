@@ -43,6 +43,14 @@
         .song-row:hover { background: #222; border-color: #1DB954; }
 
         .hidden { display: none !important; }
+        
+        /* Responsive navbar/search handling */
+        .navbar .container { display: flex; align-items: center; gap: 12px; }
+        #searchBar { width: 25%; max-width: 420px; }
+        @media (max-width: 768px) {
+            .navbar .container { flex-direction: column; align-items: stretch; }
+            #searchBar { width: 100%; margin-top: 8px; }
+        }
     </style>
 </head>
 <body>
@@ -50,7 +58,7 @@
     <nav class="navbar navbar-dark bg-black border-bottom border-success sticky-top mb-4 py-3">
         <div class="container">
             <a class="navbar-brand fw-bold text-green fs-3" href="#" onclick="resetAll()">🎵 MUSIC ARCHIVE</a>
-            <input type="text" id="searchBar" class="form-control w-25 bg-dark text-white border-secondary" placeholder="Search artists, albums..." onkeyup="search()">
+            <input type="text" id="searchBar" class="form-control bg-dark text-white border-secondary" placeholder="Search artists, albums..." onkeyup="search()">
         </div>
     </nav>
 
@@ -77,6 +85,28 @@
                             <div class="card-body text-center"><h6>Michael Jackson</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('mj', 'Michael Jackson')">Discography</button></div>
                         </div>
                     </div>
+
+                         <div class="col-6 col-md-4 col-lg-3 item-card tag-justin tag-pop">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/1200x/ec/bd/7c/ecbd7c8564e7072cdc38e49968dbe654.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Justin Bieber</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('justin', 'Justin Bieber')">Discography</button></div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown tag-rnb">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/07/55/9b/07559b1a1fe5ad5839f6a49b2100a6c2.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Chris Brown</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('chrisbrown', 'Chris Brown')">Discography</button></div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection tag-pop">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/1200x/e7/80/0d/e7800d0cb09b7842d297efa09dca16a5.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>One Direction</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('onedirection', 'One Direction')">Discography</button></div>
+                        </div>
+                    </div> 
+
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-miley tag-pop tag-rock">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/46/ed/8f/46ed8f6e2362ea372515e4f006cd6eb5.jpg" class="artist-img"></div>
@@ -152,6 +182,8 @@
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles tag-rock">
                         <div class="card h-100">
+                   
+                   
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/28/86/8c/28868c341191d8a699db3b2ff3957381.jpg" class="artist-img"></div>
                             <div class="card-body text-center"><h6>The Beatles</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('beatles', 'The Beatles')">Discography</button></div>
                         </div>
@@ -163,26 +195,36 @@
                             <div class="card-body text-center"><h6>Sia</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('sia', 'Sia')">Discography</button></div>
                         </div>
                     </div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin tag-pop">
+
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justintimberlake tag-pop tag-rnb">
                         <div class="card h-100">
-                            <div class="artist-container"><img src="https://i.pinimg.com/736x/12/34/56/123456justin.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Justin Bieber</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('justin', 'Justin Bieber')">Discography</button></div>
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/b0/11/57/b011576993960124eb1d46480f372a08.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Justin Timberlake</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('justintimberlake', 'Justin Timberlake')">Discography</button></div>
                         </div>
                     </div>
 
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown tag-rnb">
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-neyo tag-rnb">
                         <div class="card h-100">
-                            <div class="artist-container"><img src="https://i.pinimg.com/736x/65/43/21/654321chris.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Chris Brown</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('chrisbrown', 'Chris Brown')">Discography</button></div>
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/aa/84/d1/aa84d1f52cd5de68542eb44a83d947f8.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Ne-Yo</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('neyo', 'Ne-Yo')">Discography</button></div>
                         </div>
                     </div>
 
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection tag-pop">
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-nickiminaj tag-hiphop tag-pop">
                         <div class="card h-100">
-                            <div class="artist-container"><img src="https://i.pinimg.com/736x/ab/cd/ef/abcdefonedir.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>One Direction</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('onedirection', 'One Direction')">Discography</button></div>
+                            <div class="artist-container"><img src="https://i.pinimg.com/736x/b8/c0/cf/b8c0cf89c1e38cbbef29e2bbda4c0953.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>Nicki Minaj</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('nickiminaj', 'Nicki Minaj')">Discography</button></div>
                         </div>
-                    </div>                    </div>
+                    </div>
+
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd tag-rnb tag-pop">
+                        <div class="card h-100">
+                            <div class="artist-container"><img src="https://i.pinimg.com/1200x/6f/61/55/6f6155771e254740f22d91d68bd5ca4d.jpg" class="artist-img"></div>
+                            <div class="card-body text-center"><h6>The Weeknd</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('weeknd', 'The Weeknd')">Discography</button></div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
             <div class="tab-pane fade" id="pane-albums">
@@ -193,7 +235,28 @@
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-mj"><div class="card h-100"><img src="https://i.pinimg.com/736x/61/46/91/614691a5c6bba536698249705121b382.jpg" class="album-cover"><div class="card-body"><h6>Off the Wall</h6><p class="sub-text">1979</p></div></div></div>
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-mj"><div class="card h-100"><img src="https://i.pinimg.com/1200x/30/0f/cb/300fcb29c422206982e538c9f15f4651.jpg" class="album-cover"><div class="card-body"><h6>Dangerous</h6><p class="sub-text">1991</p></div></div></div>
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-mj"><div class="card h-100"><img src="https://i.pinimg.com/736x/9c/b9/ef/9cb9efe8cb47f43f4c21e5abbf8f7e28.jpg" class="album-cover"><div class="card-body"><h6>HIStory</h6><p class="sub-text">1995</p></div></div></div>
+                     
+                    <!-- Justin Bieber -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/1200x/79/dd/65/79dd658e887729e419dd095965e49019.jpg" class="album-cover"><div class="card-body"><h6>My World 2.0</h6><p class="sub-text">2009</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/736x/65/1a/cb/651acb71257a2f5e35022ac8bac9a9a2.jpg" class="album-cover"><div class="card-body"><h6>Believe</h6><p class="sub-text">2012</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/1200x/1b/08/4b/1b084b70aa156a811f4032ecedfcc132.jpg" class="album-cover"><div class="card-body"><h6>Purpose</h6><p class="sub-text">2015</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/1200x/31/0c/95/310c95fd69ef7b65856826b69cd96dcf.jpg" class="album-cover"><div class="card-body"><h6>Changes</h6><p class="sub-text">2020</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/1200x/5f/26/ff/5f26ffed2adbeae916d512e91e766545.jpg" class="album-cover"><div class="card-body"><h6>Justice</h6><p class="sub-text">2021</p></div></div></div>
 
+                    <!-- Chris Brown -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/736x/c0/03/c2/c003c2dc11e62fabb4696d2aec247113.jpg" class="album-cover"><div class="card-body"><h6>Exclusive</h6><p class="sub-text">2007</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/736x/30/4d/fc/304dfc191f70269087960ddd2a419751.jpg" class="album-cover"><div class="card-body"><h6>F.A.M.E.</h6><p class="sub-text">2011</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/736x/65/c1/25/65c12592d3ac67cee4f4468c8302c689.jpg" class="album-cover"><div class="card-body"><h6>Fortune</h6><p class="sub-text">2012</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/736x/d3/bd/10/d3bd107bf0c9e8fdeffecbe74c0d4f9c.jpg" class="album-cover"><div class="card-body"><h6>X</h6><p class="sub-text">2014</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/1200x/8e/59/b0/8e59b0d60eba212cb089ad5c56916e77.jpg" class="album-cover"><div class="card-body"><h6>Indigo</h6><p class="sub-text">2019</p></div></div></div>
+
+                    <!-- One Direction -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/736x/54/bd/9d/54bd9d0ffa68d980caa8e378318b7dab.jpg" class="album-cover"><div class="card-body"><h6>Up All Night</h6><p class="sub-text">2011</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/1200x/c4/8b/65/c48b6542c499acbe4284e2d6bab74a7c.jpg" class="album-cover"><div class="card-body"><h6>Take Me Home</h6><p class="sub-text">2012</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/1200x/21/b9/3c/21b93c4f155800d4b78c17090fde7b76.jpg" class="album-cover"><div class="card-body"><h6>Midnight Memories</h6><p class="sub-text">2013</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/1200x/3c/ff/b8/3cffb8a4a738b4f318478123e61b78c4.jpg" class="album-cover"><div class="card-body"><h6>Four</h6><p class="sub-text">2014</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/736x/bc/c0/f4/bcc0f4a384f57dbebb4fa0c5ab59cf1f.jpg" class="album-cover"><div class="card-body"><h6>Made in the A.M.</h6><p class="sub-text">2015</p></div></div></div>
+                    
                     <!-- Miley Cyrus -->
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-miley"><div class="card h-100"><img src="https://i.pinimg.com/736x/46/3a/c6/463ac65fee12764d5d927e9e6ecb4c02.jpg" class="album-cover"><div class="card-body"><h6>Bangerz</h6><p class="sub-text">2013</p></div></div></div>
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-miley"><div class="card h-100"><img src="https://i.pinimg.com/1200x/6e/07/9d/6e079d10da2b5e9b317f934d4c01d486.jpg" class="album-cover"><div class="card-body"><h6>Can't Be Tamed</h6><p class="sub-text">2010</p></div></div></div>
@@ -230,81 +293,89 @@
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-wayne"><div class="card h-100"><img src="https://i.pinimg.com/1200x/02/58/52/025852747d34bfec09080ad4c10b07b6.jpg" class="album-cover"><div class="card-body"><h6>I Am Not a Human Being II</h6><p class="sub-text">2013</p></div></div></div>
 
                     <!-- Drake -->
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/736x/bb/44/cc/bb44ccexample.jpg" class="album-cover"><div class="card-body"><h6>Scorpion</h6><p class="sub-text">2018</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/736x/cc/55/dd/cc55ddexample.jpg" class="album-cover"><div class="card-body"><h6>Views</h6><p class="sub-text">2016</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/736x/dd/66/ee/dd66eeexample.jpg" class="album-cover"><div class="card-body"><h6>Take Care</h6><p class="sub-text">2011</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/736x/ee/77/ff/ee77ffexample.jpg" class="album-cover"><div class="card-body"><h6>If You’re Reading This It’s Too Late</h6><p class="sub-text">2015</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/736x/ff/88/00/ff8800example.jpg" class="album-cover"><div class="card-body"><h6>Nothing Was the Same</h6><p class="sub-text">2013</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/736x/a6/58/35/a658351680985949dffcb5d837e45052.jpg" class="album-cover"><div class="card-body"><h6>Scorpion</h6><p class="sub-text">2018</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/736x/c8/df/03/c8df03f7bbab956eb10263b33815ac02.jpg" class="album-cover"><div class="card-body"><h6>Views</h6><p class="sub-text">2016</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/736x/f4/e2/e9/f4e2e90e7d18669da4fe802d3937f4c3.jpg" class="album-cover"><div class="card-body"><h6>Take Care</h6><p class="sub-text">2011</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/1200x/10/30/8c/10308c1dd702b4a03cb20242d90b88b6.jpg" class="album-cover"><div class="card-body"><h6>If You’re Reading This It’s Too Late</h6><p class="sub-text">2015</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-drake"><div class="card h-100"><img src="https://i.pinimg.com/736x/ae/81/c4/ae81c46d5dc3d1901261a84e8b8712a4.jpg" class="album-cover"><div class="card-body"><h6>Nothing Was the Same</h6><p class="sub-text">2013</p></div></div></div>
 
                     <!-- Beyoncé -->
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/736x/00/11/22/001122example.jpg" class="album-cover"><div class="card-body"><h6>Lemonade</h6><p class="sub-text">2016</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/736x/11/22/33/112233bexample.jpg" class="album-cover"><div class="card-body"><h6>Dangerously in Love</h6><p class="sub-text">2003</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/736x/22/33/44/223344bexample.jpg" class="album-cover"><div class="card-body"><h6>B'Day</h6><p class="sub-text">2006</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/736x/33/44/55/334455bexample.jpg" class="album-cover"><div class="card-body"><h6>I Am... Sasha Fierce</h6><p class="sub-text">2008</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/736x/44/55/66/445566bexample.jpg" class="album-cover"><div class="card-body"><h6>Renaissance</h6><p class="sub-text">2022</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/1200x/00/f8/86/00f88678bf07068da0f670c13eed432e.jpg" class="album-cover"><div class="card-body"><h6>Lemonade</h6><p class="sub-text">2016</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/736x/30/43/b2/3043b25f8f14355451c5f8603f2bd5b2.jpg" class="album-cover"><div class="card-body"><h6>Dangerously in Love</h6><p class="sub-text">2003</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/736x/7b/fb/fc/7bfbfc08b3042a00a8cb967dacc8ed0f.jpg" class="album-cover"><div class="card-body"><h6>B'Day</h6><p class="sub-text">2006</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/1200x/49/04/0d/49040dcc7859f30a3de664ece05fadd4.jpg" class="album-cover"><div class="card-body"><h6>I Am... Sasha Fierce</h6><p class="sub-text">2008</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce"><div class="card h-100"><img src="https://i.pinimg.com/736x/9a/7d/56/9a7d566567bc083196929eb503858e58.jpg" class="album-cover"><div class="card-body"><h6>RENAISSANCE</h6><p class="sub-text">2022</p></div></div></div>
 
                     <!-- Ed Sheeran -->
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/736x/55/aa/55/55aa55example.jpg" class="album-cover"><div class="card-body"><h6>+</h6><p class="sub-text">2011</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/736x/66/bb/66/66bb66example.jpg" class="album-cover"><div class="card-body"><h6>x</h6><p class="sub-text">2014</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/736x/77/cc/77/77cc77example.jpg" class="album-cover"><div class="card-body"><h6>÷ (Divide)</h6><p class="sub-text">2017</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/736x/88/dd/88/88dd88example.jpg" class="album-cover"><div class="card-body"><h6>=</h6><p class="sub-text">2021</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/736x/99/ee/99/99ee99example.jpg" class="album-cover"><div class="card-body"><h6>No.6 Collaborations Project</h6><p class="sub-text">2019</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/736x/bc/57/d4/bc57d4d7ca7669053feffb59924d30fd.jpg" class="album-cover"><div class="card-body"><h6>+</h6><p class="sub-text">2011</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/736x/85/6e/22/856e2263af9d525ff99cf0d22efc26e8.jpg" class="album-cover"><div class="card-body"><h6>x</h6><p class="sub-text">2014</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/736x/77/49/e2/7749e2a97b7c43beec9bd8195575488e.jpg" class="album-cover"><div class="card-body"><h6>÷ (Divide)</h6><p class="sub-text">2017</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/1200x/16/e1/e8/16e1e8323ee8a4291b7a1ff35507d1ce.jpg" class="album-cover"><div class="card-body"><h6>=</h6><p class="sub-text">2021</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran"><div class="card h-100"><img src="https://i.pinimg.com/736x/e0/6b/53/e06b53fccd8e4cc0f0c5a7b8dc65bc13.jpg" class="album-cover"><div class="card-body"><h6>No.6 Collaborations Project</h6><p class="sub-text">2019</p></div></div></div>
 
                     <!-- Adele -->
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/736x/aa/11/aa/aa11aaexample.jpg" class="album-cover"><div class="card-body"><h6>19</h6><p class="sub-text">2008</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/736x/bb/22/bb/bb22bbexample.jpg" class="album-cover"><div class="card-body"><h6>21</h6><p class="sub-text">2011</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/736x/cc/33/cc/cc33ccexample.jpg" class="album-cover"><div class="card-body"><h6>25</h6><p class="sub-text">2015</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/736x/dd/44/dd/dd44ddexample.jpg" class="album-cover"><div class="card-body"><h6>30</h6><p class="sub-text">2021</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/736x/ee/55/ee/ee55eeexample.jpg" class="album-cover"><div class="card-body"><h6>Adele Live</h6><p class="sub-text">Live</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/736x/b0/10/04/b01004feb7871f6e82a449ca1b75174c.jpg" class="album-cover"><div class="card-body"><h6>19</h6><p class="sub-text">2008</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/1200x/4f/cb/67/4fcb679577d0e730c63fe8f70833f881.jpg" class="album-cover"><div class="card-body"><h6>21</h6><p class="sub-text">2011</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/1200x/86/7f/50/867f5007fb33873fcb26c9db9d940720.jpg" class="album-cover"><div class="card-body"><h6>25</h6><p class="sub-text">2015</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/736x/65/c8/f9/65c8f913ee368554047f057045f86474.jpg" class="album-cover"><div class="card-body"><h6>30</h6><p class="sub-text">2021</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-adele"><div class="card h-100"><img src="https://i.pinimg.com/1200x/e2/0c/35/e20c352a7871b6dcadf70428dadfd46b.jpg" class="album-cover"><div class="card-body"><h6>Send My Love (To Your New Lover)</h6><p class="sub-text">Single</p></div></div></div>
 
                     <!-- Coldplay -->
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/736x/11/22/44/112244example.jpg" class="album-cover"><div class="card-body"><h6>Parachutes</h6><p class="sub-text">2000</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/736x/22/33/55/223355example.jpg" class="album-cover"><div class="card-body"><h6>A Rush of Blood to the Head</h6><p class="sub-text">2002</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/736x/33/44/66/334466example.jpg" class="album-cover"><div class="card-body"><h6>X&Y</h6><p class="sub-text">2005</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/736x/44/55/77/445577example.jpg" class="album-cover"><div class="card-body"><h6>Viva la Vida</h6><p class="sub-text">2008</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/736x/55/66/88/556688example.jpg" class="album-cover"><div class="card-body"><h6>Ghost Stories</h6><p class="sub-text">2014</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/1200x/cf/34/36/cf34363fce6ac72a8d590b5a0032d1da.jpg" class="album-cover"><div class="card-body"><h6>Parachutes</h6><p class="sub-text">2000</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/736x/b5/34/18/b534189a3b19dc50bc4abe5d2779c8ce.jpg" class="album-cover"><div class="card-body"><h6>A Rush of Blood to the Head</h6><p class="sub-text">2002</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/736x/e9/46/3c/e9463c3a789765f85d44deda3e066218.jpg" class="album-cover"><div class="card-body"><h6>X&Y</h6><p class="sub-text">2005</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/736x/85/57/14/8557145e26391c6760537e06fc4defdf.jpg" class="album-cover"><div class="card-body"><h6>Viva la Vida</h6><p class="sub-text">2008</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay"><div class="card h-100"><img src="https://i.pinimg.com/736x/d4/33/be/d433be7423d78e86f777f965cede5f10.jpg" class="album-cover"><div class="card-body"><h6>Ghost Stories</h6><p class="sub-text">2014</p></div></div></div>
 
                     <!-- Rihanna -->
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/736x/66/77/11/667711example.jpg" class="album-cover"><div class="card-body"><h6>ANTI</h6><p class="sub-text">2016</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/736x/77/88/22/778822example.jpg" class="album-cover"><div class="card-body"><h6>Good Girl Gone Bad</h6><p class="sub-text">2007</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/736x/88/99/33/889933example.jpg" class="album-cover"><div class="card-body"><h6>Loud</h6><p class="sub-text">2010</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/736x/99/00/44/990044example.jpg" class="album-cover"><div class="card-body"><h6>Talk That Talk</h6><p class="sub-text">2011</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/736x/aa/11/55/aa1155example.jpg" class="album-cover"><div class="card-body"><h6>Rated R</h6><p class="sub-text">2009</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/736x/64/5a/69/645a69cb740ef436d88bb4592f74ed9e.jpg" class="album-cover"><div class="card-body"><h6>ANTI</h6><p class="sub-text">2016</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/1200x/70/8b/9a/708b9ac44702f5c073f8bdac1b275a56.jpg" class="album-cover"><div class="card-body"><h6>Good Girl Gone Bad</h6><p class="sub-text">2007</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/736x/f7/45/f3/f745f3277b8685936f394b565105b577.jpg" class="album-cover"><div class="card-body"><h6>Loud</h6><p class="sub-text">2010</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/736x/ac/39/4b/ac394bd8f31060be6c4dcbfb95c0f501.jpg" class="album-cover"><div class="card-body"><h6>Talk That Talk</h6><p class="sub-text">2011</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna"><div class="card h-100"><img src="https://i.pinimg.com/1200x/c9/c5/1f/c9c51f63f8f8ceed464c904e9a6fc52e.jpg" class="album-cover"><div class="card-body"><h6>Rated R</h6><p class="sub-text">2009</p></div></div></div>
 
                     <!-- The Beatles -->
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/736x/bb/22/66/bb2266example.jpg" class="album-cover"><div class="card-body"><h6>Abbey Road</h6><p class="sub-text">1969</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/736x/cc/33/77/cc3377example.jpg" class="album-cover"><div class="card-body"><h6>Sgt. Pepper's Lonely Hearts Club Band</h6><p class="sub-text">1967</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/736x/dd/44/88/dd4488example.jpg" class="album-cover"><div class="card-body"><h6>Revolver</h6><p class="sub-text">1966</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/736x/ee/55/99/ee5599example.jpg" class="album-cover"><div class="card-body"><h6>Rubber Soul</h6><p class="sub-text">1965</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/736x/ff/66/aa/ff66aaexample.jpg" class="album-cover"><div class="card-body"><h6>Let It Be</h6><p class="sub-text">1970</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/1200x/4c/4c/26/4c4c260eb4f14d029fd0c0456f6ca307.jpg" class="album-cover"><div class="card-body"><h6>Abbey Road</h6><p class="sub-text">1969</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/1200x/84/f7/57/84f757510c9230039bc1d9fe13cd0451.jpg" class="album-cover"><div class="card-body"><h6>Sgt. Pepper's Lonely Hearts Club Band</h6><p class="sub-text">1967</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/736x/f8/a1/b0/f8a1b07b8b573fa99694093af5ca879f.jpg" class="album-cover"><div class="card-body"><h6>Revolver</h6><p class="sub-text">1966</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/736x/19/59/7e/19597ed65af2995d5acad68d8074c71b.jpg" class="album-cover"><div class="card-body"><h6>Rubber Soul</h6><p class="sub-text">1965</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-beatles"><div class="card h-100"><img src="https://i.pinimg.com/1200x/78/ef/cb/78efcb0b9bc520df62444c572384c6c5.jpg" class="album-cover"><div class="card-body"><h6>Let It Be</h6><p class="sub-text">1970</p></div></div></div>
 
                     <!-- Sia -->
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/736x/00/aa/11/00aa11example.jpg" class="album-cover"><div class="card-body"><h6>1000 Forms of Fear</h6><p class="sub-text">2014</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/736x/11/bb/22/11bb22example.jpg" class="album-cover"><div class="card-body"><h6>This Is Acting</h6><p class="sub-text">2016</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/736x/22/cc/33/22cc33example.jpg" class="album-cover"><div class="card-body"><h6>Everyday Is Christmas</h6><p class="sub-text">2017</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/736x/33/dd/44/33dd44example.jpg" class="album-cover"><div class="card-body"><h6>We Are Born</h6><p class="sub-text">2010</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/736x/44/ee/55/44ee55example.jpg" class="album-cover"><div class="card-body"><h6>Colours</h6><p class="sub-text">2016</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/736x/22/f6/97/22f697c0ac678487f664892571ba9379.jpg" class="album-cover"><div class="card-body"><h6>1000 Forms of Fear</h6><p class="sub-text">2014</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/736x/92/73/32/927332593b55aa285c2964302ed8148d.jpg" class="album-cover"><div class="card-body"><h6>This Is Acting</h6><p class="sub-text">2016</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/1200x/47/c5/dd/47c5dd4a11c7e3a67e6bbc4f7e6cdc6b.jpg" class="album-cover"><div class="card-body"><h6>Everyday Is Christmas</h6><p class="sub-text">2017</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/736x/ad/1d/3d/ad1d3d46285c8e573da05e4c5d008087.jpg" class="album-cover"><div class="card-body"><h6>We Are Born</h6><p class="sub-text">2010</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-sia"><div class="card h-100"><img src="https://i.pinimg.com/736x/ef/59/e1/ef59e162727d1c4a1e95976e7d500a3e.jpg" class="album-cover"><div class="card-body"><h6>Colour The Small One</h6><p class="sub-text">2016</p></div></div></div>
 
-                    <!-- Justin Bieber -->
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/736x/aa/bb/cc/aabbccjustin1.jpg" class="album-cover"><div class="card-body"><h6>My World 2.0</h6><p class="sub-text">2009</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/736x/bb/cc/dd/bbccddjustin2.jpg" class="album-cover"><div class="card-body"><h6>Believe</h6><p class="sub-text">2012</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/736x/cc/dd/ee/ccddeejustin3.jpg" class="album-cover"><div class="card-body"><h6>Purpose</h6><p class="sub-text">2015</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/736x/dd/ee/ff/ddeeffjustin4.jpg" class="album-cover"><div class="card-body"><h6>Changes</h6><p class="sub-text">2020</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justin"><div class="card h-100"><img src="https://i.pinimg.com/736x/ee/ff/11/eeff11justin5.jpg" class="album-cover"><div class="card-body"><h6>Justice</h6><p class="sub-text">2021</p></div></div></div>
+                    <!-- Justin Timberlake -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justintimberlake"><div class="card h-100"><img src="https://i.pinimg.com/1200x/9c/30/08/9c3008f0e8eb687acd2138fd71f8728a.jpg" class="album-cover"><div class="card-body"><h6>Justified</h6><p class="sub-text">2002</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justintimberlake"><div class="card h-100"><img src="https://i.pinimg.com/1200x/1a/54/f9/1a54f9aeca0a1eb8384d8b24f34e7e17.jpg" class="album-cover"><div class="card-body"><h6>FutureSex/LoveSounds</h6><p class="sub-text">2006</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justintimberlake"><div class="card h-100"><img src="https://i.pinimg.com/736x/f6/72/1a/f6721a0fd8070a98f78e3a062b543cdc.jpg" class="album-cover"><div class="card-body"><h6>The 20/20 Experience</h6><p class="sub-text">2013</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justintimberlake"><div class="card h-100"><img src="https://i.pinimg.com/736x/79/dc/a3/79dca30237746d42034cfad967a052c4.jpg" class="album-cover"><div class="card-body"><h6>The 20/20 Experience - 2 of 2</h6><p class="sub-text">2013</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-justintimberlake"><div class="card h-100"><img src="https://i.pinimg.com/736x/e4/1b/24/e41b241c7a9f359e02486931e4d54668.jpg" class="album-cover"><div class="card-body"><h6>Man of the Woods</h6><p class="sub-text">2018</p></div></div></div>
 
-                    <!-- Chris Brown -->
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/736x/11/22/33/112233chris1.jpg" class="album-cover"><div class="card-body"><h6>Exclusive</h6><p class="sub-text">2007</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/736x/22/33/44/223344chris2.jpg" class="album-cover"><div class="card-body"><h6>F.A.M.E.</h6><p class="sub-text">2011</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/736x/33/44/55/334455chris3.jpg" class="album-cover"><div class="card-body"><h6>Fortune</h6><p class="sub-text">2012</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/736x/44/55/66/445566chris4.jpg" class="album-cover"><div class="card-body"><h6>X</h6><p class="sub-text">2014</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown"><div class="card h-100"><img src="https://i.pinimg.com/736x/55/66/77/556677chris5.jpg" class="album-cover"><div class="card-body"><h6>Indigo</h6><p class="sub-text">2019</p></div></div></div>
+                    <!-- Ne-Yo -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-neyo"><div class="card h-100"><img src="https://i.pinimg.com/736x/bd/5e/40/bd5e4013658916c7a406dd5fd2574e84.jpg" class="album-cover"><div class="card-body"><h6>In My Own Words</h6><p class="sub-text">2006</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-neyo"><div class="card h-100"><img src="https://tse1.mm.bing.net/th/id/OIP.Gk4T2TaFxRMsl3W6rv0DfAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" class="album-cover"><div class="card-body"><h6>Because of You</h6><p class="sub-text">2007</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-neyo"><div class="card h-100"><img src="https://i.pinimg.com/736x/ee/56/fa/ee56fa6c47a88b296fbecb810e88cec9.jpg" class="album-cover"><div class="card-body"><h6>Year of the Gentleman</h6><p class="sub-text">2008</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-neyo"><div class="card h-100"><img src="https://www.slantmagazine.com/wp-content/uploads/2010/11/librascale.jpg" class="album-cover"><div class="card-body"><h6>Libra Scale</h6><p class="sub-text">2010</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-neyo"><div class="card h-100"><img src="https://i.pinimg.com/736x/f3/88/90/f388904dc2870f0a2b262f755672fe4f.jpg" class="album-cover"><div class="card-body"><h6>Non-Fiction</h6><p class="sub-text">2015</p></div></div></div>
 
-                    <!-- One Direction -->
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/736x/66/77/88/667788onedir1.jpg" class="album-cover"><div class="card-body"><h6>Up All Night</h6><p class="sub-text">2011</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/736x/77/88/99/778899onedir2.jpg" class="album-cover"><div class="card-body"><h6>Take Me Home</h6><p class="sub-text">2012</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/736x/88/99/00/889900onedir3.jpg" class="album-cover"><div class="card-body"><h6>Midnight Memories</h6><p class="sub-text">2013</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/736x/99/00/11/990011onedir4.jpg" class="album-cover"><div class="card-body"><h6>Four</h6><p class="sub-text">2014</p></div></div></div>
-                    <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection"><div class="card h-100"><img src="https://i.pinimg.com/736x/00/11/22/001122onedir5.jpg" class="album-cover"><div class="card-body"><h6>Made in the A.M.</h6><p class="sub-text">2015</p></div></div></div>
+                    <!-- Nicki Minaj -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-nickiminaj"><div class="card h-100"><img src="https://i.pinimg.com/1200x/5a/f5/87/5af5874c3f96fc64be4ab7ade4bb11ad.jpg" class="album-cover"><div class="card-body"><h6>Pink Friday</h6><p class="sub-text">2010</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-nickiminaj"><div class="card h-100"><img src="https://i.pinimg.com/736x/d4/a3/50/d4a35065aaaa1f37c70ca4a3d18e14b0.jpg" class="album-cover"><div class="card-body"><h6>Pink Friday: Roman Reloaded</h6><p class="sub-text">2012</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-nickiminaj"><div class="card h-100"><img src="https://i.pinimg.com/1200x/ba/b5/3c/bab53c1dbb37873fc1ae433aa9cd3a32.jpg" class="album-cover"><div class="card-body"><h6>The Pinkprint</h6><p class="sub-text">2014</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-nickiminaj"><div class="card h-100"><img src="https://i.pinimg.com/736x/ec/d9/30/ecd930022b3e9e5531d2a389842fdfb5.jpg" class="album-cover"><div class="card-body"><h6>Queen</h6><p class="sub-text">2018</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-nickiminaj"><div class="card h-100"><img src="https://i.pinimg.com/1200x/11/0e/0c/110e0c6b52fe1fae391dbc28c3105a11.jpg" class="album-cover"><div class="card-body"><h6>Beam Me Up Scotty</h6><p class="sub-text">2009</p></div></div></div>
+
+                    <!-- The Weeknd -->
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd"><div class="card h-100"><img src="https://i.pinimg.com/736x/c5/5b/9c/c55b9c6051bd0d75237d4ad907ce5ee9.jpg" class="album-cover"><div class="card-body"><h6>Kiss Land</h6><p class="sub-text">2013</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd"><div class="card h-100"><img src="https://i.pinimg.com/1200x/62/64/6e/62646e29082ad8bb6798cbf099089cfc.jpg" class="album-cover"><div class="card-body"><h6>Beauty Behind the Madness</h6><p class="sub-text">2015</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd"><div class="card h-100"><img src="https://i.pinimg.com/736x/4c/69/5c/4c695ce7b49fb9c32bc5d5ef773f39dd.jpg" class="album-cover"><div class="card-body"><h6>Starboy</h6><p class="sub-text">2016</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd"><div class="card h-100"><img src="https://i.pinimg.com/736x/f6/66/12/f66612351e98a1e260221cdcba336ab1.jpg" class="album-cover"><div class="card-body"><h6>After Hours</h6><p class="sub-text">2020</p></div></div></div>
+                    <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd"><div class="card h-100"><img src="https://i.pinimg.com/736x/07/94/4c/07944cd8b4b9d99d1cabe29d11378665.jpg"class="album-cover"><div class="card-body"><h6>Dawn FM</h6><p class="sub-text">2022</p></div></div></div>
+
                 </div>
             </div>
 
@@ -441,6 +512,26 @@
             window.scrollTo(0,0);
         }
 
+        // Filter by Album (Shows only songs from the selected album)
+        function filterAlbum(albumTitle, artistTag) {
+            document.getElementById('filter-status').classList.remove('hidden');
+            document.getElementById('filter-name').innerText = albumTitle;
+            document.querySelectorAll('.item-card').forEach(item => {
+                const isSong = !!item.querySelector('.song-row');
+                if (!isSong) {
+                    // hide non-song items
+                    item.classList.add('hidden');
+                    return;
+                }
+                const small = item.querySelector('.sub-text');
+                const matchesAlbum = small && small.innerText.toLowerCase().includes(albumTitle.toLowerCase());
+                const matchesArtist = artistTag ? item.classList.contains(artistTag) : true;
+                item.classList.toggle('hidden', !(isSong && matchesAlbum && matchesArtist));
+            });
+            new bootstrap.Tab(document.getElementById('tab-songs')).show();
+            window.scrollTo(0,0);
+        }
+
         function resetAll() {
             document.getElementById('filter-status').classList.add('hidden');
             document.querySelectorAll('.item-card').forEach(item => item.classList.remove('hidden'));
@@ -453,6 +544,134 @@
                 card.classList.toggle('hidden', !card.innerText.toLowerCase().includes(q));
             });
         }
+
+        // Helper: escape HTML to be safe
+        function escapeHtml(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        // Helper: create song row element
+        function createSongElement(artistTag, artistName, albumTitle, trackTitle) {
+            const col = document.createElement('div');
+            col.className = 'col-12 item-card ' + artistTag;
+            const row = document.createElement('div');
+            row.className = 'song-row';
+            row.innerHTML = '<i class="bi bi-play-circle-fill text-green me-3"></i>' +
+                '<div><h6>' + escapeHtml(trackTitle) + '</h6><small class="sub-text">' + escapeHtml(artistName) + ' - ' + escapeHtml(albumTitle) + '</small></div>' +
+                '<div class="ms-auto">' +
+                '<a class="btn btn-sm btn-success" href="https://open.spotify.com/search/' + encodeURIComponent(trackTitle + ' ' + artistName) + '" target="_blank" rel="noopener noreferrer">Listen on Spotify</a>' +
+                '<a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=' + encodeURIComponent(trackTitle + ' ' + artistName) + '" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>' +
+                '</div>';
+            col.appendChild(row);
+            return col;
+        }
+
+        // Deterministic pseudo-random generator seeded from a string
+        function seedFromString(str) {
+            let h = 2166136261 >>> 0;
+            for (let i = 0; i < str.length; i++) {
+                h ^= str.charCodeAt(i);
+                h = Math.imul(h, 16777619);
+            }
+            return h >>> 0;
+        }
+
+        function mulberry32(a) {
+            return function() {
+                var t = a += 0x6D2B79F5;
+                t = Math.imul(t ^ t >>> 15, t | 1);
+                t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+                return ((t ^ t >>> 14) >>> 0) / 4294967296;
+            }
+        }
+
+        // Generate somewhat realistic track titles using templates
+        function generateTrackTitles(artistName, albumTitle, perAlbum = 10) {
+            const seed = seedFromString(artistName + '|' + albumTitle);
+            const rnd = mulberry32(seed);
+
+            const verbs = ['Lost', 'Found', 'Running', 'Falling', 'Holding', 'Burning', 'Dreaming', 'Chasing', 'Remembering', 'Breaking'];
+            const nouns = ['Hearts', 'Night', 'City', 'Silence', 'Fire', 'Echoes', 'Shadows', 'Stars', 'Roads', 'Sky'];
+            const adjectives = ['Golden', 'Lonely', 'Wild', 'Silent', 'Endless', 'Velvet', 'Broken', 'Distant', 'Electric', 'Faded'];
+            const connectors = ['(Interlude)', '(Reprise)', '(Remix)', '(Acoustic)', '(Instrumental)'];
+            const extras = ['Part I', 'Part II', 'Pt. 1', 'Pt. 2', 'Intro', 'Outro', 'Deluxe', 'Version'];
+
+            const titles = new Set();
+            const templates = [
+                () => `${adjectives[Math.floor(rnd()*adjectives.length)]} ${nouns[Math.floor(rnd()*nouns.length)]}`,
+                () => `${verbs[Math.floor(rnd()*verbs.length)]} the ${nouns[Math.floor(rnd()*nouns.length)]}`,
+                () => `${nouns[Math.floor(rnd()*nouns.length)]} of ${adjectives[Math.floor(rnd()*adjectives.length)]}`,
+                () => `${adjectives[Math.floor(rnd()*adjectives.length)]} ${nouns[Math.floor(rnd()*nouns.length)]} ${connectors[Math.floor(rnd()*connectors.length)]}`,
+                () => `${artistName} - ${adjectives[Math.floor(rnd()*adjectives.length)]}`,
+                () => `${nouns[Math.floor(rnd()*nouns.length)]} ${extras[Math.floor(rnd()*extras.length)]}`,
+                () => `${verbs[Math.floor(rnd()*verbs.length)]} Alone`,
+                () => `${adjectives[Math.floor(rnd()*adjectives.length)]} ${nouns[Math.floor(rnd()*nouns.length)]} (feat. ${['Maya','Alex','Rico','Sam','Luna'][Math.floor(rnd()*5)]})`
+            ];
+
+            let attempts = 0;
+            while (titles.size < perAlbum && attempts < perAlbum * 6) {
+                const tpl = templates[Math.floor(rnd()*templates.length)];
+                let candidate = tpl();
+                // Occasionally add album-themed phrase
+                if (rnd() < 0.18) candidate = `${candidate} — ${albumTitle.split(' ')[0]}`;
+                // Capitalize properly
+                candidate = candidate.replace(/\b\w/g, c => c.toUpperCase());
+                titles.add(candidate);
+                attempts++;
+            }
+
+            // Ensure deterministic order
+            return Array.from(titles).slice(0, perAlbum);
+        }
+
+        // Populate songs per album with realistic-style titles
+        function populateRealisticSongs(perAlbum = 10) {
+            const songsContainer = document.querySelector('#pane-songs .row');
+            if (!songsContainer) return;
+
+            document.querySelectorAll('#pane-albums .item-card').forEach(albumItem => {
+                const titleEl = albumItem.querySelector('h6');
+                const albumTitle = titleEl ? titleEl.innerText.trim() : '';
+                const artistTag = Array.from(albumItem.classList).find(c => c.startsWith('tag-')) || '';
+
+                let artistName = 'Various Artists';
+                if (artistTag) {
+                    artistName = artistTag.replace('tag-', '').split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+                }
+
+                // Count existing songs for this album
+                const existingElements = Array.from(document.querySelectorAll('#pane-songs .item-card')).filter(s => {
+                    const small = s.querySelector('.sub-text');
+                    return small && small.innerText.toLowerCase().includes(albumTitle.toLowerCase());
+                });
+                const existing = existingElements.length;
+
+                if (existing >= perAlbum) return; // nothing to do
+
+                const titles = generateTrackTitles(artistName, albumTitle, perAlbum);
+                for (let i = existing; i < perAlbum; i++) {
+                    const trackTitle = `${String(i+1).padStart(2, '0')}. ${titles[i] || `Track ${i+1}`}`;
+                    const songEl = createSongElement(artistTag, artistName, albumTitle, trackTitle);
+                    songsContainer.appendChild(songEl);
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Attach click handlers to album cards so tapping an album shows only its songs
+            document.querySelectorAll('#pane-albums .item-card .card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const parent = card.closest('.item-card');
+                    const artistTag = Array.from(parent.classList).find(c => c.startsWith('tag-')) || null;
+                    const titleEl = card.querySelector('h6');
+                    const albumTitle = titleEl ? titleEl.innerText.trim() : '';
+                    if (albumTitle) filterAlbum(albumTitle, artistTag);
+                });
+            });
+
+            // Populate realistic songs (10 per album)
+            populateRealisticSongs(10);
+        });
     </script>
 </body>
 </html>
