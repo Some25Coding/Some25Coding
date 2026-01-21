@@ -532,10 +532,23 @@
             window.scrollTo(0,0);
         }
 
+        // Keep track of the currently active tab so resetAll() can restore it
+        let currentTabId = 'tab-artists';
+        // Update currentTabId when Bootstrap tabs are shown
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('#pills-tab .nav-link').forEach(btn => {
+                btn.addEventListener('shown.bs.tab', (e) => {
+                    if (e && e.target && e.target.id) currentTabId = e.target.id;
+                });
+            });
+        });
+
         function resetAll() {
             document.getElementById('filter-status').classList.add('hidden');
             document.querySelectorAll('.item-card').forEach(item => item.classList.remove('hidden'));
-            new bootstrap.Tab(document.getElementById('tab-artists')).show();
+            // Restore the last active tab, defaulting to artists
+            const tabId = document.getElementById(currentTabId) || document.getElementById('tab-artists');
+            new bootstrap.Tab(tabId).show();
         }
 
         function search() {
