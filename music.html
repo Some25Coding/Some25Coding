@@ -51,6 +51,14 @@
             .navbar .container { flex-direction: column; align-items: stretch; }
             #searchBar { width: 100%; margin-top: 8px; }
         }
+        /* Light theme support */
+        .light-theme body, .light-theme { background-color: #f8f9fa !important; color: #0b0b0b !important; }
+        .light-theme .card { background-color: #ffffff !important; border-color: #e6e6e6 !important; }
+        .light-theme .nav-pills .nav-link { color: #0b0b0b; }
+        .light-theme .nav-pills .nav-link.active { background-color: #1DB954; color: #000; }
+        .light-theme .song-row { background: #fff; border-color: #e6e6e6; }
+        footer.site-footer { background: #0b0b0b; color: #bfbfbf; padding: 18px 0; margin-top: 26px; }
+        .light-theme footer.site-footer { background: #f1f1f1; color: #222; }
     </style>
 </head>
 <body>
@@ -59,6 +67,12 @@
         <div class="container">
             <a class="navbar-brand fw-bold text-green fs-3" href="#" onclick="resetAll()">🎵 MUSIC ARCHIVE</a>
             <input type="text" id="searchBar" class="form-control bg-dark text-white border-secondary" placeholder="Search artists, albums..." onkeyup="search()">
+            <div class="btn-group ms-auto" role="group" aria-label="project-actions">
+                <button class="btn btn-sm btn-outline-info" onclick="showHelp()" title="Help"><i class="bi bi-question-lg"></i></button>
+                <button class="btn btn-sm btn-outline-primary" onclick="showAbout()" title="About"><i class="bi bi-info-lg"></i></button>
+                <button class="btn btn-sm btn-outline-success" onclick="exportVisibleSongsCSV()" title="Export visible songs"><i class="bi bi-download"></i></button>
+                <button id="themeToggle" class="btn btn-sm btn-outline-light" onclick="toggleTheme()" title="Toggle theme"><i class="bi bi-circle-half"></i></button>
+            </div>
         </div>
     </nav>
 
@@ -225,6 +239,19 @@
                     </div>
 
                 </div>
+            </div>
+
+            <!-- Dynamic view header: shows artist/album info and prev/next controls -->
+            <div id="view-header" class="d-flex align-items-center mb-3 hidden" style="gap:12px;">
+                <button id="prev-btn" class="btn btn-sm btn-outline-secondary" onclick="prevView()"><i class="bi bi-chevron-left"></i></button>
+                <div id="view-header-content" class="d-flex align-items-center" style="gap:12px;flex:1;">
+                    <img id="view-cover" src="" alt="cover" style="width:64px;height:64px;object-fit:cover;border-radius:6px;display:none;">
+                    <div>
+                        <div id="view-title" style="font-weight:600"></div>
+                        <div id="view-sub" class="text-muted small"></div>
+                    </div>
+                </div>
+                <button id="next-btn" class="btn btn-sm btn-outline-secondary" onclick="nextView()"><i class="bi bi-chevron-right"></i></button>
             </div>
 
             <div class="tab-pane fade" id="pane-albums">
@@ -488,6 +515,55 @@
         </div>
     </main>
 
+        <!-- About and Help modals for school project context -->
+        <div class="modal fade" id="aboutModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header">
+                        <h5 class="modal-title">About This Project</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>This page is a small school project showcasing a searchable music archive built with HTML, CSS and vanilla JavaScript using Bootstrap for layout. It demonstrates DOM filtering, tabbed views, and dynamic UI updates.</p>
+                        <ul>
+                            <li>Author: Student Name</li>
+                            <li>Course: Web Development / Multimedia</li>
+                            <li>Purpose: Demonstrate interactivity and UI/UX for a portfolio or assignment.</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="helpModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header">
+                        <h5 class="modal-title">How to use</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Tip: Click an artist's <strong>Discography</strong> button to view their albums. Click an album to view its songs. Use the arrows in the header to navigate between Artists → Albums → Songs. Use the export button to download visible songs as CSV.</p>
+                        <p>Keyboard: Press <strong>/</strong> to jump to search. Press <strong>?</strong> to open this help.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-outline-light" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="site-footer text-center">
+                <div class="container">
+                        <div class="row">
+                                <div class="col-12 small">Project: Music Archive — <strong>School Demo</strong> • Built with Bootstrap & vanilla JS • <span class="text-muted">Add your name & course here</span></div>
+                        </div>
+                </div>
+        </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Filter by Artist (Shows their specific Albums/Songs)
@@ -497,6 +573,13 @@
             document.querySelectorAll('.item-card').forEach(item => {
                 item.classList.toggle('hidden', !item.classList.contains('tag-' + tag));
             });
+            // Find artist image for header (if available)
+            const artistImgEl = document.querySelector('.item-card.tag-' + tag + ' .artist-img');
+            const cover = artistImgEl ? artistImgEl.src : '';
+            // set selection state
+            currentArtistTag = 'tag-' + tag;
+            currentAlbumTitle = null;
+            updateHeader(name, '', cover);
             new bootstrap.Tab(document.getElementById('tab-albums')).show();
             window.scrollTo(0,0);
         }
@@ -516,6 +599,22 @@
         function filterAlbum(albumTitle, artistTag) {
             document.getElementById('filter-status').classList.remove('hidden');
             document.getElementById('filter-name').innerText = albumTitle;
+
+            // Try to find album cover and artist name from albums pane
+            let coverUrl = '';
+            let artistName = '';
+            const albumEls = Array.from(document.querySelectorAll('#pane-albums .item-card'));
+            const target = albumEls.find(a => {
+                const h = a.querySelector('h6');
+                return h && h.innerText.trim().toLowerCase() === albumTitle.trim().toLowerCase();
+            });
+            if (target) {
+                const img = target.querySelector('.album-cover');
+                if (img) coverUrl = img.src;
+                const atag = Array.from(target.classList).find(c => c.startsWith('tag-'));
+                if (atag) artistName = atag.replace('tag-', '').split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+            }
+
             document.querySelectorAll('.item-card').forEach(item => {
                 const isSong = !!item.querySelector('.song-row');
                 if (!isSong) {
@@ -528,17 +627,35 @@
                 const matchesArtist = artistTag ? item.classList.contains(artistTag) : true;
                 item.classList.toggle('hidden', !(isSong && matchesAlbum && matchesArtist));
             });
+            // update selection state
+            currentAlbumTitle = albumTitle;
+            // ensure currentArtistTag is set to the artist class (may be passed in with/without prefix)
+            if (artistTag) {
+                currentArtistTag = artistTag.startsWith('tag-') ? artistTag : 'tag-' + artistTag.replace(/^tag-/, '');
+            } else if (target) {
+                const atag = Array.from(target.classList).find(c => c.startsWith('tag-'));
+                if (atag) currentArtistTag = atag;
+            }
+
+            updateHeader(artistName, albumTitle, coverUrl);
             new bootstrap.Tab(document.getElementById('tab-songs')).show();
             window.scrollTo(0,0);
         }
 
         // Keep track of the currently active tab so resetAll() can restore it
         let currentTabId = 'tab-artists';
-        // Update currentTabId when Bootstrap tabs are shown
+
+        // Update currentTabId when Bootstrap tabs are shown and hide header on artists
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('#pills-tab .nav-link').forEach(btn => {
                 btn.addEventListener('shown.bs.tab', (e) => {
-                    if (e && e.target && e.target.id) currentTabId = e.target.id;
+                    if (e && e.target && e.target.id) {
+                        currentTabId = e.target.id;
+                        // hide header on artists tab for cleanliness
+                        if (currentTabId === 'tab-artists' || currentTabId === 'tab-genres') {
+                            updateHeader(null, null, '');
+                        }
+                    }
                 });
             });
         });
@@ -546,9 +663,177 @@
         function resetAll() {
             document.getElementById('filter-status').classList.add('hidden');
             document.querySelectorAll('.item-card').forEach(item => item.classList.remove('hidden'));
+            // Hide the dynamic header
+            updateHeader(null, null, '');
             // Restore the last active tab, defaulting to artists
             const tabId = document.getElementById(currentTabId) || document.getElementById('tab-artists');
             new bootstrap.Tab(tabId).show();
+        }
+
+        // Update the dynamic header area
+        function updateHeader(artistName, albumTitle, coverUrl) {
+            const header = document.getElementById('view-header');
+            const title = document.getElementById('view-title');
+            const sub = document.getElementById('view-sub');
+            const cover = document.getElementById('view-cover');
+            if (!header || !title || !sub || !cover) return;
+            if (!artistName && !albumTitle) {
+                header.classList.add('hidden');
+                cover.style.display = 'none';
+                return;
+            }
+            header.classList.remove('hidden');
+            if (albumTitle) {
+                title.innerText = albumTitle;
+                sub.innerText = artistName || '';
+            } else {
+                title.innerText = artistName || '';
+                sub.innerText = '';
+            }
+            if (coverUrl) { cover.src = coverUrl; cover.style.display = ''; }
+            else { cover.style.display = 'none'; cover.src = ''; }
+        }
+
+        // Selection state (current artist tag like 'tag-weeknd', and currentAlbumTitle string)
+        let currentArtistTag = null;
+        let currentAlbumTitle = null;
+
+        const viewOrder = ['tab-artists','tab-albums','tab-songs'];
+
+        // Helpers to query DOM lists
+        function getAllArtists() {
+            return Array.from(document.querySelectorAll('#pane-artists .item-card')).map(el => {
+                return {
+                    tag: Array.from(el.classList).find(c => c.startsWith('tag-')) || null,
+                    name: el.querySelector('h6') ? el.querySelector('h6').innerText.trim() : ''
+                };
+            }).filter(a => a.tag);
+        }
+
+        function getAlbumsForArtist(artistTag) {
+            if (!artistTag) return [];
+            return Array.from(document.querySelectorAll('#pane-albums .item-card')).filter(el => el.classList.contains(artistTag));
+        }
+
+        function selectArtistByIndex(idx) {
+            const artists = getAllArtists();
+            if (artists.length === 0) return;
+            const clamped = (idx + artists.length) % artists.length;
+            const a = artists[clamped];
+            if (a && a.tag) {
+                // filterBy expects tag without 'tag-' prefix
+                const plain = a.tag.replace(/^tag-/, '');
+                filterBy(plain, a.name);
+            }
+        }
+
+        function selectAlbumByIndex(artistTag, idx) {
+            const albums = getAlbumsForArtist(artistTag);
+            if (albums.length === 0) return;
+            const clamped = (idx + albums.length) % albums.length;
+            const alb = albums[clamped];
+            const title = alb.querySelector('h6') ? alb.querySelector('h6').innerText.trim() : '';
+            if (title) filterAlbum(title, artistTag);
+        }
+
+        // Prev/Next should advance selection when possible
+        function prevView() {
+            const idx = viewOrder.indexOf(currentTabId);
+            if (currentTabId === 'tab-artists') {
+                // move to previous artist
+                const artists = getAllArtists();
+                if (!currentArtistTag && artists.length) {
+                    // pick last if none selected
+                    selectArtistByIndex(artists.length - 1);
+                    return;
+                }
+                const i = artists.findIndex(a => a.tag === currentArtistTag);
+                selectArtistByIndex(i - 1);
+                return;
+            }
+
+            if (currentTabId === 'tab-albums') {
+                // move to previous album for current artist
+                const artistTag = currentArtistTag || (getAllArtists()[0] && getAllArtists()[0].tag);
+                const albums = getAlbumsForArtist(artistTag);
+                if (!currentAlbumTitle) {
+                    // select last album
+                    selectAlbumByIndex(artistTag, albums.length - 1);
+                    return;
+                }
+                const i = albums.findIndex(a => (a.querySelector('h6') && a.querySelector('h6').innerText.trim().toLowerCase() === currentAlbumTitle.trim().toLowerCase()));
+                selectAlbumByIndex(artistTag, i - 1);
+                return;
+            }
+
+            if (currentTabId === 'tab-songs') {
+                // move to previous album and show songs
+                const artistTag = currentArtistTag;
+                const albums = getAlbumsForArtist(artistTag);
+                if (albums.length === 0) {
+                    // fallback: find first visible song's artist and use that
+                    const firstSong = document.querySelector('#pane-songs .item-card:not(.hidden) .sub-text');
+                    if (firstSong) {
+                        const txt = firstSong.innerText || '';
+                        const parts = txt.split(' - ');
+                        if (parts[0]) {
+                            const atag = 'tag-' + parts[0].toLowerCase().replace(/\s+/g, '');
+                            const albs = getAlbumsForArtist(atag);
+                            if (albs.length) { selectAlbumByIndex(atag, albs.length - 1); return; }
+                        }
+                    }
+                    return;
+                }
+                if (!currentAlbumTitle) { selectAlbumByIndex(artistTag, albums.length - 1); return; }
+                const i = albums.findIndex(a => (a.querySelector('h6') && a.querySelector('h6').innerText.trim().toLowerCase() === currentAlbumTitle.trim().toLowerCase()));
+                selectAlbumByIndex(artistTag, i - 1);
+                return;
+            }
+
+            // default: fallback to moving tabs
+            if (idx > 0) {
+                const prev = document.getElementById(viewOrder[idx-1]);
+                if (prev) new bootstrap.Tab(prev).show();
+            }
+        }
+
+        function nextView() {
+            const idx = viewOrder.indexOf(currentTabId);
+            if (currentTabId === 'tab-artists') {
+                // move to next artist
+                const artists = getAllArtists();
+                if (!currentArtistTag && artists.length) { selectArtistByIndex(0); return; }
+                const i = artists.findIndex(a => a.tag === currentArtistTag);
+                selectArtistByIndex(i + 1);
+                return;
+            }
+
+            if (currentTabId === 'tab-albums') {
+                // move to next album for current artist
+                const artistTag = currentArtistTag || (getAllArtists()[0] && getAllArtists()[0].tag);
+                const albums = getAlbumsForArtist(artistTag);
+                if (!currentAlbumTitle) { selectAlbumByIndex(artistTag, 0); return; }
+                const i = albums.findIndex(a => (a.querySelector('h6') && a.querySelector('h6').innerText.trim().toLowerCase() === currentAlbumTitle.trim().toLowerCase()));
+                selectAlbumByIndex(artistTag, i + 1);
+                return;
+            }
+
+            if (currentTabId === 'tab-songs') {
+                // move to next album and show songs
+                const artistTag = currentArtistTag;
+                const albums = getAlbumsForArtist(artistTag);
+                if (albums.length === 0) return;
+                if (!currentAlbumTitle) { selectAlbumByIndex(artistTag, 0); return; }
+                const i = albums.findIndex(a => (a.querySelector('h6') && a.querySelector('h6').innerText.trim().toLowerCase() === currentAlbumTitle.trim().toLowerCase()));
+                selectAlbumByIndex(artistTag, i + 1);
+                return;
+            }
+
+            // default: fallback to moving tabs
+            if (idx < viewOrder.length - 1) {
+                const nxt = document.getElementById(viewOrder[idx+1]);
+                if (nxt) new bootstrap.Tab(nxt).show();
+            }
         }
 
         function search() {
@@ -561,6 +846,42 @@
         // Helper: escape HTML to be safe
         function escapeHtml(str) {
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
+
+        // Theme toggle (light/dark) — persists in localStorage
+        function toggleTheme() {
+            const root = document.documentElement;
+            const isLight = document.body.classList.toggle('light-theme');
+            // also toggle on html element for selectors
+            if (isLight) document.documentElement.classList.add('light-theme');
+            else document.documentElement.classList.remove('light-theme');
+            try { localStorage.setItem('music_theme_light', isLight ? '1' : '0'); } catch(e){}
+        }
+
+        // Initialize theme from storage
+        (function(){
+            try{
+                const val = localStorage.getItem('music_theme_light');
+                if (val === '1') { document.body.classList.add('light-theme'); document.documentElement.classList.add('light-theme'); }
+            }catch(e){}
+        })();
+
+        // Export currently visible songs (in #pane-songs) to CSV
+        function exportVisibleSongsCSV() {
+            const rows = [];
+            document.querySelectorAll('#pane-songs .item-card:not(.hidden) .song-row').forEach(r => {
+                const title = r.querySelector('h6') ? r.querySelector('h6').innerText.trim() : '';
+                const small = r.querySelector('.sub-text') ? r.querySelector('.sub-text').innerText.trim() : '';
+                rows.push([title, small]);
+            });
+            if (rows.length === 0) { alert('No visible songs to export.'); return; }
+            let csv = 'Title,Artist - Album\n';
+            rows.forEach(r => { csv += '"' + r[0].replace(/"/g,'""') + '","' + r[1].replace(/"/g,'""') + '"\n'; });
+            const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'visible_songs.csv'; document.body.appendChild(a); a.click(); a.remove();
+            URL.revokeObjectURL(url);
         }
 
         // Helper: create song row element
@@ -680,6 +1001,16 @@
                     const albumTitle = titleEl ? titleEl.innerText.trim() : '';
                     if (albumTitle) filterAlbum(albumTitle, artistTag);
                 });
+            });
+
+            // Help/About button handlers
+            window.showAbout = function(){ var m = new bootstrap.Modal(document.getElementById('aboutModal')); m.show(); };
+            window.showHelp = function(){ var m = new bootstrap.Modal(document.getElementById('helpModal')); m.show(); };
+
+            // Keyboard quick actions
+            document.addEventListener('keydown', (e) => {
+                if (e.key === '/') { e.preventDefault(); document.getElementById('searchBar').focus(); }
+                if (e.key === '?') { e.preventDefault(); showHelp(); }
             });
 
             // Populate realistic songs (10 per album)
