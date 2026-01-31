@@ -415,61 +415,7 @@
 
                     <!-- The Weeknd -->
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd"><div class="card h-100"><img src="https://i.pinimg.com/736x/c5/5b/9c/c55b9c6051bd0d75237d4ad907ce5ee9.jpg" class="album-cover"><div class="card-body"><h6>Kiss Land</h6><p class="sub-text">2013</p></div></div></div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </main>
-
-    <!-- Bio modal -->
-    <div id="bioModal" class="hidden">
-        <div class="modal-window position-relative">
-            <button class="modal-close" onclick="closeBio()">&times;</button>
-            <h5 id="bioTitle">Artist</h5>
-            <div id="bioContent" style="margin-top:12px;line-height:1.45"></div>
-        </div>
-    </div>
-
-    <script>
-        const artistBios = {
-            mj: `Michael Jackson (1958–2009) was an American singer, songwriter and dancer who became known as the "King of Pop." His innovative approach to music, iconic choreography and boundary-pushing videos transformed popular music and culture worldwide. Over a multi-decade career he blended R&B, soul, funk and pop, delivering landmark albums such as Thriller and Bad, and leaving a lasting legacy in performance, production and humanitarian work.`,
-            justin: `Justin Bieber (born 1994) is a Canadian pop singer and songwriter who rose to fame via online videos. Known for his smooth vocal style and evolving musical approach, Bieber has traversed teen pop, R&B and electronic-infused pop, achieving global success with albums including My World 2.0, Purpose and Justice. He is noted for both his songwriting and his collaborations with diverse artists across genres.`,
-            chrisbrown: `Chris Brown (born 1989) is an American singer, songwriter and dancer whose work mixes R&B, pop and hip-hop. Praised for his dynamic vocal ability and intricate choreography, Brown released acclaimed projects such as F.A.M.E. and Indigo and has been prolific both as a solo artist and collaborator. His career has been influential in modern R&B production and performance style.`,
-            onedirection: `One Direction (formed 2010) is a British-Irish pop group that became a global phenomenon after appearing on a reality TV competition. Known for catchy hooks, harmonized vocals and energetic performances, the group released several multi-platinum albums and generated an enduring fan culture before members pursued solo careers.`,
-            miley: `Miley Cyrus (born 1992) is an American singer, songwriter and actor who transitioned from a child star into an experimental pop artist. Her career spans country-tinged pop, rock and dance production, with notable albums like Bangerz and Plastic Hearts, and a public persona that embraces artistic reinvention and boundary-pushing performances.`,
-            swift: `Taylor Swift (born 1989) is an American singer-songwriter celebrated for narrative songwriting and cross-genre evolution. Beginning in country music, Swift moved into mainstream pop and alternative-folk, releasing critically and commercially successful albums such as 1989, Reputation and Midnights, and is known for her meticulous songwriting, re-recordings and strong fan engagement.`,
-            billie: `Billie Eilish (born 2001) is an American singer-songwriter recognized for her intimate vocal delivery and atmospheric pop production. Rising to fame as a teenager, her work with producer Finneas blends whispery vocals, experimental textures and candid lyricism, producing award-winning releases that reshaped modern alternative pop.`,
-            bruno: `Bruno Mars (born 1985) is an American singer, songwriter and multi-instrumentalist known for retro-inspired pop, soul and funk. With effortless showmanship and sharp production sensibilities he has delivered hits spanning Doo-Wops & Hooligans to 24K Magic, often blending throwback influences with contemporary production.`,
-            wayne: `Lil Wayne (born 1982) is an American rapper and songwriter who helped shape modern hip-hop with inventive wordplay and prolific mixtape output. Rising to prominence as a solo artist and as part of Young Money Entertainment, his work on albums like Tha Carter III influenced a generation of rappers and popularized a versatile, melodic approach to rap.`,
-            drake: `Drake (born 1986) is a Canadian rapper, singer and songwriter who blurred lines between rap and R&B. Combining introspective lyrics with melodic hooks, he has produced landmark albums and chart-dominating singles, influencing contemporary pop and hip-hop with his production choices and cross-genre collaborations.`,
-            beyonce: `Beyoncé (born 1981) is an American singer, songwriter, actress and cultural icon known for powerful vocals, meticulous craft and ambitious visual albums. From her early days in Destiny's Child to her acclaimed solo work — including Lemonade and RENAISSANCE — Beyoncé is celebrated for blending R&B, pop and soul while centering storytelling, performance and cultural commentary in her artistry.`,
-            edsheeran: `Ed Sheeran (born 1991) is an English singer-songwriter known for intimate, melody-driven songs and acoustic craftsmanship. Rising from the UK live circuit to global superstardom, Sheeran blends folk, pop and hip-hop influences across albums like +, x, ÷ and =, and is notable for his songwriting collaborations and loop-pedal live performances.`,
-            adele: `Adele (born 1988) is an English singer-songwriter revered for her rich, emotive voice and confessional balladry. Her albums — including 19, 21, 25 and 30 — have combined classic soul influences with contemporary pop songwriting, earning wide acclaim and multiple awards for vocal performance and songwriting.`,
-            coldplay: `Coldplay (formed 1996) is a British rock band known for anthemic melodies, emotive songwriting and expansive live shows. With ground-breaking albums like Parachutes and Viva la Vida, the group mixes rock, pop and electronic elements while maintaining strong melodic sensibilities and stadium-ready arrangements.`,
-            rihanna: `Rihanna (born 1988) is a Barbadian singer, songwriter and entrepreneur who has shaped pop and R&B with bold vocal performances and genre-hopping releases. Alongside chart-topping albums and singles, she has established a major business presence and cultural influence through fashion and beauty ventures.`,
-            beatles: `The Beatles (active 1960–1970) were an English rock band whose songwriting, studio innovation and cultural impact reshaped popular music. With a catalogue of seminal albums from Please Please Me to Abbey Road, the group expanded the possibilities of pop and rock across composition, production and record-making.`,
-            sia: `Sia (born 1975) is an Australian singer-songwriter and producer known for her distinctive voice and powerful songwriting. Working both as a performer and behind the scenes as a writer for others, Sia blends emotive vocal delivery with theatrical pop production and has been influential in contemporary pop songwriting.`,
-            justintimberlake: `Justin Timberlake (born 1981) is an American singer, songwriter and actor who moved from boy-band fame into a solo career blending pop, R&B and electronic music. With albums like Justified and The 20/20 Experience, Timberlake is known for polished production, choreography and cross-media showmanship.`,
-            neyo: `Ne-Yo (born 1979) is an American singer, songwriter and producer noted for smooth R&B vocals and songwriting craftsmanship. He has written and performed charting R&B and pop songs, contributing both as an artist and co-writer to the contemporary R&B landscape.`,
-            nickiminaj: `Nicki Minaj (born 1982) is a Trinidadian-American rapper, singer and songwriter known for bold personas, rapid-fire flow and pop-rap crossover hits. Her diverse vocal styles, alter-egos and theatrical visuals have made her a defining figure in 2010s hip-hop and pop.`,
-            weeknd: `The Weeknd (born 1990) is a Canadian singer, songwriter and producer known for his dark, cinematic take on R&B and pop. With atmospheric production and expressive falsetto, he has released acclaimed albums and redefined modern alternative R&B while collaborating across pop and electronic music.`
-        };
-
-        function showBio(key) {
-            const titleMap = {
-                mj: 'Michael Jackson', justin: 'Justin Bieber', chrisbrown: 'Chris Brown', onedirection: 'One Direction', miley: 'Miley Cyrus', swift: 'Taylor Swift', billie: 'Billie Eilish', bruno: 'Bruno Mars', wayne: 'Lil Wayne', drake: 'Drake', beyonce: 'Beyoncé', edsheeran: 'Ed Sheeran', adele: 'Adele', coldplay: 'Coldplay', rihanna: 'Rihanna', beatles: 'The Beatles', sia: 'Sia', justintimberlake: 'Justin Timberlake', neyo: 'Ne-Yo', nickiminaj: 'Nicki Minaj', weeknd: 'The Weeknd'
-            };
-            const title = titleMap[key] || 'Artist';
-            document.getElementById('bioTitle').textContent = title;
-            document.getElementById('bioContent').textContent = artistBios[key] || 'Biography not available.';
-            document.getElementById('bioModal').classList.remove('hidden');
-        }
-        function closeBio() { document.getElementById('bioModal').classList.add('hidden'); }
-        // close on overlay click
-        document.getElementById('bioModal').addEventListener('click', function(e){ if(e.target===this) closeBio(); });
-    </script>
+                    
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd"><div class="card h-100"><img src="https://i.pinimg.com/1200x/62/64/6e/62646e29082ad8bb6798cbf099089cfc.jpg" class="album-cover"><div class="card-body"><h6>Beauty Behind the Madness</h6><p class="sub-text">2015</p></div></div></div>
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd"><div class="card h-100"><img src="https://i.pinimg.com/736x/4c/69/5c/4c695ce7b49fb9c32bc5d5ef773f39dd.jpg" class="album-cover"><div class="card-body"><h6>Starboy</h6><p class="sub-text">2016</p></div></div></div>
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd"><div class="card h-100"><img src="https://i.pinimg.com/736x/f6/66/12/f66612351e98a1e260221cdcba336ab1.jpg" class="album-cover"><div class="card-body"><h6>After Hours</h6><p class="sub-text">2020</p></div></div></div>
@@ -477,6 +423,12 @@
 
                 </div>
             </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
             <div class="tab-pane fade" id="pane-songs">
                 <div class="row">
@@ -572,8 +524,7 @@
                     <div class="col-12 item-card tag-onedirection"><div class="song-row"><i class="bi bi-play-circle-fill text-green me-3"></i><div><h6>History</h6><small class="sub-text">One Direction - Made in the A.M.</small></div><div class="ms-auto"><a class="btn btn-sm btn-success" href="https://open.spotify.com/search/History%20One%20Direction" target="_blank">Listen on Spotify</a><a class="btn btn-sm btn-danger ms-2" href="https://www.youtube.com/results?search_query=History+One+Direction" target="_blank">Watch on YouTube</a></div></div></div>
                 </div>
             </div>
-
-            <div class="tab-pane fade" id="pane-genres">
+    <div class="tab-pane fade" id="pane-genres">
                 <div class="row g-4">
                     <div class="col-6 col-md-4"><div class="card genre-card bg-pop" onclick="filterGenre('pop', 'Pop')">Pop</div></div>
                     <div class="col-6 col-md-4"><div class="card genre-card bg-rnb" onclick="filterGenre('rnb', 'R&B')">R&B</div></div>
@@ -586,7 +537,7 @@
 
         </div>
     </main>
-
+     
         <!-- About and Help modals for school project context -->
         <div class="modal fade" id="aboutModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -627,6 +578,17 @@
                 </div>
             </div>
         </div>
+    </main>
+
+    <!-- Bio modal -->
+    <div id="bioModal" class="hidden">
+        <div class="modal-window position-relative">
+            <button class="modal-close" onclick="closeBio()">&times;</button>
+            <h5 id="bioTitle">Artist</h5>
+            <div id="bioContent" style="margin-top:12px;line-height:1.45"></div>
+        </div>
+    </div>
+
 
         <footer class="site-footer text-center">
                 <div class="container">
@@ -636,6 +598,45 @@
                 </div>
         </footer>
 
+
+        <script>
+        const artistBios = {
+            mj: `Michael Jackson (1958–2009) was an American singer, songwriter and dancer who became known as the "King of Pop." His innovative approach to music, iconic choreography and boundary-pushing videos transformed popular music and culture worldwide. Over a multi-decade career he blended R&B, soul, funk and pop, delivering landmark albums such as Thriller and Bad, and leaving a lasting legacy in performance, production and humanitarian work.`,
+            justin: `Justin Bieber (born 1994) is a Canadian pop singer and songwriter who rose to fame via online videos. Known for his smooth vocal style and evolving musical approach, Bieber has traversed teen pop, R&B and electronic-infused pop, achieving global success with albums including My World 2.0, Purpose and Justice. He is noted for both his songwriting and his collaborations with diverse artists across genres.`,
+            chrisbrown: `Chris Brown (born 1989) is an American singer, songwriter and dancer whose work mixes R&B, pop and hip-hop. Praised for his dynamic vocal ability and intricate choreography, Brown released acclaimed projects such as F.A.M.E. and Indigo and has been prolific both as a solo artist and collaborator. His career has been influential in modern R&B production and performance style.`,
+            onedirection: `One Direction (formed 2010) is a British-Irish pop group that became a global phenomenon after appearing on a reality TV competition. Known for catchy hooks, harmonized vocals and energetic performances, the group released several multi-platinum albums and generated an enduring fan culture before members pursued solo careers.`,
+            miley: `Miley Cyrus (born 1992) is an American singer, songwriter and actor who transitioned from a child star into an experimental pop artist. Her career spans country-tinged pop, rock and dance production, with notable albums like Bangerz and Plastic Hearts, and a public persona that embraces artistic reinvention and boundary-pushing performances.`,
+            swift: `Taylor Swift (born 1989) is an American singer-songwriter celebrated for narrative songwriting and cross-genre evolution. Beginning in country music, Swift moved into mainstream pop and alternative-folk, releasing critically and commercially successful albums such as 1989, Reputation and Midnights, and is known for her meticulous songwriting, re-recordings and strong fan engagement.`,
+            billie: `Billie Eilish (born 2001) is an American singer-songwriter recognized for her intimate vocal delivery and atmospheric pop production. Rising to fame as a teenager, her work with producer Finneas blends whispery vocals, experimental textures and candid lyricism, producing award-winning releases that reshaped modern alternative pop.`,
+            bruno: `Bruno Mars (born 1985) is an American singer, songwriter and multi-instrumentalist known for retro-inspired pop, soul and funk. With effortless showmanship and sharp production sensibilities he has delivered hits spanning Doo-Wops & Hooligans to 24K Magic, often blending throwback influences with contemporary production.`,
+            wayne: `Lil Wayne (born 1982) is an American rapper and songwriter who helped shape modern hip-hop with inventive wordplay and prolific mixtape output. Rising to prominence as a solo artist and as part of Young Money Entertainment, his work on albums like Tha Carter III influenced a generation of rappers and popularized a versatile, melodic approach to rap.`,
+            drake: `Drake (born 1986) is a Canadian rapper, singer and songwriter who blurred lines between rap and R&B. Combining introspective lyrics with melodic hooks, he has produced landmark albums and chart-dominating singles, influencing contemporary pop and hip-hop with his production choices and cross-genre collaborations.`,
+            beyonce: `Beyoncé (born 1981) is an American singer, songwriter, actress and cultural icon known for powerful vocals, meticulous craft and ambitious visual albums. From her early days in Destiny's Child to her acclaimed solo work — including Lemonade and RENAISSANCE — Beyoncé is celebrated for blending R&B, pop and soul while centering storytelling, performance and cultural commentary in her artistry.`,
+            edsheeran: `Ed Sheeran (born 1991) is an English singer-songwriter known for intimate, melody-driven songs and acoustic craftsmanship. Rising from the UK live circuit to global superstardom, Sheeran blends folk, pop and hip-hop influences across albums like +, x, ÷ and =, and is notable for his songwriting collaborations and loop-pedal live performances.`,
+            adele: `Adele (born 1988) is an English singer-songwriter revered for her rich, emotive voice and confessional balladry. Her albums — including 19, 21, 25 and 30 — have combined classic soul influences with contemporary pop songwriting, earning wide acclaim and multiple awards for vocal performance and songwriting.`,
+            coldplay: `Coldplay (formed 1996) is a British rock band known for anthemic melodies, emotive songwriting and expansive live shows. With ground-breaking albums like Parachutes and Viva la Vida, the group mixes rock, pop and electronic elements while maintaining strong melodic sensibilities and stadium-ready arrangements.`,
+            rihanna: `Rihanna (born 1988) is a Barbadian singer, songwriter and entrepreneur who has shaped pop and R&B with bold vocal performances and genre-hopping releases. Alongside chart-topping albums and singles, she has established a major business presence and cultural influence through fashion and beauty ventures.`,
+            beatles: `The Beatles (active 1960–1970) were an English rock band whose songwriting, studio innovation and cultural impact reshaped popular music. With a catalogue of seminal albums from Please Please Me to Abbey Road, the group expanded the possibilities of pop and rock across composition, production and record-making.`,
+            sia: `Sia (born 1975) is an Australian singer-songwriter and producer known for her distinctive voice and powerful songwriting. Working both as a performer and behind the scenes as a writer for others, Sia blends emotive vocal delivery with theatrical pop production and has been influential in contemporary pop songwriting.`,
+            justintimberlake: `Justin Timberlake (born 1981) is an American singer, songwriter and actor who moved from boy-band fame into a solo career blending pop, R&B and electronic music. With albums like Justified and The 20/20 Experience, Timberlake is known for polished production, choreography and cross-media showmanship.`,
+            neyo: `Ne-Yo (born 1979) is an American singer, songwriter and producer noted for smooth R&B vocals and songwriting craftsmanship. He has written and performed charting R&B and pop songs, contributing both as an artist and co-writer to the contemporary R&B landscape.`,
+            nickiminaj: `Nicki Minaj (born 1982) is a Trinidadian-American rapper, singer and songwriter known for bold personas, rapid-fire flow and pop-rap crossover hits. Her diverse vocal styles, alter-egos and theatrical visuals have made her a defining figure in 2010s hip-hop and pop.`,
+            weeknd: `The Weeknd (born 1990) is a Canadian singer, songwriter and producer known for his dark, cinematic take on R&B and pop. With atmospheric production and expressive falsetto, he has released acclaimed albums and redefined modern alternative R&B while collaborating across pop and electronic music.`
+        };
+
+        function showBio(key) {
+            const titleMap = {
+                mj: 'Michael Jackson', justin: 'Justin Bieber', chrisbrown: 'Chris Brown', onedirection: 'One Direction', miley: 'Miley Cyrus', swift: 'Taylor Swift', billie: 'Billie Eilish', bruno: 'Bruno Mars', wayne: 'Lil Wayne', drake: 'Drake', beyonce: 'Beyoncé', edsheeran: 'Ed Sheeran', adele: 'Adele', coldplay: 'Coldplay', rihanna: 'Rihanna', beatles: 'The Beatles', sia: 'Sia', justintimberlake: 'Justin Timberlake', neyo: 'Ne-Yo', nickiminaj: 'Nicki Minaj', weeknd: 'The Weeknd'
+            };
+            const title = titleMap[key] || 'Artist';
+            document.getElementById('bioTitle').textContent = title;
+            document.getElementById('bioContent').textContent = artistBios[key] || 'Biography not available.';
+            document.getElementById('bioModal').classList.remove('hidden');
+        }
+        function closeBio() { document.getElementById('bioModal').classList.add('hidden'); }
+        // close on overlay click
+        document.getElementById('bioModal').addEventListener('click', function(e){ if(e.target===this) closeBio(); });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Filter by Artist (Shows their specific Albums/Songs)
