@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,6 +60,21 @@
         .light-theme .song-row { background: #fff; border-color: #e6e6e6; }
         footer.site-footer { background: #0b0b0b; color: #bfbfbf; padding: 18px 0; margin-top: 26px; }
         .light-theme footer.site-footer { background: #f1f1f1; color: #222; } 
+
+        /* Search placeholder visibility */
+        #searchBar::placeholder { color: #bfbfbf; opacity: 1; }
+        .light-theme #searchBar::placeholder { color: #6c757d; opacity: 1; }
+
+        /* Light theme: make artist names and small text dark */
+        .light-theme .card h6, .light-theme .card p, .light-theme .card .sub-text { color: #000 !important; }
+
+        /* Simple bio modal */
+        #bioModal { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); z-index: 2000; }
+        #bioModal.hidden { display: none; }
+        #bioModal .modal-window { background: #0f0f0f; color: #fff; max-width: 820px; width: 95%; border-radius: 10px; padding: 20px; box-shadow: 0 8px 28px rgba(0,0,0,0.7); }
+        .light-theme #bioModal .modal-window { background: #fff; color: #000; }
+        #bioModal .modal-window h5 { margin-top: 0; }
+        #bioModal .modal-close { position: absolute; right: 18px; top: 14px; background: transparent; border: none; color: inherit; font-size: 1.2rem; }
     </style>
 </head>
 <body>
@@ -96,102 +112,102 @@
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-mj tag-pop">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/e4/15/7a/e4157aa8bdbc2bdc1c4cdc9b086c1aa2.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Michael Jackson</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('mj', 'Michael Jackson')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Michael Jackson</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('mj', 'Michael Jackson')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('mj')">Bio</button></div>
                         </div>
                     </div>
 
                          <div class="col-6 col-md-4 col-lg-3 item-card tag-justin tag-pop">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/1200x/ec/bd/7c/ecbd7c8564e7072cdc38e49968dbe654.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Justin Bieber</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('justin', 'Justin Bieber')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Justin Bieber</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('justin', 'Justin Bieber')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('justin')">Bio</button></div>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown tag-rnb">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/1200x/7f/94/6e/7f946e9cc2fb8358a115ce2131643eec.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Chris Brown</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('chrisbrown', 'Chris Brown')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Chris Brown</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('chrisbrown', 'Chris Brown')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('chrisbrown')">Bio</button></div>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-onedirection tag-pop">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/1200x/e7/80/0d/e7800d0cb09b7842d297efa09dca16a5.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>One Direction</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('onedirection', 'One Direction')">Discography</button></div>
+                            <div class="card-body text-center"><h6>One Direction</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('onedirection', 'One Direction')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('onedirection')">Bio</button></div>
                         </div>
                     </div> 
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-miley tag-pop tag-rock">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/46/ed/8f/46ed8f6e2362ea372515e4f006cd6eb5.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Miley Cyrus</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('miley', 'Miley Cyrus')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Miley Cyrus</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('miley', 'Miley Cyrus')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('miley')">Bio</button></div>
                         </div>
                     </div>
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-swift tag-pop tag-country">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/f5/40/5d/f5405df74924e9677dd376dee9de23c1.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Taylor Swift</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('swift', 'Taylor Swift')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Taylor Swift</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('swift', 'Taylor Swift')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('swift')">Bio</button></div>
                         </div>
                     </div>
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-billie tag-alt">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/3f/9c/75/3f9c753048c07d05a780b7ada0a55880.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Billie Eilish</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('billie', 'Billie Eilish')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Billie Eilish</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('billie', 'Billie Eilish')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('billie')">Bio</button></div>
                         </div>
                     </div>
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-bruno tag-rnb tag-pop">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/18/ef/24/18ef24a5ac08d80408022348acc60e29.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Bruno Mars</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('bruno', 'Bruno Mars')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Bruno Mars</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('bruno', 'Bruno Mars')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('bruno')">Bio</button></div>
                         </div>
                     </div>
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-wayne tag-hiphop">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/1200x/4a/2c/b7/4a2cb758d8e78dfd6200016ebaf0bc43.jpg
                                 " class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Lil Wayne</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('wayne', 'Lil Wayne')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Lil Wayne</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('wayne', 'Lil Wayne')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('wayne')">Bio</button></div>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-drake tag-hiphop">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/9f/ab/2f/9fab2f062d84b7ff6564942e3636fdce.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Drake</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('drake', 'Drake')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Drake</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('drake', 'Drake')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('drake')">Bio</button></div>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-beyonce tag-rnb tag-pop">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/77/88/34/778834445aa5d8cf72e16dd09ce1a20f.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Beyoncé</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('beyonce', 'Beyoncé')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Beyoncé</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('beyonce', 'Beyoncé')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('beyonce')">Bio</button></div>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-edsheeran tag-pop">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/28/eb/f0/28ebf08c9c87080cf070704d58461d05.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Ed Sheeran</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('edsheeran', 'Ed Sheeran')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Ed Sheeran</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('edsheeran', 'Ed Sheeran')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('edsheeran')">Bio</button></div>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-adele tag-pop">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/eb/d9/40/ebd9402b68cb053a8d3a64129f7d733f.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Adele</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('adele', 'Adele')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Adele</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('adele', 'Adele')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('adele')">Bio</button></div>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-coldplay tag-rock">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/d5/50/96/d5509643541c5c56d99c40dd1e54ad55.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Coldplay</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('coldplay', 'Coldplay')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Coldplay</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('coldplay', 'Coldplay')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('coldplay')">Bio</button></div>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-rihanna tag-pop">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/8b/e7/1b/8be71bcf262253e27abe24c3d530c0ac.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Rihanna</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('rihanna', 'Rihanna')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Rihanna</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('rihanna', 'Rihanna')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('rihanna')">Bio</button></div>
                         </div>
                     </div>
 
@@ -200,42 +216,42 @@
                    
                    
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/28/86/8c/28868c341191d8a699db3b2ff3957381.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>The Beatles</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('beatles', 'The Beatles')">Discography</button></div>
+                            <div class="card-body text-center"><h6>The Beatles</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('beatles', 'The Beatles')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('beatles')">Bio</button></div>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-sia tag-pop">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/ee/8c/83/ee8c83d7b1a5041c9efb2ad41d184a4d.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Sia</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('sia', 'Sia')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Sia</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('sia', 'Sia')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('sia')">Bio</button></div>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-justintimberlake tag-pop tag-rnb">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/b0/11/57/b011576993960124eb1d46480f372a08.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Justin Timberlake</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('justintimberlake', 'Justin Timberlake')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Justin Timberlake</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('justintimberlake', 'Justin Timberlake')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('justintimberlake')">Bio</button></div>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-neyo tag-rnb">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/aa/84/d1/aa84d1f52cd5de68542eb44a83d947f8.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Ne-Yo</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('neyo', 'Ne-Yo')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Ne-Yo</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('neyo', 'Ne-Yo')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('neyo')">Bio</button></div>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-nickiminaj tag-hiphop tag-pop">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/736x/b8/c0/cf/b8c0cf89c1e38cbbef29e2bbda4c0953.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>Nicki Minaj</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('nickiminaj', 'Nicki Minaj')">Discography</button></div>
+                            <div class="card-body text-center"><h6>Nicki Minaj</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('nickiminaj', 'Nicki Minaj')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('nickiminaj')">Bio</button></div>
                         </div>
                     </div>
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd tag-rnb tag-pop">
                         <div class="card h-100">
                             <div class="artist-container"><img src="https://i.pinimg.com/1200x/6f/61/55/6f6155771e254740f22d91d68bd5ca4d.jpg" class="artist-img"></div>
-                            <div class="card-body text-center"><h6>The Weeknd</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('weeknd', 'The Weeknd')">Discography</button></div>
+                            <div class="card-body text-center"><h6>The Weeknd</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('weeknd', 'The Weeknd')">Discography</button><button class="btn btn-sm btn-outline-info w-100 mt-2" onclick="showBio('weeknd')">Bio</button></div>
                         </div>
                     </div>
 
@@ -399,6 +415,61 @@
 
                     <!-- The Weeknd -->
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd"><div class="card h-100"><img src="https://i.pinimg.com/736x/c5/5b/9c/c55b9c6051bd0d75237d4ad907ce5ee9.jpg" class="album-cover"><div class="card-body"><h6>Kiss Land</h6><p class="sub-text">2013</p></div></div></div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Bio modal -->
+    <div id="bioModal" class="hidden">
+        <div class="modal-window position-relative">
+            <button class="modal-close" onclick="closeBio()">&times;</button>
+            <h5 id="bioTitle">Artist</h5>
+            <div id="bioContent" style="margin-top:12px;line-height:1.45"></div>
+        </div>
+    </div>
+
+    <script>
+        const artistBios = {
+            mj: `Michael Jackson (1958–2009) was an American singer, songwriter and dancer who became known as the "King of Pop." His innovative approach to music, iconic choreography and boundary-pushing videos transformed popular music and culture worldwide. Over a multi-decade career he blended R&B, soul, funk and pop, delivering landmark albums such as Thriller and Bad, and leaving a lasting legacy in performance, production and humanitarian work.`,
+            justin: `Justin Bieber (born 1994) is a Canadian pop singer and songwriter who rose to fame via online videos. Known for his smooth vocal style and evolving musical approach, Bieber has traversed teen pop, R&B and electronic-infused pop, achieving global success with albums including My World 2.0, Purpose and Justice. He is noted for both his songwriting and his collaborations with diverse artists across genres.`,
+            chrisbrown: `Chris Brown (born 1989) is an American singer, songwriter and dancer whose work mixes R&B, pop and hip-hop. Praised for his dynamic vocal ability and intricate choreography, Brown released acclaimed projects such as F.A.M.E. and Indigo and has been prolific both as a solo artist and collaborator. His career has been influential in modern R&B production and performance style.`,
+            onedirection: `One Direction (formed 2010) is a British-Irish pop group that became a global phenomenon after appearing on a reality TV competition. Known for catchy hooks, harmonized vocals and energetic performances, the group released several multi-platinum albums and generated an enduring fan culture before members pursued solo careers.`,
+            miley: `Miley Cyrus (born 1992) is an American singer, songwriter and actor who transitioned from a child star into an experimental pop artist. Her career spans country-tinged pop, rock and dance production, with notable albums like Bangerz and Plastic Hearts, and a public persona that embraces artistic reinvention and boundary-pushing performances.`,
+            swift: `Taylor Swift (born 1989) is an American singer-songwriter celebrated for narrative songwriting and cross-genre evolution. Beginning in country music, Swift moved into mainstream pop and alternative-folk, releasing critically and commercially successful albums such as 1989, Reputation and Midnights, and is known for her meticulous songwriting, re-recordings and strong fan engagement.`,
+            billie: `Billie Eilish (born 2001) is an American singer-songwriter recognized for her intimate vocal delivery and atmospheric pop production. Rising to fame as a teenager, her work with producer Finneas blends whispery vocals, experimental textures and candid lyricism, producing award-winning releases that reshaped modern alternative pop.`,
+            bruno: `Bruno Mars (born 1985) is an American singer, songwriter and multi-instrumentalist known for retro-inspired pop, soul and funk. With effortless showmanship and sharp production sensibilities he has delivered hits spanning Doo-Wops & Hooligans to 24K Magic, often blending throwback influences with contemporary production.`,
+            wayne: `Lil Wayne (born 1982) is an American rapper and songwriter who helped shape modern hip-hop with inventive wordplay and prolific mixtape output. Rising to prominence as a solo artist and as part of Young Money Entertainment, his work on albums like Tha Carter III influenced a generation of rappers and popularized a versatile, melodic approach to rap.`,
+            drake: `Drake (born 1986) is a Canadian rapper, singer and songwriter who blurred lines between rap and R&B. Combining introspective lyrics with melodic hooks, he has produced landmark albums and chart-dominating singles, influencing contemporary pop and hip-hop with his production choices and cross-genre collaborations.`,
+            beyonce: `Beyoncé (born 1981) is an American singer, songwriter, actress and cultural icon known for powerful vocals, meticulous craft and ambitious visual albums. From her early days in Destiny's Child to her acclaimed solo work — including Lemonade and RENAISSANCE — Beyoncé is celebrated for blending R&B, pop and soul while centering storytelling, performance and cultural commentary in her artistry.`,
+            edsheeran: `Ed Sheeran (born 1991) is an English singer-songwriter known for intimate, melody-driven songs and acoustic craftsmanship. Rising from the UK live circuit to global superstardom, Sheeran blends folk, pop and hip-hop influences across albums like +, x, ÷ and =, and is notable for his songwriting collaborations and loop-pedal live performances.`,
+            adele: `Adele (born 1988) is an English singer-songwriter revered for her rich, emotive voice and confessional balladry. Her albums — including 19, 21, 25 and 30 — have combined classic soul influences with contemporary pop songwriting, earning wide acclaim and multiple awards for vocal performance and songwriting.`,
+            coldplay: `Coldplay (formed 1996) is a British rock band known for anthemic melodies, emotive songwriting and expansive live shows. With ground-breaking albums like Parachutes and Viva la Vida, the group mixes rock, pop and electronic elements while maintaining strong melodic sensibilities and stadium-ready arrangements.`,
+            rihanna: `Rihanna (born 1988) is a Barbadian singer, songwriter and entrepreneur who has shaped pop and R&B with bold vocal performances and genre-hopping releases. Alongside chart-topping albums and singles, she has established a major business presence and cultural influence through fashion and beauty ventures.`,
+            beatles: `The Beatles (active 1960–1970) were an English rock band whose songwriting, studio innovation and cultural impact reshaped popular music. With a catalogue of seminal albums from Please Please Me to Abbey Road, the group expanded the possibilities of pop and rock across composition, production and record-making.`,
+            sia: `Sia (born 1975) is an Australian singer-songwriter and producer known for her distinctive voice and powerful songwriting. Working both as a performer and behind the scenes as a writer for others, Sia blends emotive vocal delivery with theatrical pop production and has been influential in contemporary pop songwriting.`,
+            justintimberlake: `Justin Timberlake (born 1981) is an American singer, songwriter and actor who moved from boy-band fame into a solo career blending pop, R&B and electronic music. With albums like Justified and The 20/20 Experience, Timberlake is known for polished production, choreography and cross-media showmanship.`,
+            neyo: `Ne-Yo (born 1979) is an American singer, songwriter and producer noted for smooth R&B vocals and songwriting craftsmanship. He has written and performed charting R&B and pop songs, contributing both as an artist and co-writer to the contemporary R&B landscape.`,
+            nickiminaj: `Nicki Minaj (born 1982) is a Trinidadian-American rapper, singer and songwriter known for bold personas, rapid-fire flow and pop-rap crossover hits. Her diverse vocal styles, alter-egos and theatrical visuals have made her a defining figure in 2010s hip-hop and pop.`,
+            weeknd: `The Weeknd (born 1990) is a Canadian singer, songwriter and producer known for his dark, cinematic take on R&B and pop. With atmospheric production and expressive falsetto, he has released acclaimed albums and redefined modern alternative R&B while collaborating across pop and electronic music.`
+        };
+
+        function showBio(key) {
+            const titleMap = {
+                mj: 'Michael Jackson', justin: 'Justin Bieber', chrisbrown: 'Chris Brown', onedirection: 'One Direction', miley: 'Miley Cyrus', swift: 'Taylor Swift', billie: 'Billie Eilish', bruno: 'Bruno Mars', wayne: 'Lil Wayne', drake: 'Drake', beyonce: 'Beyoncé', edsheeran: 'Ed Sheeran', adele: 'Adele', coldplay: 'Coldplay', rihanna: 'Rihanna', beatles: 'The Beatles', sia: 'Sia', justintimberlake: 'Justin Timberlake', neyo: 'Ne-Yo', nickiminaj: 'Nicki Minaj', weeknd: 'The Weeknd'
+            };
+            const title = titleMap[key] || 'Artist';
+            document.getElementById('bioTitle').textContent = title;
+            document.getElementById('bioContent').textContent = artistBios[key] || 'Biography not available.';
+            document.getElementById('bioModal').classList.remove('hidden');
+        }
+        function closeBio() { document.getElementById('bioModal').classList.add('hidden'); }
+        // close on overlay click
+        document.getElementById('bioModal').addEventListener('click', function(e){ if(e.target===this) closeBio(); });
+    </script>
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd"><div class="card h-100"><img src="https://i.pinimg.com/1200x/62/64/6e/62646e29082ad8bb6798cbf099089cfc.jpg" class="album-cover"><div class="card-body"><h6>Beauty Behind the Madness</h6><p class="sub-text">2015</p></div></div></div>
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd"><div class="card h-100"><img src="https://i.pinimg.com/736x/4c/69/5c/4c695ce7b49fb9c32bc5d5ef773f39dd.jpg" class="album-cover"><div class="card-body"><h6>Starboy</h6><p class="sub-text">2016</p></div></div></div>
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-weeknd"><div class="card h-100"><img src="https://i.pinimg.com/736x/f6/66/12/f66612351e98a1e260221cdcba336ab1.jpg" class="album-cover"><div class="card-body"><h6>After Hours</h6><p class="sub-text">2020</p></div></div></div>
@@ -1018,5 +1089,43 @@
             populateRealisticSongs(10);
         });
     </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
 </body>
 </html>
