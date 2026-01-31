@@ -58,7 +58,7 @@
         .light-theme .nav-pills .nav-link.active { background-color: #1DB954; color: #000; }
         .light-theme .song-row { background: #fff; border-color: #e6e6e6; }
         footer.site-footer { background: #0b0b0b; color: #bfbfbf; padding: 18px 0; margin-top: 26px; }
-        .light-theme footer.site-footer { background: #f1f1f1; color: #222; }
+        .light-theme footer.site-footer { background: #f1f1f1; color: #222; } 
     </style>
 </head>
 <body>
@@ -66,7 +66,7 @@
     <nav class="navbar navbar-dark bg-black border-bottom border-success sticky-top mb-4 py-3">
         <div class="container">
             <a class="navbar-brand fw-bold text-green fs-3" href="#" onclick="resetAll()">🎵 MUSIC ARCHIVE</a>
-            <input type="text" id="searchBar" class="form-control bg-dark text-white border-secondary" placeholder="Search artists, albums..." onkeyup="search()">
+            <input type="text" id="searchBar" class="form-control bg-dark text-light border-secondary" placeholder="Search artists, albums..." onkeyup="search()">
             <div class="btn-group ms-auto" role="group" aria-label="project-actions">
                 <button class="btn btn-sm btn-outline-info" onclick="showHelp()" title="Help"><i class="bi bi-question-lg"></i></button>
                 <button class="btn btn-sm btn-outline-primary" onclick="showAbout()" title="About"><i class="bi bi-info-lg"></i></button>
@@ -109,7 +109,7 @@
 
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-chrisbrown tag-rnb">
                         <div class="card h-100">
-                            <div class="artist-container"><img src="https://i.pinimg.com/736x/07/55/9b/07559b1a1fe5ad5839f6a49b2100a6c2.jpg" class="artist-img"></div>
+                            <div class="artist-container"><img src="https://i.pinimg.com/1200x/7f/94/6e/7f946e9cc2fb8358a115ce2131643eec.jpg" class="artist-img"></div>
                             <div class="card-body text-center"><h6>Chris Brown</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('chrisbrown', 'Chris Brown')">Discography</button></div>
                         </div>
                     </div>
@@ -147,7 +147,8 @@
                     </div>
                     <div class="col-6 col-md-4 col-lg-3 item-card tag-wayne tag-hiphop">
                         <div class="card h-100">
-                            <div class="artist-container"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Lil_Wayne.jpg" class="artist-img"></div>
+                            <div class="artist-container"><img src="https://i.pinimg.com/1200x/4a/2c/b7/4a2cb758d8e78dfd6200016ebaf0bc43.jpg
+                                " class="artist-img"></div>
                             <div class="card-body text-center"><h6>Lil Wayne</h6><button class="btn btn-sm btn-outline-success w-100 mt-2" onclick="filterBy('wayne', 'Lil Wayne')">Discography</button></div>
                         </div>
                     </div>
