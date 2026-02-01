@@ -21,6 +21,11 @@
         .nav-pills .nav-link { color: #ffffff; border: 1px solid #333; margin: 5px; border-radius: 50px; transition: 0.3s; font-weight: 600; }
         .nav-pills .nav-link.active { background-color: #1DB954; color: #000; }
         .nav-pills .nav-link:hover:not(.active) { border-color: #1DB954; color: #1DB954; }
+        /* Keep pills text white even in light mode for readability */
+        .light-theme .nav-pills .nav-link { color: #ffffff !important; }
+        .light-theme .nav-pills .nav-link.active { color: #ffffff !important; }
+        /* Ensure the pills tab is centered */
+        #pills-tab { display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; padding-left: 0; flex-wrap: wrap; }
 
         /* Cards */
         .card { background-color: #161616 !important; border: 1px solid #282828; transition: 0.3s; cursor: pointer; }
@@ -75,6 +80,9 @@
         .light-theme #bioModal .modal-window { background: #fff; color: #000; }
         #bioModal .modal-window h5 { margin-top: 0; }
         #bioModal .modal-close { position: absolute; right: 18px; top: 14px; background: transparent; border: none; color: inherit; font-size: 1.2rem; }
+        /* small album cover in song rows */
+        .song-cover { width:40px; height:40px; object-fit:cover; border-radius:6px; margin-right:12px; flex-shrink:0; display:inline-block; vertical-align:middle; }
+        @media (max-width:576px) { .song-cover { width:36px; height:36px; } }
     </style>
 </head>
 <body>
@@ -591,9 +599,11 @@
 
         <footer class="site-footer text-center">
                 <div class="container">
-                        <div class="row">
-                                <div class="col-12 small">Project: Music Archive — <strong>School Demo</strong> • Built with Bootstrap & vanilla JS • <span class="text-muted">Add your name & course here</span></div>
-                        </div>
+                            <div class="row">
+                                <div class="col-12 small">Project: Music Archive — <strong>School Demo</strong> • Built with Bootstrap & vanilla JS</div>
+                                <div class="col-12 small mt-2">Developer: <strong>Soressa Addisu</strong></div>
+                                <div class="col-12 small">Members: <strong>Yodit Yirgalem, Mahlet Mamo, Yared H/Mariam, Sudeys Mohammed</strong></div>
+                            </div>
                 </div>
         </footer>
 
@@ -919,6 +929,26 @@
             document.querySelectorAll('.item-card').forEach(card => {
                 card.classList.toggle('hidden', !card.innerText.toLowerCase().includes(q));
             });
+            // If we're viewing Albums, hide any artist header that has no visible albums
+            try {
+                if (currentTabId === 'tab-albums') {
+                    // if query empty, ensure headers are visible
+                    if (!q) {
+                        document.querySelectorAll('#pane-albums .artist-header-col').forEach(hc => hc.classList.remove('hidden'));
+                    } else {
+                        document.querySelectorAll('#pane-albums .artist-header-col').forEach(hc => {
+                            let hasVisible = false;
+                            let sib = hc.nextElementSibling;
+                            while (sib) {
+                                if (sib.classList && sib.classList.contains('artist-header-col')) break;
+                                if (sib.classList && sib.classList.contains('item-card') && !sib.classList.contains('hidden')) { hasVisible = true; break; }
+                                sib = sib.nextElementSibling;
+                            }
+                            hc.classList.toggle('hidden', !hasVisible);
+                        });
+                    }
+                }
+            } catch (e) {}
         }
 
         // Helper: escape HTML to be safe
@@ -1046,9 +1076,17 @@
                 const albumTitle = titleEl ? titleEl.innerText.trim() : '';
                 const artistTag = Array.from(albumItem.classList).find(c => c.startsWith('tag-')) || '';
 
+                // Prefer the display name found in the ARTISTS pane (h6) when available
                 let artistName = 'Various Artists';
                 if (artistTag) {
-                    artistName = artistTag.replace('tag-', '').split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+                    const artistCard = document.querySelector('#pane-artists .item-card.' + artistTag);
+                    if (artistCard) {
+                        const h = artistCard.querySelector('h6');
+                        if (h && h.innerText.trim()) artistName = h.innerText.trim();
+                        else artistName = artistTag.replace('tag-', '').split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+                    } else {
+                        artistName = artistTag.replace('tag-', '').split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+                    }
                 }
 
                 // Count existing songs for this album
@@ -1139,6 +1177,105 @@
 
             // Populate realistic songs (10 per album)
             populateRealisticSongs(10);
+            // Replace play icons with small album covers in song rows
+            function attachSongCovers() {
+                const songItems = Array.from(document.querySelectorAll('#pane-songs .item-card'));
+                const albums = Array.from(document.querySelectorAll('#pane-albums .item-card'));
+                songItems.forEach(item => {
+                    const row = item.querySelector('.song-row');
+                    if (!row) return;
+                    const icon = row.querySelector('i');
+                    const small = row.querySelector('.sub-text');
+                    if (!small) return;
+                    const text = small.innerText || '';
+                    const parts = text.split(' - ');
+                    const albumTitle = parts.slice(1).join(' - ').trim();
+                    if (!albumTitle) return;
+                    // try exact match then fallback to includes
+                    let match = albums.find(a => {
+                        const h = a.querySelector('h6');
+                        return h && h.innerText.trim().toLowerCase() === albumTitle.toLowerCase();
+                    });
+                    if (!match) {
+                        match = albums.find(a => {
+                            const h = a.querySelector('h6');
+                            return h && h.innerText.trim().toLowerCase().includes(albumTitle.toLowerCase().split(' ')[0]);
+                        });
+                    }
+                    if (match) {
+                        const coverImg = match.querySelector('.album-cover');
+                        const src = coverImg ? coverImg.src : null;
+                        if (src) {
+                            const img = document.createElement('img');
+                            img.className = 'song-cover';
+                            img.src = src;
+                            if (icon && icon.parentNode) icon.parentNode.replaceChild(img, icon);
+                            else row.insertBefore(img, row.firstChild);
+                        }
+                    }
+                });
+            }
+            attachSongCovers();
+            // Make artist name in song rows clickable and redirect to artist
+            function makeSongLinks() {
+                const songItems = Array.from(document.querySelectorAll('#pane-songs .item-card'));
+                songItems.forEach(item => {
+                    const row = item.querySelector('.song-row');
+                    if (!row) return;
+                    const small = row.querySelector('.sub-text');
+                    if (!small) return;
+                    const text = (small.innerText || '').trim();
+                    const parts = text.split(' - ');
+                    const artistText = parts[0] ? parts[0].trim() : '';
+                    const albumText = parts.slice(1).join(' - ').trim();
+                    // replace small content with clickable artist and album spans
+                    small.innerHTML = '';
+                    const artistSpan = document.createElement('span');
+                    artistSpan.className = 'song-artist text-green';
+                    artistSpan.style.cursor = 'pointer';
+                    artistSpan.innerText = artistText;
+                    small.appendChild(artistSpan);
+                    if (albumText) {
+                        small.appendChild(document.createTextNode(' - '));
+                        const albumSpan = document.createElement('span');
+                        albumSpan.className = 'song-album';
+                        albumSpan.style.cursor = 'pointer';
+                        albumSpan.innerText = albumText;
+                        small.appendChild(albumSpan);
+                        albumSpan.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const albums = Array.from(document.querySelectorAll('#pane-albums .item-card'));
+                            const target = albums.find(a => {
+                                const h = a.querySelector('h6');
+                                return h && h.innerText.trim().toLowerCase() === albumText.toLowerCase();
+                            });
+                            if (target) {
+                                new bootstrap.Tab(document.getElementById('tab-albums')).show();
+                                setTimeout(() => { target.scrollIntoView({ behavior: 'smooth', block: 'center' }); target.classList.add('artist-announce'); setTimeout(() => target.classList.remove('artist-announce'), 1400); }, 80);
+                            }
+                        });
+                    }
+
+                    artistSpan.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        // try to find artist card by matching name first, then by tag
+                        let artistCard = Array.from(document.querySelectorAll('#pane-artists .item-card')).find(ac => {
+                            const h = ac.querySelector('h6');
+                            return h && h.innerText.trim().toLowerCase() === artistText.toLowerCase();
+                        });
+                        if (!artistCard) {
+                            // fallback: use song item tag if present
+                            const atag = Array.from(item.classList).find(c => c.startsWith('tag-'));
+                            if (atag) artistCard = document.querySelector('#pane-artists .item-card.' + atag);
+                        }
+                        if (artistCard) {
+                            new bootstrap.Tab(document.getElementById('tab-artists')).show();
+                            setTimeout(() => { artistCard.scrollIntoView({ behavior: 'smooth', block: 'center' }); artistCard.classList.add('artist-announce'); setTimeout(() => artistCard.classList.remove('artist-announce'), 1400); }, 80);
+                        }
+                    });
+                });
+            }
+            makeSongLinks();
         });
     </script>
 <!-- Code injected by live-server -->
