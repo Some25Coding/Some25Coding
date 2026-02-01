@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Global Music Archive | Master Edition</title>
-     
+     <link rel="icon" type="image/png" href="https://wallpapers.com/images/hd/vinyl-record-icon-pydxo7r40m2j85d3.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
@@ -90,15 +90,16 @@
                 <button id="themeToggle" class="btn btn-sm btn-outline-light" onclick="toggleTheme()" title="Toggle theme"><i class="bi bi-circle-half"></i></button>
             </div>
         </div>
-    </nav>
-
-    <main class="container pb-5">
-        <ul class="nav nav-pills justify-content-center mb-5" id="pills-tab">
+         <ul class="nav nav-pills justify-content-center mb-5" id="pills-tab">
             <li class="nav-item"><button class="nav-link active" id="tab-artists" data-bs-toggle="pill" data-bs-target="#pane-artists">ARTISTS</button></li>
             <li class="nav-item"><button class="nav-link" id="tab-albums" data-bs-toggle="pill" data-bs-target="#pane-albums">ALBUMS</button></li>
             <li class="nav-item"><button class="nav-link" id="tab-songs" data-bs-toggle="pill" data-bs-target="#pane-songs">SONGS</button></li>
             <li class="nav-item"><button class="nav-link" id="tab-genres" data-bs-toggle="pill" data-bs-target="#pane-genres">GENRES</button></li>
         </ul>
+    </nav>
+
+    <main class="container pb-5">
+    
 
         <div id="filter-status" class="alert alert-dark border-success hidden d-flex justify-content-between align-items-center mb-4">
             <span>Filtering: <strong id="filter-name" class="text-green"></strong></span>
@@ -547,7 +548,7 @@
                     <div class="modal-body">
                         <p>This page is a small school project showcasing a searchable music archive built with HTML, CSS and vanilla JavaScript using Bootstrap for layout. It demonstrates DOM filtering, tabbed views, and dynamic UI updates.</p>
                         <ul>
-                            <li>Author: Student Name</li>
+                            <li>Author: Soressa Addisu</li>
                             <li>Course: Web Development / Multimedia</li>
                             <li>Purpose: Demonstrate interactivity and UI/UX for a portfolio or assignment.</li>
                         </ul>
@@ -644,6 +645,10 @@
             document.querySelectorAll('.item-card').forEach(item => {
                 item.classList.toggle('hidden', !item.classList.contains('tag-' + tag));
             });
+            // hide/show album artist headers in Albums pane so only the selected artist header shows
+            document.querySelectorAll('#pane-albums .col-12.artist-header-col').forEach(hc => {
+                hc.classList.toggle('hidden', hc.dataset.tag !== ('tag-' + tag));
+            });
             // Find artist image for header (if available)
             const artistImgEl = document.querySelector('.item-card.tag-' + tag + ' .artist-img');
             const cover = artistImgEl ? artistImgEl.src : '';
@@ -734,6 +739,8 @@
         function resetAll() {
             document.getElementById('filter-status').classList.add('hidden');
             document.querySelectorAll('.item-card').forEach(item => item.classList.remove('hidden'));
+            // ensure album artist headers are visible again
+            document.querySelectorAll('#pane-albums .col-12.artist-header-col').forEach(hc => hc.classList.remove('hidden'));
             // Hide the dynamic header
             updateHeader(null, null, '');
             // Restore the last active tab, defaulting to artists
@@ -1083,6 +1090,52 @@
                 if (e.key === '/') { e.preventDefault(); document.getElementById('searchBar').focus(); }
                 if (e.key === '?') { e.preventDefault(); showHelp(); }
             });
+
+            // Group albums by artist and insert artist headers in Albums pane
+            (function groupAlbumsByArtist(){
+                const albumsPane = document.getElementById('pane-albums');
+                if(!albumsPane) return;
+                const grid = albumsPane.querySelector('.row');
+                if(!grid) return;
+                const albumEls = Array.from(grid.querySelectorAll('.item-card'));
+                const groups = {};
+                const order = [];
+                albumEls.forEach(el => {
+                    const atag = Array.from(el.classList).find(c => c.startsWith('tag-')) || 'tag-unknown';
+                    if (!groups[atag]) { groups[atag] = []; order.push(atag); }
+                    groups[atag].push(el);
+                });
+                if (order.length === 0) return;
+                grid.innerHTML = '';
+                order.forEach(tag => {
+                    // Prefer full artist name from the artists pane when available
+                    let artistsName = tag.replace('tag-','').replace(/-/g,' ');
+                    try {
+                        const artistCard = document.querySelector('#pane-artists .item-card.' + tag);
+                        if (artistCard) {
+                            const h = artistCard.querySelector('h6');
+                            if (h && h.innerText.trim()) artistsName = h.innerText.trim();
+                        }
+                    } catch (e) {}
+                    const headerCol = document.createElement('div');
+                    headerCol.className = 'col-12 artist-header-col';
+                    headerCol.dataset.tag = tag;
+                    const headerEl = document.createElement('h5');
+                    headerEl.className = 'text-green mt-3 mb-2';
+                    headerEl.innerText = artistsName;
+                    headerEl.style.cursor = 'pointer';
+                    headerEl.addEventListener('click', () => {
+                        const artistCard = document.querySelector('#pane-artists .item-card.' + tag);
+                        if (artistCard) {
+                            new bootstrap.Tab(document.getElementById('tab-artists')).show();
+                            setTimeout(() => artistCard.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60);
+                        }
+                    });
+                    headerCol.appendChild(headerEl);
+                    grid.appendChild(headerCol);
+                    groups[tag].forEach(albumEl => grid.appendChild(albumEl));
+                });
+            })();
 
             // Populate realistic songs (10 per album)
             populateRealisticSongs(10);
