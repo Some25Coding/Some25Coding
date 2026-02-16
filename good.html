@@ -49,14 +49,14 @@
 
     .download-btn {
       background: #ff0082;
-      color: #fff000 !important;
+      color: #ffffff !important;
       border: 2px solid #ffe600;
       font-weight: bold;
     }
 
     .download-btn:hover {
-      background: transparent;
-      color: #fff000 !important;
+      background-color: #fff000;
+      color: #ffffff !important;
     }
 
     .epoints-btn {
@@ -67,7 +67,9 @@
       align-items: center;
       justify-content: center;
     }
-
+    .epoints-btn:hover {
+      background-color: #fff000;
+    }
     .epoints-btn img {
       height: 22px;
     }
@@ -105,17 +107,16 @@
 <!-- NAVIGATION -->
 <nav class="nav-buttons">
 
-  <a href="#" class="btn btn-outline-warning rounded-pill">Home</a>
-  <a href="#" class="btn btn-outline-primary rounded-pill">Overview</a>
-  <a href="#" class="btn btn-outline-primary rounded-pill">Version Info</a>
-  <a href="#" class="btn btn-outline-primary rounded-pill">eSports</a>
-  <a href="#" class="btn btn-outline-primary rounded-pill">Licences</a>
-  <a href="#" class="btn btn-outline-primary rounded-pill">Support</a>
+  <a href="#" class="btn btn-outline-warning text-light rounded-pill" style="background-color: #ffc107;">Home</a>
+  <a href="#" class="btn btn-outline-warning text-light rounded-pill">Overview</a>
+  <a href="#" class="btn btn-outline-warning text-light rounded-pill">Version Info</a>
+  <a href="#" class="btn btn-outline-warning text-light rounded-pill">eSports</a>
+  <a href="#" class="btn btn-outline-warning  text-light rounded-pill">Licences</a>
+  <a href="#" class="btn btn-outline-warning  text-light rounded-pill">Support</a>
 
-  <a href="https://play.google.com/store/apps/details?id=jp.konami.pesam&hl=en" class="btn download-btn rounded-pill">DOWNLOAD</a>
+  <a href="https://play.google.com/store/apps/details?id=jp.konami.pesam&hl=en-US" class="btn download-btn hover-warning rounded-pill">DOWNLOAD</a>
 
-
-  <a href="https://efootball-point.konami.net/" class="btn epoints-btn rounded-pill">
+  <a href="https://efootball-point.konami.net/?_gl=1%2a16t3etl%2a_ga%2aMTM4MzU0NDIzLjE3NjUzNjc2OTc.%2a_ga_H0Y1NSD4XG%2aczE3NjcwMDcxMzckbzUkZzAkdDE3NjcwMDcxMzckajYwJGwwJGgw" class="btn epoints-btn rounded-pill">
     <img src="https://efootball-point-cdn.konami.net/front/images/logo_ePoint.png" alt="ePoints">
   </a>
 
@@ -135,9 +136,10 @@
       <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="0" class="active"></button>
       <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="1"></button>
       <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="2"></button>
-      <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="3"></button>
+      <button type="button" data-bs-target="#carouselMerged" data-bs-slide-to="2"></button>
     </div>
     <div class="carousel-inner">
+
 
       <div class="carousel-item active">
         <img src="https://img.konami.com/efootball/s/img/promotion/agent/1120/promo_agent.png">
@@ -166,7 +168,6 @@
           <h4>CAMPAIGN</h4>
         </div>
       </div>
-      
     </div>
 
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselMerged" data-bs-slide="prev">
