@@ -3,190 +3,193 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Powerful Time Teller 🌍</title>
+  <title>🕒 Powerful Time & Weather Teller</title>
   <style>
     body {
-      font-family: Century, sans-serif;
-      background: #111;
+      font-family: 'Century', sans-serif;
+      background: linear-gradient(135deg, #0b0b0b, #1a1a1a);
       color: #fff;
       text-align: center;
-      padding: 40px;
+      padding: 50px;
     }
+
     h1 {
       font-size: 3em;
-      margin-bottom: 20px;
+      margin-bottom: 40px;
+      background: linear-gradient(90deg, #4fd1c5, #63b3ed, #f6ad55);
+      background-size: 200%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      animation: gradientMove 5s linear infinite;
     }
-    .time {
-      font-size: 2em;
-      margin: 10px 0;
+
+    @keyframes gradientMove {
+      to {
+        background-position: 200% center;
+      }
     }
-    .zone {
-      font-size: 1.2em;
-      color: #aaa;
-    }
-    .weather {
-      font-size: 1.1em;
-      color: #9df;
-      margin-top: 10px;
-    }
-    .time-container {
-      margin: 20px auto;
+
+    .city-block {
       border: 1px solid #333;
       border-radius: 12px;
-      padding: 15px;
-      background: rgba(255,255,255,0.05);
-      box-shadow: 0 0 10px #000;
-      max-width: 450px;
-      transition: all 0.3s ease;
-      cursor: pointer;
+      padding: 25px;
+      margin: 20px auto;
+      width: 320px;
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+      text-shadow: 0 0 5px #000;
+      box-shadow: 0 0 15px #000;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .time-container:hover {
-      background: rgba(255,255,255,0.1);
-      transform: scale(1.02);
+
+    .city-block:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px #333;
     }
-    .more-info {
-      display: none;
+
+    .time {
+      font-size: 2.2em;
+      margin: 10px 0;
+    }
+
+    .date {
+      font-size: 1.1em;
+      color: #eee;
+    }
+
+    .zone {
       font-size: 1em;
-      color: #ccc;
+      color: #ddd;
+    }
+
+    .weather {
       margin-top: 10px;
-      border-top: 1px solid #333;
-      padding-top: 10px;
+      font-size: 1.3em;
+      color: #bde0fe;
+      line-height: 1.5em;
     }
-    .expanded .more-info {
+
+    .weather-icon {
       display: block;
+      font-size: 3em;
+      margin-bottom: 5px;
+      transition: transform 0.3s;
     }
+
+    .city-block:hover .weather-icon {
+      transform: scale(1.15);
+    }
+
+    .sunny { color: #ffd700; }
+    .cloudy { color: #cccccc; }
+    .rainy { color: #4fc3f7; }
+    .stormy { color: #9575cd; }
+    .snowy { color: #e0f7fa; }
+    .foggy { color: #bdbdbd; }
+    .default { color: #9e9e9e; }
   </style>
 </head>
 <body>
-  <h1>🕒 Powerful Time Teller</h1>
+  <h1>🕒 Powerful Time & Weather Teller</h1>
 
-  <!-- LOCAL -->
-  <div class="time-container" id="localCard">
-    <div class="time" id="localTime">Local Time: --:--:--</div>
-    <div class="zone" id="localZone">--</div>
-    <div class="weather" id="localWeather">🌡️ Temperature: --°C | 💧 Humidity: --%</div>
-    <div class="more-info" id="localMore">Loading...</div>
-  </div>
-
-  <!-- WORLD CITIES -->
-  <div id="worldTimes"></div>
+  <div id="timeContainer"></div>
 
   <script>
+  // UPDATED: Changed "local" to "addisababa" and "Local" to "Addis Ababa"
   const cities = [
-    { name: "Los Angeles", timeZone: "America/Los_Angeles" },
-    { name: "New York", timeZone: "America/New_York" },
-    { name: "London", timeZone: "Europe/London" },
-    { name: "Berlin", timeZone: "Europe/Berlin" },
-    { name: "Tokyo", timeZone: "Asia/Tokyo" }
+    { id: "addisababa", name: "Addis Ababa", zone: Intl.DateTimeFormat().resolvedOptions().timeZone },
+    { id: "la", name: "Los Angeles", zone: "America/Los_Angeles" },
+    { id: "ny", name: "New York", zone: "America/New_York" },
+    { id: "london", name: "London", zone: "Europe/London" },
+    { id: "berlin", name: "Berlin", zone: "Europe/Berlin" },
+    { id: "tokyo", name: "Tokyo", zone: "Asia/Tokyo" }
   ];
 
-  // Create time + weather containers
-  const worldContainer = document.getElementById("worldTimes");
-  cities.forEach(city => {
-    const div = document.createElement("div");
-    div.classList.add("time-container");
-    div.id = `${city.name}Card`;
-    div.innerHTML = `
-      <div class="time" id="${city.name}Time">${city.name}: --:--:--</div>
-      <div class="weather" id="${city.name}Weather">🌡️ Temperature: --°C | 💧 Humidity: --%</div>
-      <div class="more-info" id="${city.name}More">Loading...</div>
-    `;
-    worldContainer.appendChild(div);
-  });
+  // UPDATED: Changed key to "addisababa" and updated background images
+  const cityBackgrounds = {
+    addisababa: "url('https://images.unsplash.com/photo-1547721066-50e8d0d62a22?auto=format&fit=crop&w=800&q=80')", // New image for Addis Ababa
+    la: "url('https://images.unsplash.com/photo-1505245208761-ba872912fac0?auto=format&fit=crop&w=800&q=80')",
+    ny: "url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80')",
+    london: "url('https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=800&q=80')",
+    berlin: "url('https://images.unsplash.com/photo-1579290076342-a7223b749503?auto=format&fit=crop&w=800&q=80')", // New image for Berlin
+    tokyo: "url('https://images.unsplash.com/photo-1549693578-d683be217e58?auto=format&fit=crop&w=800&q=80')"
+  };
 
-  // Convert weather description to emoji
-  function weatherToEmoji(description) {
-    description = description.toLowerCase();
-    if (description.includes("sun") || description.includes("clear")) return "☀️";
-    if (description.includes("cloud")) return "☁️";
-    if (description.includes("rain")) return "🌧️";
-    if (description.includes("storm") || description.includes("thunder")) return "⛈️";
-    if (description.includes("snow")) return "❄️";
-    if (description.includes("fog") || description.includes("mist") || description.includes("haze")) return "🌫️";
-    return "🌍";
+  const container = document.getElementById("timeContainer");
+
+  // Create city cards
+  cities.forEach(c => {
+    const block = document.createElement("div");
+    block.className = "city-block";
+    block.style.backgroundImage = cityBackgrounds[c.id] || "url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=800&q=80')";
+    // UPDATED: Check for "addisababa" instead of "local"
+    block.innerHTML = `
+    <div class="weather-icon default" id="${c.id}Icon">🌍</div>
+    <div class="time" id="${c.id}Time">${c.name}: --:--:--</div>
+    <div class="date" id="${c.id}Date">--</div>
+    ${c.id === "addisababa" ? `<div class="zone" id="${c.id}Zone">${c.zone}</div>` : ""}
+    <div class="weather" id="${c.id}Weather">Loading...</div>
+  `;
+  container.appendChild(block);
+});
+
+  function getWeatherIcon(desc) {
+    desc = desc.toLowerCase();
+    if (desc.includes("sun") || desc.includes("clear")) return { icon: "☀️", cls: "sunny" };
+    if (desc.includes("cloud")) return { icon: "☁️", cls: "cloudy" };
+    if (desc.includes("rain")) return { icon: "🌧️", cls: "rainy" };
+    if (desc.includes("thunder") || desc.includes("storm")) return { icon: "⛈️", cls: "stormy" };
+    if (desc.includes("snow")) return { icon: "❄️", cls: "snowy" };
+    if (desc.includes("fog") || desc.includes("mist") || desc.includes("haze")) return { icon: "🌫️", cls: "foggy" };
+    return { icon: "🌍", cls: "default" };
   }
 
-  // Update time function
   function updateTime() {
-    const now = new Date();
-    const options12hr = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+    const timeOpts = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+    const dateOpts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-    document.getElementById("localTime").textContent =
-      "Local Time: " + now.toLocaleTimeString("en-US", options12hr);
-    document.getElementById("localZone").textContent =
-      Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-    cities.forEach(city => {
-      const cityTime = new Date().toLocaleTimeString("en-US", { ...options12hr, timeZone: city.timeZone });
-      document.getElementById(`${city.name}Time`).textContent = `${city.name}: ${cityTime}`;
+    cities.forEach(c => {
+      const cityTime = new Date().toLocaleTimeString("en-US", { ...timeOpts, timeZone: c.zone });
+      const cityDate = new Date().toLocaleDateString("en-US", { ...dateOpts, timeZone: c.zone });
+      document.getElementById(`${c.id}Time`).textContent = `${c.name}: ${cityTime}`;
+      document.getElementById(`${c.id}Date`).textContent = cityDate;
+      // UPDATED: Check for "addisababa" instead of "local"
+      if (c.id === "addisababa")
+        document.getElementById(`${c.id}Zone`).textContent = c.zone;
     });
   }
 
-  // Fetch weather from wttr.in
-  async function fetchWeather(cityName) {
-    const response = await fetch(`https://wttr.in/${cityName}?format=j1`);
-    const data = await response.json();
-    const current = data.current_condition[0];
-    const tempC = current.temp_C;
-    const humidity = current.humidity;
-    const desc = current.weatherDesc[0].value;
-    const feelsLike = current.FeelsLikeC;
-    const wind = current.windspeedKmph;
-    const emoji = weatherToEmoji(desc);
-
-    return { tempC, humidity, desc, feelsLike, wind, emoji };
-  }
-
-  // Update weather for all cards
   async function updateWeather() {
-    // Local (auto)
-    try {
-      const res = await fetch("https://wttr.in/?format=j1");
-      const data = await res.json();
-      const cur = data.current_condition[0];
-      const desc = cur.weatherDesc[0].value;
-      const emoji = weatherToEmoji(desc);
-      document.getElementById("localWeather").textContent =
-        `${emoji} ${desc} | 🌡️ ${cur.temp_C}°C | 💧 ${cur.humidity}%`;
-      document.getElementById("localMore").innerHTML =
-        `Feels like: ${cur.FeelsLikeC}°C<br>Wind: ${cur.windspeedKmph} km/h<br>Pressure: ${cur.pressure} hPa`;
-    } catch {
-      document.getElementById("localWeather").textContent = "🌍 Weather unavailable";
-    }
-
-    // Other cities
-    for (const city of cities) {
+    for (const c of cities) {
       try {
-        const w = await fetchWeather(city.name);
-        document.getElementById(`${city.name}Weather`).textContent =
-          `${w.emoji} ${w.desc} | 🌡️ ${w.tempC}°C | 💧 ${w.humidity}%`;
-        document.getElementById(`${city.name}More`).innerHTML =
-          `Feels like: ${w.feelsLike}°C<br>Wind: ${w.wind} km/h`;
+        // UPDATED: Check for "addisababa" instead of "local"
+        const res = await fetch(`https://wttr.in/${c.id === "addisababa" ? "" : encodeURIComponent(c.name)}?format=j1`);
+        const data = await res.json();
+        const cond = data.current_condition[0];
+        const desc = cond.weatherDesc[0].value;
+        const temp = cond.temp_C;
+        const humidity = cond.humidity;
+
+        const { icon, cls } = getWeatherIcon(desc);
+        const iconEl = document.getElementById(`${c.id}Icon`);
+        iconEl.textContent = icon;
+        iconEl.className = `weather-icon ${cls}`;
+
+        document.getElementById(`${c.id}Weather`).innerHTML =
+          `${temp}°C, ${desc}<br>💧 Humidity: ${humidity}%`;
       } catch {
-        document.getElementById(`${city.name}Weather`).textContent = "🌍 Weather unavailable";
+        document.getElementById(`${c.id}Weather`).textContent = "Weather unavailable";
       }
     }
   }
 
-  // Toggle card expansion
-  function toggleCard(cardId) {
-    const card = document.getElementById(cardId);
-    card.classList.toggle("expanded");
-  }
-
-  // Add click listeners
-  document.getElementById("localCard").addEventListener("click", () => toggleCard("localCard"));
-  cities.forEach(city => {
-    document.getElementById(`${city.name}Card`)
-      .addEventListener("click", () => toggleCard(`${city.name}Card`));
-  });
-
-  // Start updates
   setInterval(updateTime, 1000);
   updateTime();
-
   updateWeather();
-  setInterval(updateWeather, 600000); // every 10 min
+  setInterval(updateWeather, 15 * 60 * 1000);
   </script>
 </body>
 </html>
