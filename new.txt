@@ -1,0 +1,16 @@
+CREATE TABLE tblCustomers (
+    CustomerID AUTOINCREMENT PRIMARY KEY,
+    LastName TEXT(50),
+    FirstName TEXT(50),
+    Email TEXT(255)
+);
+
+INSERT INTO TableName (Field1, Field2)
+VALUES (Value1, Value2);
+
+UPDATE TableName
+SET Field1 = NewValue1, Field2 = NewValue2
+WHERE Criteria;
+
+DELETE FROM TableName
+WHERE Criteria;
