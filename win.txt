@@ -1,0 +1,18 @@
+Device Specifications
+
+Device name	Admin050
+Processor	13th Gen Intel(R) Core(TM) i3-13100 (3.40 GHz)
+Installed RAM	8.00 GB (7.63 GB usable)
+Device ID	C5F65DB1-609F-4435-806F-372427772A2C
+Product ID	00379-24878-18569-AAOEM
+System type	64-bit operating system, x64-based processor
+Pen and touch	No pen or touch input is available for this display
+
+Windows Specifications
+
+Edition	Windows 11 Pro Education
+Version	25H2
+Installed on	‎5/‎30/‎2025
+OS build	26200.8037
+Serial number	GM0H2TXG
+Experience	Windows Feature Experience Pack 1000.26100.300.0
