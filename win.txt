@@ -2,6 +2,7 @@ Device Specifications
 
 Device name	Admin050
 Processor	13th Gen Intel(R) Core(TM) i3-13100 (3.40 GHz)
+Graphics Card Intel (R) UHD Graphics Card 128 MBRAM 8 GB
 Installed RAM	8.00 GB (7.63 GB usable)
 Device ID	C5F65DB1-609F-4435-806F-372427772A2C
 Product ID	00379-24878-18569-AAOEM
