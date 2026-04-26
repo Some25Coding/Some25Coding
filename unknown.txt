@@ -1,0 +1,13 @@
+CREATE table Student(S_ID char,Name char,Age int,Sex char,Mark int,Address char)
+
+INSERT INTO Student VALUES("s001","Hana",12,"F",30,"Birchiko")
+
+UPDATE Student SET Sex="F",Age=18,Mark=95 where S_ID="SOO1"
+
+SELECT Name,Sex,Mark FROM Student
+
+DELETE FROM Student where S_ID="S002"
+
+SELECT *FROM Student
+
+DELETE *FROM Student
