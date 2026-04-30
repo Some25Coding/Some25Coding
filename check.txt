@@ -1,0 +1,80 @@
+Adapting a CRUD (Create, Read, Update, Delete) template for a completely different project is a fantastic way to learn. Whenever you change your database structure, you have to update the "bridge" between your HTML forms, your PHP variables, and your SQL queries.
+
+Here is your master checklist of exactly what to change and where:
+
+1. Changing the Database Name
+This is the easiest step. You only need to change this in one place.
+
+File: connection.php
+
+What to change: Update the $dbname variable.
+
+PHP
+$dbname = "Your_New_Database_Name";
+2. Changing the Table Name
+Any file that talks directly to the database needs its SQL queries updated.
+
+Files: insert.php, read.php, update.php, delete.php
+
+What to change: Look for the SQL keywords INTO, FROM, and UPDATE, and change the word immediately following them.
+
+insert.php: insert into new_table_name (...)
+
+read.php: select * from new_table_name
+
+update.php: update new_table_name set ...
+
+delete.php: delete from new_table_name where ...
+
+3. Changing the Columns (Names and Amount)
+This is where you will do the most work. If you add, remove, or rename columns, you have to track those changes across the user interface (HTML), the server logic (PHP), and the database language (SQL).
+
+A. The User Interface (HTML Forms)
+
+Files: add.html and the form section at the bottom of update.php
+
+What to change: Add or remove table rows (<tr>) and <input> fields to match your new amount of columns. Crucially, change the name="..." attribute on every input to match your new data.
+
+HTML
+<!-- Example of a new column -->
+<tr><td>Product Size</td><td><input type="text" name="product_size"></td></tr>
+
+
+**B. The Server Logic (PHP Variable Collection)**
+*   **Files:** `insert.php` and the top section of `update.php`
+*   **What to change:** For every input field in your HTML, you need a matching `$_POST['...']` variable to catch the data.
+    ```php
+    // The names inside $_POST must perfectly match the 'name' attributes from your HTML
+    $size = $_POST['product_size']; 
+    
+*Note: Don't forget to update the `if(empty(...))` check in `insert.php` to include your new variables!*
+C. The SQL Queries (Saving the Data)
+
+Files: insert.php and update.php
+
+What to change: You must update your SQL syntax to push the new amount of variables into the new column names.
+
+insert.php: Make sure the number of columns perfectly matches the number of values.
+insert into table (col1, col2, col3) values ('$val1', '$val2', '$val3')
+
+update.php: String them together with commas.
+update table set col1='$val1', col2='$val2', col3='$val3' where...
+
+D. The Display Table (Reading the Data)
+
+File: read.php
+
+What to change: First, add or remove the HTML table headers (<td>) in the grey row. Then, add or remove the PHP echo statements inside the while loop, making sure the string inside $r['...'] perfectly matches the actual column name in your database.
+
+PHP
+echo "<td>".$r['New_Column_Name']."</td>";
+4. ⚠️ The Primary Key (The Most Common Pitfall)
+Every table needs a unique identifier (like E_ID or Student_id). If you rename your primary key, you must update the "targeting" system in your code.
+
+Files: delete.php, update.php, and the action links in read.php
+
+What to change:
+
+In the SQL queries for delete.php and update.php, update the WHERE clause: WHERE your_new_id_name = '$id'
+
+If you change the URL parameter (e.g., passing ?bookID= instead of ?id=), you must also change the $_GET['id'] to $_GET['bookID'] so PHP knows how to pull it from the web address.
